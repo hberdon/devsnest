@@ -17,10 +17,10 @@
 
 /* ── Panel ─────────────────────────────────────────────────────────────── */
 .panel {
-  border: var(--border-base);
-  border-radius: var(--radius-sketch);
+  border: 1.5px solid var(--color-stroke);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
-  box-shadow: var(--shadow-sketch);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border-bottom: 1.3px dashed var(--color-muted);
+  border-bottom: 1.3px solid var(--color-stroke);
   flex-shrink: 0;
   gap: 10px;
 }
@@ -75,16 +75,13 @@
   flex: 1;
   min-height: 0;
   padding: 12px;
-  border: 1.4px dashed var(--color-muted);
-  margin: 8px;
-  border-radius: 5px;
   background: var(--color-bg);
   overflow: auto;
 }
 
 .panelFooter {
   padding: 8px 12px;
-  border-top: 1.3px dashed var(--color-muted);
+  border-top: 1.3px solid var(--color-muted);
   display: flex;
   align-items: center;
   gap: 12px;

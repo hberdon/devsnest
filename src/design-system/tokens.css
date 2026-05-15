@@ -14,24 +14,24 @@
   --color-ink:         #15102b;
   --color-ink2:        #4a4566;
   --color-muted:       #9c97b5;
-  --color-stroke:      #1a1a1a;
+  --color-stroke:      #15102b;
   --color-accent:      #5f36fe;
   --color-accent-soft: #ebe5ff;
   --color-accent2:     #fd59d8;
   --color-hl:          #ffe1f4;
   --color-paper:       #f3f1ec;
 
-  --shadow-sketch:    2px 2px 0 var(--color-stroke);
-  --shadow-sketch-sm: 1.5px 2px 0 var(--color-stroke);
+  --shadow-sm:  0 1px 4px rgba(0,0,0,.06);
+  --shadow-md:  0 2px 10px rgba(0,0,0,.09);
+  --shadow-lg:  0 4px 20px rgba(0,0,0,.12);
 
-  --radius-sketch: 7px 9px 7px 10px;
-  --radius-sm:     6px 8px 6px 8px;
-  --radius-md:     8px 10px 8px 10px;
+  --radius-sm:  6px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
 
-  --border-base:   1.6px solid var(--color-stroke);
+  --border-base:   1.5px solid var(--color-stroke);
   --border-muted:  1.3px solid var(--color-muted);
-  --border-dashed: 1.4px dashed var(--color-muted);
-  --border-accent: 1.6px solid var(--color-accent);
+  --border-accent: 1.5px solid var(--color-accent);
 }
 
 [data-theme="vivid-dark"] {
@@ -276,4 +276,10 @@
 
   --sidebar-width:           280px;
   --sidebar-collapsed-width: 64px;
+
+  /* ── Alias legacy sketch tokens → clean values ── */
+  --radius-sketch:    var(--radius-sm);
+  --shadow-sketch:    var(--shadow-md);
+  --shadow-sketch-sm: var(--shadow-sm);
+  --border-dashed:    var(--border-muted);
 }

@@ -66,10 +66,10 @@
   align-items: center;
   gap: 6px;
   padding: 5px 10px;
-  border: var(--border-base) !important;
+  border: 1.5px solid var(--color-stroke) !important;
   border-radius: var(--radius-sm);
   background: var(--color-surface) !important;
-  box-shadow: var(--shadow-sketch-sm);
+  box-shadow: var(--shadow-sm);
   font-family: var(--font-ui);
   font-size: 15px;
   color: var(--color-ink);
@@ -78,6 +78,7 @@
 
 .actionBtn:hover {
   background: var(--color-accent-soft) !important;
+  color: var(--color-accent);
 }
 
 /* Segmented control (format selector) */
@@ -105,6 +106,6 @@
 }
 
 .segmentBtn.segmentActive {
-  background: var(--color-ink) !important;
+  background: var(--color-accent) !important;
   color: #fff;
 }

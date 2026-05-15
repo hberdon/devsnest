@@ -62,7 +62,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 7px 12px;
-  border-bottom: 1.2px dashed var(--color-muted);
+  border-bottom: 1.2px solid var(--color-muted);
   flex-shrink: 0;
 }
 

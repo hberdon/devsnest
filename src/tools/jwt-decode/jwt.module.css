@@ -24,7 +24,7 @@
   font-size: 15px;
   color: var(--color-ink);
   background: var(--color-bg);
-  border: 1.2px dashed var(--color-muted);
+  border: 1.2px solid var(--color-muted);
   border-radius: 5px;
   padding: 8px 10px;
   white-space: pre-wrap;
