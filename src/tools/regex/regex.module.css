@@ -83,7 +83,7 @@
   color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1.2px solid var(--color-muted);
+  border-bottom: 1.2px dashed var(--color-muted);
 }
 
 .matchCount {
@@ -129,7 +129,7 @@
   align-items: center;
   gap: 10px;
   padding: 6px 12px;
-  border-bottom: 1px solid var(--color-muted);
+  border-bottom: 1px dashed var(--color-muted);
 }
 
 .groupRow:last-child { border-bottom: none; }

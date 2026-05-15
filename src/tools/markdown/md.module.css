@@ -19,7 +19,7 @@
 }
 
 .preview h1 { font-size: 27px; }
-.preview h2 { font-size: 21px; border-bottom: 1.5px solid var(--color-muted); padding-bottom: 4px; }
+.preview h2 { font-size: 21px; border-bottom: 1.5px dashed var(--color-muted); padding-bottom: 4px; }
 .preview h3 { font-size: 18px; }
 .preview h4 { font-size: 15px; }
 
@@ -90,6 +90,6 @@
 
 .preview hr {
   border: none;
-  border-top: 1.5px solid var(--color-muted);
+  border-top: 1.5px dashed var(--color-muted);
   margin: 1em 0;
 }

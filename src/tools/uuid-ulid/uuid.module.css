@@ -85,7 +85,7 @@
   align-items: center;
   gap: 10px;
   padding: 9px 14px;
-  border-bottom: 1.2px solid var(--color-muted);
+  border-bottom: 1.2px dashed var(--color-muted);
 }
 
 .idRow:last-child { border-bottom: none; }

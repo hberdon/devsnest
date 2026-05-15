@@ -46,7 +46,7 @@
   font-size: 13px;
   font-family: var(--font-mono);
   color: var(--color-muted);
-  border-bottom: 1.2px solid var(--color-muted);
+  border-bottom: 1.2px dashed var(--color-muted);
   flex-shrink: 0;
 }
 
@@ -55,7 +55,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 9px 14px;
-  border-bottom: 1.2px solid var(--color-muted);
+  border-bottom: 1.2px dashed var(--color-muted);
 }
 
 .row:last-child { border-bottom: none; }
