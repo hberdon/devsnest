@@ -1,0 +1,82 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+.inputSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.input {
+  padding: 10px 14px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--color-ink);
+  outline: none;
+  box-shadow: var(--shadow-sketch-sm);
+  width: 100%;
+}
+
+.input:focus { border-color: var(--color-accent); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+}
+
+.caseCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch-sm);
+}
+
+.caseLabel {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+}
+
+.caseValue {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  word-break: break-all;
+  min-height: 18px;
+  flex: 1;
+}
+
+.empty { color: var(--color-muted); }
+
+.copyBtn {
+  align-self: flex-end;
+  padding: 3px 8px !important;
+  font-size: 13px !important;
+  margin-top: 4px;
+}
+
+.copyBtn:disabled { opacity: 0.3; cursor: default; }

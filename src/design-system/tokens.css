@@ -1,0 +1,279 @@
+/* ─── devsnest design tokens ─────────────────────────────────────────────── */
+
+/* ── Fuentes ─────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* ── Vivid (default) ─────────────────────────────────────────────────────── */
+:root,
+[data-theme="vivid-light"] {
+  --font-ui:   'Nunito', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --color-bg:          #fbfaff;
+  --color-surface:     #ffffff;
+  --color-ink:         #15102b;
+  --color-ink2:        #4a4566;
+  --color-muted:       #9c97b5;
+  --color-stroke:      #1a1a1a;
+  --color-accent:      #5f36fe;
+  --color-accent-soft: #ebe5ff;
+  --color-accent2:     #fd59d8;
+  --color-hl:          #ffe1f4;
+  --color-paper:       #f3f1ec;
+
+  --shadow-sketch:    2px 2px 0 var(--color-stroke);
+  --shadow-sketch-sm: 1.5px 2px 0 var(--color-stroke);
+
+  --radius-sketch: 7px 9px 7px 10px;
+  --radius-sm:     6px 8px 6px 8px;
+  --radius-md:     8px 10px 8px 10px;
+
+  --border-base:   1.6px solid var(--color-stroke);
+  --border-muted:  1.3px solid var(--color-muted);
+  --border-dashed: 1.4px dashed var(--color-muted);
+  --border-accent: 1.6px solid var(--color-accent);
+}
+
+[data-theme="vivid-dark"] {
+  --color-bg:          #0e0a1f;
+  --color-surface:     #1a1530;
+  --color-ink:         #efe9ff;
+  --color-ink2:        #b0a9cc;
+  --color-muted:       #6e6788;
+  --color-stroke:      #4a4566;
+  --color-accent:      #8553fe;
+  --color-accent-soft: #2a1f4d;
+  --color-accent2:     #fd59d8;
+  --color-hl:          #3a1f44;
+  --color-paper:       #130e28;
+}
+
+/* ── Sky & Slate ─────────────────────────────────────────────────────────── */
+[data-theme="sky-slate-light"] {
+  --color-bg:          #f0f7ff;
+  --color-surface:     #ffffff;
+  --color-ink:         #0f2744;
+  --color-ink2:        #2c5282;
+  --color-muted:       #90aac8;
+  --color-stroke:      #0f2744;
+  --color-accent:      #0ea5e9;
+  --color-accent-soft: #e0f2fe;
+  --color-accent2:     #7c3aed;
+  --color-hl:          #ede9fe;
+  --color-paper:       #e6f2ff;
+}
+
+[data-theme="sky-slate-dark"] {
+  --color-bg:          #04111e;
+  --color-surface:     #081c30;
+  --color-ink:         #e0f2fe;
+  --color-ink2:        #90aac8;
+  --color-muted:       #2c5282;
+  --color-stroke:      #1a3a5c;
+  --color-accent:      #38bdf8;
+  --color-accent-soft: #082030;
+  --color-accent2:     #a78bfa;
+  --color-hl:          #1e1040;
+  --color-paper:       #020c18;
+}
+
+/* ── Royal & Gold ────────────────────────────────────────────────────────── */
+[data-theme="royal-gold-light"] {
+  --color-bg:          #f5f6ff;
+  --color-surface:     #ffffff;
+  --color-ink:         #1a1060;
+  --color-ink2:        #3d3a8a;
+  --color-muted:       #9490c0;
+  --color-stroke:      #1a1060;
+  --color-accent:      #3730a3;
+  --color-accent-soft: #e0e7ff;
+  --color-accent2:     #d97706;
+  --color-hl:          #fef3c7;
+  --color-paper:       #edeeff;
+}
+
+[data-theme="royal-gold-dark"] {
+  --color-bg:          #080618;
+  --color-surface:     #110e2a;
+  --color-ink:         #ede9fe;
+  --color-ink2:        #a5a0d4;
+  --color-muted:       #4a4488;
+  --color-stroke:      #2e2870;
+  --color-accent:      #818cf8;
+  --color-accent-soft: #1a1650;
+  --color-accent2:     #fbbf24;
+  --color-hl:          #3a2800;
+  --color-paper:       #050310;
+}
+
+/* ── Cobalt & Lime ───────────────────────────────────────────────────────── */
+[data-theme="cobalt-lime-light"] {
+  --color-bg:          #f3f8ff;
+  --color-surface:     #ffffff;
+  --color-ink:         #0c2461;
+  --color-ink2:        #1a51b8;
+  --color-muted:       #7aaddd;
+  --color-stroke:      #0c2461;
+  --color-accent:      #005bea;
+  --color-accent-soft: #d6e8ff;
+  --color-accent2:     #65a30d;
+  --color-hl:          #ecfccb;
+  --color-paper:       #eaf3ff;
+}
+
+[data-theme="cobalt-lime-dark"] {
+  --color-bg:          #010c20;
+  --color-surface:     #041630;
+  --color-ink:         #d6e8ff;
+  --color-ink2:        #7aaddd;
+  --color-muted:       #1a51b8;
+  --color-stroke:      #0a2855;
+  --color-accent:      #4d9eff;
+  --color-accent-soft: #041028;
+  --color-accent2:     #84cc16;
+  --color-hl:          #1a2e00;
+  --color-paper:       #010818;
+}
+
+/* ── Navy & Coral ────────────────────────────────────────────────────────── */
+[data-theme="navy-coral-light"] {
+  --color-bg:          #f5f7ff;
+  --color-surface:     #ffffff;
+  --color-ink:         #0a1628;
+  --color-ink2:        #1e3a5f;
+  --color-muted:       #7a9bbf;
+  --color-stroke:      #0a1628;
+  --color-accent:      #1e3a8a;
+  --color-accent-soft: #dbeafe;
+  --color-accent2:     #f43f5e;
+  --color-hl:          #ffe4e6;
+  --color-paper:       #eef2ff;
+}
+
+[data-theme="navy-coral-dark"] {
+  --color-bg:          #020810;
+  --color-surface:     #060e1e;
+  --color-ink:         #e2eeff;
+  --color-ink2:        #7a9bbf;
+  --color-muted:       #1e3a5f;
+  --color-stroke:      #102040;
+  --color-accent:      #60a5fa;
+  --color-accent-soft: #0a1830;
+  --color-accent2:     #fb7185;
+  --color-hl:          #3a0818;
+  --color-paper:       #010610;
+}
+
+/* ── Midnight & Cyan ─────────────────────────────────────────────────────── */
+[data-theme="midnight-cyan-light"] {
+  --color-bg:          #f0f4ff;
+  --color-surface:     #ffffff;
+  --color-ink:         #050e30;
+  --color-ink2:        #1c2e6e;
+  --color-muted:       #8898c8;
+  --color-stroke:      #050e30;
+  --color-accent:      #0050d8;
+  --color-accent-soft: #dce8ff;
+  --color-accent2:     #00c2cc;
+  --color-hl:          #ccfeff;
+  --color-paper:       #e8eeff;
+}
+
+[data-theme="midnight-cyan-dark"] {
+  --color-bg:          #010510;
+  --color-surface:     #050d22;
+  --color-ink:         #d8e6ff;
+  --color-ink2:        #8898c8;
+  --color-muted:       #2a3c80;
+  --color-stroke:      #1030a0;
+  --color-accent:      #4d82ff;
+  --color-accent-soft: #081040;
+  --color-accent2:     #22d3ee;
+  --color-hl:          #003840;
+  --color-paper:       #000310;
+}
+
+/* ── Indigo & Coral ──────────────────────────────────────────────────────── */
+[data-theme="indigo-coral-light"] {
+  --color-bg:          #fafafe;
+  --color-surface:     #ffffff;
+  --color-ink:         #1a1340;
+  --color-ink2:        #4b4880;
+  --color-muted:       #9e9bc0;
+  --color-stroke:      #1a1340;
+  --color-accent:      #4361ee;
+  --color-accent-soft: #dce4ff;
+  --color-accent2:     #f72585;
+  --color-hl:          #ffe0f0;
+  --color-paper:       #f3f2ff;
+}
+
+[data-theme="indigo-coral-dark"] {
+  --color-bg:          #070614;
+  --color-surface:     #110f26;
+  --color-ink:         #eeeaff;
+  --color-ink2:        #a9a6c8;
+  --color-muted:       #655f88;
+  --color-stroke:      #3a3660;
+  --color-accent:      #4361ee;
+  --color-accent-soft: #1a1f50;
+  --color-accent2:     #f72585;
+  --color-hl:          #3a1030;
+  --color-paper:       #050312;
+}
+
+/* ── Teal & Amber ────────────────────────────────────────────────────────── */
+[data-theme="teal-amber-light"] {
+  --color-bg:          #f4fafa;
+  --color-surface:     #ffffff;
+  --color-ink:         #0d2525;
+  --color-ink2:        #2d5555;
+  --color-muted:       #7aabab;
+  --color-stroke:      #0d2525;
+  --color-accent:      #0fa3b1;
+  --color-accent-soft: #d6f5f7;
+  --color-accent2:     #f4a523;
+  --color-hl:          #fff4d6;
+  --color-paper:       #ecf8f8;
+}
+
+[data-theme="teal-amber-dark"] {
+  --color-bg:          #030d0e;
+  --color-surface:     #091616;
+  --color-ink:         #e0f5f5;
+  --color-ink2:        #80c8c8;
+  --color-muted:       #3a7070;
+  --color-stroke:      #1a4040;
+  --color-accent:      #0fa3b1;
+  --color-accent-soft: #062020;
+  --color-accent2:     #f4a523;
+  --color-hl:          #3a2800;
+  --color-paper:       #020a0a;
+}
+
+/* ── Tipografía y espaciado (global, no por tema) ────────────────────────── */
+:root {
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 17px;
+  --text-md:   19px;
+  --text-lg:   23px;
+  --text-xl:   28px;
+  --text-2xl:  38px;
+
+  --weight-normal: 400;
+  --weight-medium: 600;
+  --weight-bold:   700;
+
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+
+  --sidebar-width:           280px;
+  --sidebar-collapsed-width: 64px;
+}

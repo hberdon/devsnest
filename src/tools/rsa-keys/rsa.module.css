@@ -1,0 +1,108 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+.genBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: var(--border-base) !important;
+  border-radius: var(--radius-sketch);
+  background: var(--color-ink) !important;
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sketch);
+  align-self: flex-start;
+}
+
+.genBtn:hover:not(:disabled) { background: var(--color-accent) !important; }
+.genBtn:disabled { opacity: 0.5; cursor: default; }
+
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.keyPairs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.keyBox {
+  display: flex;
+  flex-direction: column;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+  overflow: hidden;
+  flex: 1;
+}
+
+.keyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  border-bottom: 1.2px dashed var(--color-muted);
+  flex-shrink: 0;
+}
+
+.keyLabel {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.copyBtn {
+  padding: 3px 10px;
+  border: var(--border-base) !important;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface) !important;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink2);
+  cursor: pointer;
+}
+
+.copyBtn:hover { background: var(--color-accent-soft) !important; }
+
+.keyText {
+  flex: 1;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  overflow-y: auto;
+  margin: 0;
+  white-space: pre;
+  word-break: break-all;
+}
+
+.note {
+  font-size: 15px;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+  line-height: 1.6;
+  padding: 8px 0;
+}

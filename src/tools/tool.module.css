@@ -1,0 +1,110 @@
+/* ── Shared styles for all tool components ─────────────────────────────── */
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  line-height: 1.65;
+}
+
+.output {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.error {
+  color: #e53e3e;
+  font-family: var(--font-mono);
+  font-size: 15px;
+}
+
+/* Checkboxes in panel footer */
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: var(--color-ink2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxBox {
+  width: 14px;
+  height: 14px;
+  border: 1.4px solid var(--color-stroke);
+  border-radius: 3px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--color-surface);
+  flex-shrink: 0;
+}
+
+.checkboxBox.checked {
+  background: var(--color-accent);
+}
+
+.autoNote {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* Header action button (swap, etc.) */
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: var(--border-base) !important;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.actionBtn:hover {
+  background: var(--color-accent-soft) !important;
+}
+
+/* Segmented control (format selector) */
+.segmented {
+  display: inline-flex;
+  border: var(--border-base);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.segmentBtn {
+  padding: 4px 10px;
+  font-size: 15px;
+  font-family: var(--font-ui);
+  color: var(--color-ink2);
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer;
+  border-right: 1.3px solid var(--color-stroke) !important;
+}
+
+.segmentBtn:last-child {
+  border-right: none !important;
+}
+
+.segmentBtn.segmentActive {
+  background: var(--color-ink) !important;
+  color: #fff;
+}

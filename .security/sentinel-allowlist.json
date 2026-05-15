@@ -1,0 +1,1 @@
+{"allowlist": [{"pattern": "private[_-]?key", "reason": "RSA key generation tool - generates PEM keys client-side in browser, no secrets stored"}]}
