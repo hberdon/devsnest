@@ -125,9 +125,22 @@ function TreeNodeEl({ node }: { node: TreeNode }) {
 // ── Main component ────────────────────────────────────────────────────────
 export default function JSONValidator() {
   const [input, setInput]       = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef                 = useRef<HTMLDivElement>(null)
   const textareaRef             = useRef<HTMLTextAreaElement>(null)
   const gutterRef               = useRef<HTMLDivElement>(null)
   const { addToHistory }        = useDevTools()
+
+  useEffect(() => {
+    if (!menuOpen) return
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [menuOpen])
 
   const trimmed   = input.trim()
   const result    = trimmed ? parseJSON(trimmed) : null
@@ -165,23 +178,7 @@ export default function JSONValidator() {
     setInput(JSON.stringify(result.value))
   }
 
-  const exportBtn = (
-    <button
-      className={s.exportBtn}
-      title="Exportar JSON"
-      onClick={() => {
-        if (!result?.ok) return
-        const blob = new Blob([JSON.stringify(result.value, null, 2)], { type: 'application/json' })
-        const url  = URL.createObjectURL(blob)
-        const a    = document.createElement('a')
-        a.href = url; a.download = 'data.json'; a.click()
-        URL.revokeObjectURL(url)
-      }}
-    >
-      <Icon name="download" size={13} />
-      Exportar
-    </button>
-  )
+  const exportBtn = null
 
   return (
     <ToolLayout toolId="json" hideSplit actions={exportBtn}>
@@ -196,18 +193,68 @@ export default function JSONValidator() {
                 UTF-8 · {humanSize(byteSize)} · {lineCount} líneas
               </span>
             )}
-            <div className={s.cardActions}>
+            <div ref={menuRef} className={s.menuWrap}>
               <button
-                className={s.cardActionBtn}
-                onClick={() => navigator.clipboard.readText().then(setInput).catch(() => {})}
-              >pegar</button>
-              <span className={s.cardActionSep}>·</span>
-              <button
-                className={s.cardActionBtn}
-                onClick={() => navigator.clipboard.writeText(input).catch(() => {})}
-              >⧉ copiar</button>
-              <span className={s.cardActionSep}>·</span>
-              <button className={s.cardActionBtn} onClick={() => setInput('')}>limpiar</button>
+                className={`${s.moreBtn} ${menuOpen ? s.moreBtnActive : ''}`}
+                onClick={() => setMenuOpen(o => !o)}
+                title="Acciones"
+              >
+                <Icon name="more" size={18} />
+              </button>
+              {menuOpen && (
+                <div className={s.menu}>
+                  <button className={s.menuItem} disabled={!result?.ok} onClick={() => { handleFormat(); setMenuOpen(false) }}>
+                    Formatear
+                  </button>
+                  <button className={s.menuItem} disabled={!result?.ok} onClick={() => { handleMinify(); setMenuOpen(false) }}>
+                    Minificar
+                  </button>
+                  <div className={s.menuSep} />
+                  <button className={s.menuItem} disabled>
+                    <Icon name="schema" size={12} />
+                    Validar Schema
+                  </button>
+                  <div className={s.menuSep} />
+                  <button
+                    className={s.menuItem}
+                    onClick={() => { navigator.clipboard.readText().then(setInput).catch(() => {}); setMenuOpen(false) }}
+                  >
+                    Pegar desde portapapeles
+                  </button>
+                  <button
+                    className={s.menuItem}
+                    disabled={byteSize === 0}
+                    onClick={() => { navigator.clipboard.writeText(input).catch(() => {}); setMenuOpen(false) }}
+                  >
+                    <Icon name="copy" size={12} />
+                    Copiar JSON
+                  </button>
+                  <button
+                    className={s.menuItem}
+                    disabled={byteSize === 0}
+                    onClick={() => { setInput(''); setMenuOpen(false) }}
+                  >
+                    Limpiar editor
+                  </button>
+                  <div className={s.menuSep} />
+                  <button
+                    className={s.menuItem}
+                    disabled={!result?.ok}
+                    onClick={() => {
+                      if (!result?.ok) return
+                      const blob = new Blob([JSON.stringify(result.value, null, 2)], { type: 'application/json' })
+                      const url  = URL.createObjectURL(blob)
+                      const a    = document.createElement('a')
+                      a.href = url; a.download = 'data.json'; a.click()
+                      URL.revokeObjectURL(url)
+                      setMenuOpen(false)
+                    }}
+                  >
+                    <Icon name="download" size={12} />
+                    Exportar JSON
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -233,19 +280,6 @@ export default function JSONValidator() {
               autoCapitalize="off"
               autoCorrect="off"
             />
-          </div>
-
-          <div className={s.toolbar}>
-            <button className={s.btnPrimary}>Validar</button>
-            <button className={s.btnSecondary} onClick={handleFormat} disabled={!result?.ok}>Formatear</button>
-            <button className={s.btnSecondary} onClick={handleMinify} disabled={!result?.ok}>Minificar</button>
-            <button className={s.btnDashed}>
-              <Icon name="schema" size={12} />
-              Validar Schema
-            </button>
-            {byteSize > 0 && (
-              <span className={s.toolbarMeta}>auto-valida · {humanSize(byteSize)}</span>
-            )}
           </div>
 
           {result && !result.ok && errorLine > 0 && (
