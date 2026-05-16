@@ -209,6 +209,14 @@ export default function JSONValidator() {
               <span className={s.cardActionSep}>·</span>
               <button className={s.cardActionBtn} onClick={() => setInput('')}>limpiar</button>
             </div>
+            <div className={s.headerBtns}>
+              <button className={s.btnDashedSm} disabled={!result?.ok} title="Validar contra Schema">
+                <Icon name="schema" size={11} />
+              </button>
+              <button className={s.btnSecondarySm} onClick={handleMinify} disabled={!result?.ok}>Min</button>
+              <button className={s.btnSecondarySm} onClick={handleFormat} disabled={!result?.ok}>Fmt</button>
+              <button className={s.btnPrimarySm}>Validar</button>
+            </div>
           </div>
 
           <div className={s.editorWrap}>
@@ -233,19 +241,6 @@ export default function JSONValidator() {
               autoCapitalize="off"
               autoCorrect="off"
             />
-          </div>
-
-          <div className={s.toolbar}>
-            <button className={s.btnPrimary}>Validar</button>
-            <button className={s.btnSecondary} onClick={handleFormat} disabled={!result?.ok}>Formatear</button>
-            <button className={s.btnSecondary} onClick={handleMinify} disabled={!result?.ok}>Minificar</button>
-            <button className={s.btnDashed}>
-              <Icon name="schema" size={12} />
-              Validar Schema
-            </button>
-            {byteSize > 0 && (
-              <span className={s.toolbarMeta}>auto-valida · {humanSize(byteSize)}</span>
-            )}
           </div>
 
           {result && !result.ok && errorLine > 0 && (
