@@ -5,7 +5,6 @@ import { CATEGORIES, type CategoryId } from '@/tools/registry'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useCmdK } from '@/store/cmd-palette.context'
-import { useTheme } from '@/store/theme.context'
 import s from './Sidebar.module.css'
 
 const DEFAULT_EXPANDED = new Set<CategoryId>(['conv'])
@@ -17,14 +16,10 @@ export function Sidebar() {
   const navigate  = useNavigate()
   const { pinned } = useDevTools()
   const { open: openCmdK } = useCmdK()
-  const { palette, mode, palettes, setPalette, setMode } = useTheme()
-
   const isDashboard  = location.pathname === '/'
   const activeToolId = location.pathname.startsWith('/tools/')
     ? location.pathname.slice('/tools/'.length)
     : null
-
-  const currentPalette = palettes.find(p => p.id === palette)!
 
   function toggleCategory(id: CategoryId) {
     setExpanded(prev => {
@@ -32,11 +27,6 @@ export function Sidebar() {
       next.has(id) ? next.delete(id) : next.add(id)
       return next
     })
-  }
-
-  function cyclePalette() {
-    const idx = palettes.findIndex(p => p.id === palette)
-    setPalette(palettes[(idx + 1) % palettes.length].id)
   }
 
   // ── Collapsed ─────────────────────────────────────────────────────────────
@@ -48,9 +38,9 @@ export function Sidebar() {
           {'</>'}
         </div>
 
-        {/* ⌘K — solo fuera del dashboard */}
+        {/* Buscar — solo fuera del dashboard */}
         {!isDashboard && (
-          <div className={`${s.railCell} ${s.railDashed}`} title="⌘K · Buscar" style={{ height: 36, width: 42 }} onClick={openCmdK}>
+          <div className={`${s.railCell} ${s.railDashed}`} title="Ctrl+F · Buscar" style={{ height: 36, width: 42 }} onClick={openCmdK}>
             <Icon name="search" size={16} />
           </div>
         )}
@@ -97,24 +87,15 @@ export function Sidebar() {
 
         {/* Footer */}
         <div className={s.collapsedFooter}>
-          <button
-            className={s.collapsedDotBtn}
-            title={`${currentPalette.label} · Click para cambiar paleta`}
-            onClick={cyclePalette}
-            style={{ '--dot': mode === 'light' ? currentPalette.light : currentPalette.dark } as React.CSSProperties}
+          <div
+            className={`${s.railCell} ${s.railDashed}`}
+            style={{ height: 34, width: 42, cursor: 'pointer' }}
+            title="Expandir"
+            onClick={() => setCollapsed(false)}
           >
-            <span className={s.collapsedDot} />
-          </button>
-          <button
-            className={s.expandBtn}
-            title={mode === 'light' ? 'Cambiar a Dark' : 'Cambiar a Light'}
-            onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
-          >
-            {mode === 'light' ? '☀' : '◐'}
-          </button>
-          <button className={s.expandBtn} title="Expandir sidebar" onClick={() => setCollapsed(false)}>
             <Icon name="sidebar-r" size={14} />
-          </button>
+          </div>
+          <div className={s.collapsedAvatar}>JD</div>
         </div>
       </aside>
     )
@@ -137,7 +118,7 @@ export function Sidebar() {
         <button className={s.searchChip} onClick={openCmdK}>
           <Icon name="search" size={13} color="var(--color-muted)" />
           <span>Buscar herramienta</span>
-          <span className={s.searchChipKbd}>⌘K</span>
+          <span className={s.searchChipKbd}>Ctrl+F</span>
         </button>
       )}
 
@@ -207,36 +188,16 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* ── Theme picker ─────────────────────────────────────────────────── */}
+      {/* ── Footer ───────────────────────────────────────────────────────── */}
       <div className={s.footer}>
-        <div className={s.themePickerRow}>
-          <div className={s.paletteDots}>
-            {palettes.map(p => (
-              <button
-                key={p.id}
-                className={`${s.paletteDot} ${palette === p.id ? s.paletteDotActive : ''}`}
-                title={p.label}
-                onClick={() => setPalette(p.id)}
-                style={{ '--dot': mode === 'light' ? p.light : p.dark } as React.CSSProperties}
-              />
-            ))}
-          </div>
-          <div className={s.modeToggle}>
-            <button
-              className={`${s.modeBtn} ${mode === 'light' ? s.modeBtnActive : ''}`}
-              onClick={() => setMode('light')}
-              title="Light"
-            >☀</button>
-            <button
-              className={`${s.modeBtn} ${mode === 'dark' ? s.modeBtnActive : ''}`}
-              onClick={() => setMode('dark')}
-              title="Dark"
-            >◐</button>
-          </div>
+        <div className={s.avatar}>JD</div>
+        <div className={s.footerInfo}>
+          <div className={s.footerName}>Jane Dev</div>
+          <div className={s.footerPlan}>Plan free</div>
         </div>
-        <div className={s.themeCurrentLabel}>
-          {currentPalette.label} · {mode === 'light' ? 'Light' : 'Dark'}
-        </div>
+        <button className={s.settingsBtn} title="Ajustes">
+          <Icon name="settings" size={14} />
+        </button>
       </div>
     </aside>
   )
