@@ -1,11 +1,11 @@
 /* ─── devsnest design tokens — pixel-perfect from wireframe-v6 ───────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
 /* ── Default: sketch palette (wireframe-v6 paper aesthetic) ─────────────── */
 :root,
 [data-theme="vivid-light"] {
-  --font-ui:   'Architects Daughter', system-ui, sans-serif;
+  --font-ui:   'Nunito', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
   /* Core colors — exact values from wireframes.jsx source of truth */

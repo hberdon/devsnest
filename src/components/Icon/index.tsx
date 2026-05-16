@@ -12,6 +12,8 @@ export type IconName =
   | 'settings'  | 'close'
   | 'check'     | 'plus'
   | 'trash'     | 'arrow-r'
+  | 'warn'      | 'download'
+  | 'schema'
   // Category icons
   | 'cat-conv'  | 'cat-fmt'
   | 'cat-gen'   | 'cat-utils'
@@ -39,6 +41,9 @@ const PATHS: Record<IconName, ReactNode> = {
   'plus':       <><path d="M12 5v14M5 12h14"/></>,
   'trash':      <><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></>,
   'arrow-r':    <><path d="M5 12h14M12 5l7 7-7 7"/></>,
+  'warn':       <><path d="M12 4 2 20h20L12 4z"/><path d="M12 10v5M12 17v.5"/></>,
+  'download':   <><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></>,
+  'schema':     <><rect x="3" y="4" width="18" height="5" rx="1"/><rect x="3" y="11" width="12" height="5" rx="1"/><rect x="3" y="18" width="6" height="3" rx="1"/></>,
   // Category icons — exact paths from wireframes.jsx
   'cat-conv':   <><path d="M4 8h12l-3-3"/><path d="M20 16H8l3 3"/></>,
   'cat-fmt':    <><path d="M5 6h14M5 12h9M5 18h14"/></>,

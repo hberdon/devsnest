@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
-import { CATEGORIES, type CategoryId } from '@/tools/registry'
+import { VISIBLE_CATEGORIES as CATEGORIES, type CategoryId } from '@/tools/registry'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useCmdK } from '@/store/cmd-palette.context'

@@ -15,6 +15,7 @@ export interface Category {
   name: string
   icon: IconName
   tools: ToolMeta[]
+  hidden?: boolean
 }
 
 const TOOLS: ToolMeta[] = [
@@ -62,11 +63,14 @@ export const CATEGORIES: Category[] = [
   { id: 'fmt',   name: 'Formateadores', icon: 'cat-fmt',   tools: TOOLS.filter(t => t.categoryId === 'fmt') },
   { id: 'gen',   name: 'Generadores',   icon: 'cat-gen',   tools: TOOLS.filter(t => t.categoryId === 'gen') },
   { id: 'utils', name: 'Utilidades',    icon: 'cat-utils', tools: TOOLS.filter(t => t.categoryId === 'utils') },
-  { id: 'net',   name: 'Red',           icon: 'cat-net',   tools: TOOLS.filter(t => t.categoryId === 'net') },
+  { id: 'net',   name: 'Red',           icon: 'cat-net',   tools: TOOLS.filter(t => t.categoryId === 'net'),  hidden: true },
   { id: 'crypt', name: 'Cripto',        icon: 'cat-crypt', tools: TOOLS.filter(t => t.categoryId === 'crypt') },
 ]
 
-export const ALL_TOOLS = TOOLS
+export const VISIBLE_CATEGORIES = CATEGORIES.filter(c => !c.hidden)
+
+const HIDDEN_CAT_IDS = new Set(CATEGORIES.filter(c => c.hidden).map(c => c.id))
+export const ALL_TOOLS = TOOLS.filter(t => !HIDDEN_CAT_IDS.has(t.categoryId))
 
 export function getToolById(id: string): ToolMeta | undefined {
   return TOOLS.find(t => t.id === id)

@@ -12,9 +12,10 @@ interface ToolLayoutProps {
   toolId: string
   children: ReactNode
   actions?: ReactNode
+  hideSplit?: boolean
 }
 
-export function ToolLayout({ toolId, children, actions }: ToolLayoutProps) {
+export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutProps) {
   const tool     = getToolById(toolId)
   const category = tool ? getCategoryById(tool.categoryId) : undefined
   const navigate = useNavigate()
@@ -81,22 +82,24 @@ export function ToolLayout({ toolId, children, actions }: ToolLayoutProps) {
 
           <div className={s.actions}>
             {actions}
-            <div className={s.splitToggle}>
-              <button
-                className={`${s.splitBtn} ${splitMode === 'v' ? s.splitActive : ''}`}
-                title="Vertical (lado a lado)"
-                onClick={() => setSplitMode('v')}
-              >
-                <Icon name="split-v" size={14} color={splitMode === 'v' ? '#fff' : 'var(--color-ink)'} />
-              </button>
-              <button
-                className={`${s.splitBtn} ${splitMode === 'h' ? s.splitActive : ''}`}
-                title="Horizontal (apilado)"
-                onClick={() => setSplitMode('h')}
-              >
-                <Icon name="split-h" size={14} color={splitMode === 'h' ? '#fff' : 'var(--color-ink)'} />
-              </button>
-            </div>
+            {!hideSplit && (
+              <div className={s.splitToggle}>
+                <button
+                  className={`${s.splitBtn} ${splitMode === 'v' ? s.splitActive : ''}`}
+                  title="Vertical (lado a lado)"
+                  onClick={() => setSplitMode('v')}
+                >
+                  <Icon name="split-v" size={14} color={splitMode === 'v' ? '#fff' : 'var(--color-ink)'} />
+                </button>
+                <button
+                  className={`${s.splitBtn} ${splitMode === 'h' ? s.splitActive : ''}`}
+                  title="Horizontal (apilado)"
+                  onClick={() => setSplitMode('h')}
+                >
+                  <Icon name="split-h" size={14} color={splitMode === 'h' ? '#fff' : 'var(--color-ink)'} />
+                </button>
+              </div>
+            )}
             <button className={s.moreBtn} title="Más opciones">
               <Icon name="more" size={16} color="var(--color-ink2)" />
             </button>

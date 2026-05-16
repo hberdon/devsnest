@@ -1,19 +1,19 @@
 ---
 project: devsnest
 mode: planned
-last_session: 2026-05-15
-active_phase: "Complete"
+last_session: 2026-05-16
+active_phase: "Polish — CSS pixel-perfect"
 phases_done: 9
 phases_total: 9
-tasks_this_session: 10
-tasks_total_done: 15
+tasks_this_session: 3
+tasks_total_done: 18
 velocity_last_5: []
 blockers_count: 0
-session_count: 1
+session_count: 3
 ---
 
 # 📋 CONTEXT-PROGRESS
-## devsnest • Session #1 • 2026-05-15
+## devsnest • Session #3 • 2026-05-16
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -41,19 +41,17 @@ session_count: 1
 ## Tasks this session
 
 ### ✅ Done
-— none yet
+- [x] Reescritura completa de tokens.css — stroke, hl, paper, shadow-sketch corregidos
+- [x] 13 iconos en Icon/index.tsx actualizados con paths exactos de wireframes.jsx
+- [x] Fix border width 1.6px→1.8px y radius 7px→8px en 6 CSS modules
+- [x] Shadows migradas a vars (--shadow-sketch, --shadow-sketch-sm, --shadow-palette)
+- [x] Commit + push develop (2a993f5)
 
 ### 🔒 Blocked
 — none
 
 ### 📋 To Do
-
-**Fase 1 — Foundation:**
-- [ ] Scaffold Vite + React 19 + TypeScript
-- [ ] Instalar dependencias: react-router-dom, @fontsource/architects-daughter, @fontsource/jetbrains-mono
-- [ ] Crear `src/design-system/tokens.css` — variables CSS 3 temas (Vivid Light, Vivid Dark, Lavender Mist)
-- [ ] Crear `src/design-system/base.css` — reset, body, scroll
-- [ ] Verificar: `npm run dev` sin errores, fuentes correctas
+— Verificación visual en browser contra devsnest-v6.html
 
 ---
 
@@ -115,3 +113,6 @@ Blockers     ▸ 🚧 0 active
 
 | Session | Date | Tasks | Phase | Summary |
 |---------|------|-------|-------|---------|
+| 1 | 2026-05-15 | 15 | All phases | Scaffold completo — 28 tools, routing, sidebar, dashboard, ⌘K, multi-tema |
+| 2 | 2026-05-15 | 0 | Polish | CSS rewrite desde wireframe-v6 (sesión sin commit) |
+| 3 | 2026-05-16 | 3 | Polish | Pixel-perfect handoff: tokens, 13 iconos, borders, shadows — commit 2a993f5 |
