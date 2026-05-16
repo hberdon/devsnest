@@ -58,7 +58,7 @@ export function ToolLayout({ toolId, children, actions }: ToolLayoutProps) {
           <span>›</span>
           <span className={s.breadcrumbActive}>{tool.name}</span>
           <button className={s.breadcrumbKbd} onClick={openCmdK}>
-            ⌘F para buscar
+            ⌘K para buscar
           </button>
         </nav>
 

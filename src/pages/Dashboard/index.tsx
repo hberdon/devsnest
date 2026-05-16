@@ -72,7 +72,7 @@ function HeroSearch() {
           ? <button className={s.clearBtn} onMouseDown={e => { e.preventDefault(); setQuery(''); setActive(-1); inputRef.current?.focus() }}>
               <Icon name="close" size={13} />
             </button>
-          : <span className={s.searchKbd}>⌘F en sidebar</span>
+          : <span className={s.searchKbd}>⌘K en sidebar</span>
         }
       </div>
 

@@ -21,7 +21,7 @@ export interface PaletteDef {
 }
 
 export const PALETTE_DEFS: PaletteDef[] = [
-  { id: 'vivid',         label: 'Vivid',           light: '#5f36fe', dark: '#8553fe' },
+  { id: 'vivid',         label: 'Mint',            light: '#047857', dark: '#34d399' },
   { id: 'sky-slate',     label: 'Sky & Slate',     light: '#0ea5e9', dark: '#38bdf8' },
   { id: 'royal-gold',    label: 'Royal & Gold',    light: '#3730a3', dark: '#818cf8' },
   { id: 'cobalt-lime',   label: 'Cobalt & Lime',   light: '#005bea', dark: '#4d9eff' },

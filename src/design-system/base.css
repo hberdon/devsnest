@@ -1,4 +1,4 @@
-/* ─── base.css — reset + global styles ──────────────────────────────────── */
+/* ─── base.css — reset + global ─────────────────────────────────────────── */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -13,7 +13,7 @@ html, body, #root {
 
 body {
   font-family: var(--font-ui);
-  font-size: var(--text-base);
+  font-size: 14px;
   color: var(--color-ink);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
@@ -36,26 +36,15 @@ code, pre, .mono {
   font-family: var(--font-mono);
 }
 
-/* Scrollbar sketch */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-muted);
-  border-radius: 3px;
-}
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-muted); border-radius: 3px; }
 
-/* Selection */
 ::selection {
   background: var(--color-hl);
   color: var(--color-ink);
 }
 
-/* Utility: overflow scroll en contenedores */
 .scroll-y {
   overflow-y: auto;
   overflow-x: hidden;

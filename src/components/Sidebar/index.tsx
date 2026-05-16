@@ -43,34 +43,43 @@ export function Sidebar() {
   if (collapsed) {
     return (
       <aside className={`${s.sidebar} ${s.collapsed}`}>
-        <div className={s.logoBadge} style={{ cursor: 'pointer' }} onClick={() => setCollapsed(false)}>
+        {/* Logo */}
+        <div className={s.logoBadge} style={{ cursor: 'pointer', marginBottom: 6 }} onClick={() => setCollapsed(false)}>
           {'</>'}
         </div>
 
+        {/* ⌘K — solo fuera del dashboard */}
         {!isDashboard && (
-          <div className={`${s.railCell} ${s.railDashed}`} title="⌘F · Buscar" style={{ height: 36, width: 42 }} onClick={openCmdK}>
-            <Icon name="search" size={15} />
+          <div className={`${s.railCell} ${s.railDashed}`} title="⌘K · Buscar" style={{ height: 36, width: 42 }} onClick={openCmdK}>
+            <Icon name="search" size={16} />
           </div>
         )}
 
+        {/* Anclados */}
+        {pinned.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, marginTop: 4 }}>
+            <Icon name="pin" size={11} color="var(--color-accent2)" strokeWidth={2} />
+            {pinned.slice(0, 3).map(entry => (
+              <div
+                key={entry.id}
+                title={entry.toolName}
+                className={`${s.railCell} ${entry.toolId === activeToolId ? s.railActive : ''}`}
+                style={{ height: 38, width: 42, cursor: 'pointer' }}
+                onClick={() => navigate(`/tools/${entry.toolId}`)}
+              >
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--color-ink)' }}>
+                  {entry.badge}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Separador — entre anclados y categorías */}
         <div className={s.separator} />
 
-        {pinned.length > 0 && <Icon name="pin" size={11} color="var(--color-accent2)" strokeWidth={2} />}
-        {pinned.slice(0, 3).map(entry => (
-          <div
-            key={entry.id}
-            title={entry.toolName}
-            className={`${s.railCell} ${entry.toolId === activeToolId ? s.railActive : ''}`}
-            style={{ height: 38, width: 42, cursor: 'pointer' }}
-            onClick={() => navigate(`/tools/${entry.toolId}`)}
-          >
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--color-ink)' }}>
-              {entry.badge}
-            </span>
-          </div>
-        ))}
-
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1, overflow: 'hidden', paddingTop: 4 }}>
+        {/* Categorías */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flex: 1, overflow: 'hidden' }}>
           {CATEGORIES.map(cat => {
             const isActive = cat.tools.some(t => t.id === activeToolId)
             return (
@@ -78,14 +87,15 @@ export function Sidebar() {
                 key={cat.id}
                 title={cat.name}
                 className={`${s.railCell} ${isActive ? s.railActive : ''}`}
-                style={{ height: 40, width: 42 }}
+                style={{ height: 42, width: 42 }}
               >
-                <Icon name={cat.icon} size={18} />
+                <Icon name={cat.icon} size={20} />
               </div>
             )
           })}
         </div>
 
+        {/* Footer */}
         <div className={s.collapsedFooter}>
           <button
             className={s.collapsedDotBtn}
@@ -127,7 +137,7 @@ export function Sidebar() {
         <button className={s.searchChip} onClick={openCmdK}>
           <Icon name="search" size={13} color="var(--color-muted)" />
           <span>Buscar herramienta</span>
-          <span className={s.searchChipKbd}>⌘F</span>
+          <span className={s.searchChipKbd}>⌘K</span>
         </button>
       )}
 
