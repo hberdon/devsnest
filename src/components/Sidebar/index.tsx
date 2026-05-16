@@ -58,7 +58,7 @@ export function Sidebar() {
         {/* Anclados */}
         {pinned.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, marginTop: 4 }}>
-            <Icon name="pin" size={11} color="var(--color-accent2)" strokeWidth={2} />
+            <Icon name="pin-fill" size={11} color="var(--color-accent2)" />
             {pinned.slice(0, 3).map(entry => (
               <div
                 key={entry.id}
@@ -144,7 +144,7 @@ export function Sidebar() {
       {pinned.length > 0 && (
         <div>
           <div className={s.sectionHeader}>
-            <Icon name="pin" size={12} color="var(--color-accent2)" strokeWidth={2} />
+            <Icon name="pin-fill" size={13} color="var(--color-accent2)" />
             <span>Anclados</span>
             <span className={s.sectionCount}>{pinned.length}</span>
           </div>
@@ -157,7 +157,7 @@ export function Sidebar() {
               >
                 <span className={s.toolBadge}>{entry.badge}</span>
                 <span style={{ flex: 1 }}>{entry.toolName}</span>
-                <Icon name="pin" size={11} color="var(--color-accent2)" strokeWidth={2} />
+                <Icon name="pin-fill" size={11} color="var(--color-accent2)" />
               </Link>
             ))}
           </div>
