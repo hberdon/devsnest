@@ -7,7 +7,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useCmdK } from '@/store/cmd-palette.context'
 import { useLang } from '@/store/lang.context'
-import { getToolById, getCategoryById } from '@/tools/registry'
+import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './ToolLayout.module.css'
 
 interface ToolLayoutProps {
@@ -18,6 +18,7 @@ interface ToolLayoutProps {
 }
 
 export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutProps) {
+  const { getToolById, getCategoryById } = useLocalizedRegistry()
   const tool     = getToolById(toolId)
   const category = tool ? getCategoryById(tool.categoryId) : undefined
   const navigate = useNavigate()

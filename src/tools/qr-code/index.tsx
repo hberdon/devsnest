@@ -3,6 +3,7 @@ import QRCode from 'qrcode'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './qr.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -12,6 +13,7 @@ export default function QRCodeTool() {
   const [error,   setError]   = useState('')
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const debouncedInput = useDebounce(input, 600)
 
@@ -48,7 +50,7 @@ export default function QRCodeTool() {
     <ToolLayout toolId="qr-code">
       <div className={s.layout}>
         <div className={s.inputSection}>
-          <label className={s.inputLabel}>Texto o URL</label>
+          <label className={s.inputLabel}>{t.qrTextOrUrl}</label>
           <textarea
             className={`${ts.textarea} ${s.inputArea}`}
             value={input}
@@ -68,7 +70,7 @@ export default function QRCodeTool() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
-                Descargar PNG
+                {t.qrDownload}
               </button>
             </>
           ) : (
@@ -80,7 +82,7 @@ export default function QRCodeTool() {
                 <rect x="5" y="16" width="3" height="3" fill="var(--color-muted)"/>
                 <path d="M14 14h3v3h-3z M17 17h3v3h-3z M14 20h3"/>
               </svg>
-              <span className={s.placeholderText}>El QR aparecerá aquí</span>
+              <span className={s.placeholderText}>{t.qrEmpty}</span>
             </div>
           )}
         </div>

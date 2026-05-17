@@ -4,6 +4,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import { humanSize } from '@/tools/utils/formatters'
 import s from '@/tools/tool.module.css'
 
@@ -23,7 +24,7 @@ function doFormat(input: string, dialect: Dialect): { ok: true; output: string; 
     const output = formatSQL(input, { language: dialect, tabWidth: 2, keywordCase: 'upper' })
     return { ok: true, output, size: new TextEncoder().encode(output).length }
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'SQL inválido' }
+    return { ok: false, error: e instanceof Error ? e.message : 'sql_invalid' }
   }
 }
 
@@ -31,10 +32,11 @@ export default function SQL() {
   const [input,   setInput]   = useState('')
   const [dialect, setDialect] = useState<Dialect>('sql')
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const result = doFormat(input, dialect)
   const output     = result.ok ? result.output : ''
-  const error      = !result.ok ? result.error : ''
+  const error      = !result.ok ? (result.error === 'sql_invalid' ? t.sqlInvalid : result.error) : ''
   const outputMeta = result.ok && result.size > 0 ? humanSize(result.size) : ''
 
   const debouncedInput = useDebounce(input, 1500)
@@ -74,10 +76,10 @@ export default function SQL() {
               spellCheck={false}
             />
           ),
-          footer: <span className={s.autoNote}>auto-formatea</span>,
+          footer: <span className={s.autoNote}>{t.tcAutoFormats}</span>,
         }}
         secondary={{
-          label: 'Formateado',
+          label: t.sqlFormatted,
           meta: outputMeta,
           onCopy: output ? () => navigator.clipboard.writeText(output).catch(() => {}) : undefined,
           content: error

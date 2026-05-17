@@ -3,6 +3,7 @@ import SparkMD5 from 'spark-md5'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './hash.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -23,6 +24,7 @@ export default function Hash() {
   const [hashes, setHashes] = useState<Record<HashAlgo, string>>({ 'MD5': '', 'SHA-1': '', 'SHA-256': '', 'SHA-512': '' })
   const [copied, setCopied] = useState<HashAlgo | null>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const debouncedInput = useDebounce(input, 400)
 
@@ -57,12 +59,12 @@ export default function Hash() {
     <ToolLayout toolId="hash">
       <div className={s.layout}>
         <div className={s.inputSection}>
-          <label className={s.inputLabel}>Texto de entrada</label>
+          <label className={s.inputLabel}>{t.hashInputLabel}</label>
           <textarea
             className={`${ts.textarea} ${s.inputArea}`}
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Escribe o pega el texto a hashear…"
+            placeholder={t.hashInputPlaceholder}
             spellCheck={false}
             rows={4}
           />
@@ -77,7 +79,7 @@ export default function Hash() {
                 className={s.copyBtn}
                 onClick={() => copyHash(algo)}
                 disabled={!hashes[algo]}
-                title="Copiar"
+                title={t.tcCopy}
               >
                 {copied === algo
                   ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38a169" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>

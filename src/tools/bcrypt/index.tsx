@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import bcrypt from 'bcryptjs'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './bcrypt.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -20,6 +21,7 @@ export default function Bcrypt() {
   const [hashInput, setHashInput] = useState('')
   const [cmpResult, setCmpResult] = useState<boolean | null>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const doHash = useCallback(async () => {
     if (!input.trim()) return
@@ -66,8 +68,8 @@ export default function Bcrypt() {
 
   const tabBar = (
     <div className={ts.segmented}>
-      <button className={`${ts.segmentBtn} ${tab === 'hash' ? ts.segmentActive : ''}`} onClick={() => setTab('hash')}>Hashear</button>
-      <button className={`${ts.segmentBtn} ${tab === 'compare' ? ts.segmentActive : ''}`} onClick={() => setTab('compare')}>Verificar</button>
+      <button className={`${ts.segmentBtn} ${tab === 'hash' ? ts.segmentActive : ''}`} onClick={() => setTab('hash')}>{t.bcHashTab}</button>
+      <button className={`${ts.segmentBtn} ${tab === 'compare' ? ts.segmentActive : ''}`} onClick={() => setTab('compare')}>{t.bcVerifyTab}</button>
     </div>
   )
 
@@ -77,21 +79,21 @@ export default function Bcrypt() {
         {tab === 'hash' ? (
           <>
             <div className={s.field}>
-              <label className={s.label}>Texto a hashear</label>
+              <label className={s.label}>{t.bcInputHash}</label>
               <input
                 className={s.input}
                 type="password"
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && doHash()}
-                placeholder="contraseña o texto secreto"
+                placeholder={t.bcPlaceholderHash}
                 spellCheck={false}
                 autoComplete="off"
               />
             </div>
 
             <div className={s.roundsRow}>
-              <span className={s.label}>Rounds (cost factor)</span>
+              <span className={s.label}>{t.bcRounds}</span>
               <div className={ts.segmented}>
                 {[8, 10, 12, 14].map(r => (
                   <button key={r} className={`${ts.segmentBtn} ${rounds === r ? ts.segmentActive : ''}`} onClick={() => setRounds(r)}>
@@ -99,11 +101,11 @@ export default function Bcrypt() {
                   </button>
                 ))}
               </div>
-              <span className={s.roundsNote}>~{Math.round(Math.pow(2, rounds) / 1000)}k iteraciones</span>
+              <span className={s.roundsNote}>~{Math.round(Math.pow(2, rounds) / 1000)}k {t.bcIterationsSuffix}</span>
             </div>
 
             <button className={s.actionBtn} onClick={doHash} disabled={loading || !input.trim()}>
-              {loading ? 'Hasheando…' : 'Generar hash'}
+              {loading ? t.bcHashing : t.bcGenerateHash}
             </button>
 
             {hashErr && <span className={ts.error}>{hashErr}</span>}
@@ -123,18 +125,18 @@ export default function Bcrypt() {
         ) : (
           <>
             <div className={s.field}>
-              <label className={s.label}>Texto plano</label>
+              <label className={s.label}>{t.bcInputPlain}</label>
               <input
                 className={s.input}
                 type="password"
                 value={plaintext}
                 onChange={e => setPlaintext(e.target.value)}
-                placeholder="texto a verificar"
+                placeholder={t.bcPlaceholderPlain}
                 autoComplete="off"
               />
             </div>
             <div className={s.field}>
-              <label className={s.label}>Hash bcrypt</label>
+              <label className={s.label}>{t.bcInputBcrypt}</label>
               <input
                 className={s.input}
                 value={hashInput}
@@ -144,13 +146,13 @@ export default function Bcrypt() {
               />
             </div>
             <button className={s.actionBtn} onClick={doCompare} disabled={loading || !plaintext.trim() || !hashInput.trim()}>
-              {loading ? 'Verificando…' : 'Verificar'}
+              {loading ? t.bcVerifying : t.bcVerifyBtn}
             </button>
             {cmpResult !== null && (
               <div className={`${s.cmpResult} ${cmpResult ? s.cmpOk : s.cmpFail}`}>
                 {cmpResult
-                  ? <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Coincide — hash válido</>
-                  : <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> No coincide</>
+                  ? <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> {t.bcMatch}</>
+                  : <><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> {t.bcNoMatch}</>
                 }
               </div>
             )}

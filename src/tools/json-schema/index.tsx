@@ -3,6 +3,7 @@ import Ajv from 'ajv'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './schema.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -40,6 +41,7 @@ export default function JSONSchema() {
   const [schema, setSchema] = useState('')
   const [data,   setData]   = useState('')
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const result = validateAgainstSchema(schema, data)
 
@@ -49,7 +51,7 @@ export default function JSONSchema() {
     addToHistory({
       toolId: 'json-schema', toolName: 'JSON Schema', badge: 'JSV',
       categoryName: 'Formateadores',
-      description: result.status === 'valid' ? 'Validación OK' : 'Validación fallida',
+      description: result.status === 'valid' ? t.schemaValidationOk : t.schemaValidationFailed,
     })
   }, [debouncedData]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -81,14 +83,14 @@ export default function JSONSchema() {
 
         <div className={s.resultBox}>
           {result.status === 'idle' && (
-            <span className={s.idle}>Introduce schema y data para validar</span>
+            <span className={s.idle}>{t.schemaEmpty}</span>
           )}
           {result.status === 'valid' && (
             <div className={s.valid}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
-              Válido — el data cumple el schema
+              {t.schemaValid}
             </div>
           )}
           {result.status === 'invalid' && (
@@ -97,7 +99,7 @@ export default function JSONSchema() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
                 </svg>
-                {result.errors.length} error{result.errors.length !== 1 ? 'es' : ''}
+                {result.errors.length} {result.errors.length !== 1 ? t.schemaErrors : t.schemaError}
               </div>
               <ul className={s.errorList}>
                 {result.errors.map((e, i) => <li key={i}>{e}</li>)}

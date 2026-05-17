@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './rsa.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -35,6 +36,7 @@ export default function RSAKeys() {
   const [copiedPub,  setCopiedPub]  = useState(false)
   const [copiedSec,  setCopiedSec]  = useState(false)
   const { addToHistory } = useDevTools()
+  const { t, lang } = useLang()
 
   const generate = useCallback(async () => {
     setState({ status: 'loading' })
@@ -47,7 +49,7 @@ export default function RSAKeys() {
         description: `Par RSA-${size} (SHA-256 / JWK)`,
       })
     } catch (e) {
-      setState({ status: 'error', message: e instanceof Error ? e.message : 'Error generando claves' })
+      setState({ status: 'error', message: e instanceof Error ? e.message : t.rsaError })
     }
   }, [size, addToHistory])
 
@@ -78,8 +80,8 @@ export default function RSAKeys() {
       <div className={s.layout}>
         <button className={s.genBtn} onClick={generate} disabled={state.status === 'loading'}>
           {state.status === 'loading'
-            ? <><span className={s.spinner} /> Generando RSA-{size}…</>
-            : `Generar par RSA-${size}`
+            ? <><span className={s.spinner} /> {lang === 'en' ? `Generating RSA-${size}…` : `Generando RSA-${size}…`}</>
+            : lang === 'en' ? `Generate RSA-${size} pair` : `Generar par RSA-${size}`
           }
         </button>
 
@@ -89,15 +91,15 @@ export default function RSAKeys() {
           <div className={s.keyPairs}>
             <div className={s.keyBox}>
               <div className={s.keyHeader}>
-                <span className={s.keyLabel}>Clave pública (JWK)</span>
-                <button className={s.copyBtn} onClick={copyPub}>{copiedPub ? '✓ Copiada' : 'Copiar'}</button>
+                <span className={s.keyLabel}>{t.rsaPublic}</span>
+                <button className={s.copyBtn} onClick={copyPub}>{copiedPub ? t.tcCopiedKey : t.tcCopy}</button>
               </div>
               <pre className={s.keyText}>{state.pubJwk}</pre>
             </div>
             <div className={s.keyBox}>
               <div className={s.keyHeader}>
-                <span className={s.keyLabel}>Clave secreta (JWK)</span>
-                <button className={s.copyBtn} onClick={copySec}>{copiedSec ? '✓ Copiada' : 'Copiar'}</button>
+                <span className={s.keyLabel}>{t.rsaPrivate}</span>
+                <button className={s.copyBtn} onClick={copySec}>{copiedSec ? t.tcCopiedKey : t.tcCopy}</button>
               </div>
               <pre className={s.keyText}>{state.secJwk}</pre>
             </div>
@@ -106,7 +108,7 @@ export default function RSAKeys() {
 
         {state.status === 'idle' && (
           <div className={s.note}>
-            Generación 100% local via Web Crypto API. Formato JWK (JSON Web Key, RFC 7517). Las claves nunca salen del navegador.
+            {t.rsaNote}
           </div>
         )}
       </div>

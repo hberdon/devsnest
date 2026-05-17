@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './case.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -29,6 +30,7 @@ export default function CaseConverter() {
   const [input,  setInput]  = useState('')
   const [copied, setCopied] = useState<string | null>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   function copyCase(id: string, value: string) {
     navigator.clipboard.writeText(value).catch(() => {})
@@ -47,12 +49,12 @@ export default function CaseConverter() {
     <ToolLayout toolId="case-converter">
       <div className={s.layout}>
         <div className={s.inputSection}>
-          <label className={s.label}>Texto de entrada</label>
+          <label className={s.label}>{t.caseInput}</label>
           <input
             className={s.input}
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Escribe texto, camelCase, snake_case, etc."
+            placeholder={t.casePlaceholder}
             spellCheck={false}
           />
         </div>
@@ -69,7 +71,7 @@ export default function CaseConverter() {
                   onClick={() => copyCase(id, value)}
                   disabled={!value}
                 >
-                  {copied === id ? '✓ Copiado' : 'Copiar'}
+                  {copied === id ? t.tcCopied : t.tcCopy}
                 </button>
               </div>
             )

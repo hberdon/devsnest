@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './regex.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -37,7 +38,7 @@ function runRegex(pattern: string, flags: Set<Flag>, input: string): RegexResult
     if (last < input.length) segments.push({ text: input.slice(last), match: false })
     return { matches, highlighted: segments.length ? segments : [{ text: input, match: false }] }
   } catch (e) {
-    return { matches: [], highlighted: [{ text: input, match: false }], error: e instanceof Error ? e.message : 'Regex inválido' }
+    return { matches: [], highlighted: [{ text: input, match: false }], error: e instanceof Error ? e.message : 'regex_invalid' }
   }
 }
 
@@ -46,6 +47,7 @@ export default function RegexTester() {
   const [flags,   setFlags]   = useState<Set<Flag>>(new Set(['g']))
   const [input,   setInput]   = useState('')
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const debouncedPattern = useDebounce(pattern, 400)
   const result = useMemo(() => runRegex(debouncedPattern, flags, input), [debouncedPattern, flags, input])
@@ -91,21 +93,21 @@ export default function RegexTester() {
                 key={f}
                 className={`${s.flagBtn} ${flags.has(f) ? s.flagActive : ''}`}
                 onClick={() => toggleFlag(f)}
-                title={{ g: 'global', i: 'insensible', m: 'multilinea', s: 'dotAll' }[f]}
+                title={{ g: t.regexGlobal, i: t.regexCaseInsensitive, m: t.regexMultiline, s: t.regexDotAll }[f]}
               >{f}</button>
             ))}
           </div>
         </div>
-        {result.error && <span className={ts.error}>{result.error}</span>}
+        {result.error && <span className={ts.error}>{result.error === 'regex_invalid' ? t.regexInvalid : result.error}</span>}
 
         {/* Test string */}
         <div className={s.section}>
-          <div className={s.sectionLabel}>Cadena de prueba</div>
+          <div className={s.sectionLabel}>{t.regexInput}</div>
           <textarea
             className={`${ts.textarea} ${s.testArea}`}
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Escribe o pega el texto a probar…"
+            placeholder={t.regexInputPlaceholder}
             spellCheck={false}
           />
         </div>
@@ -114,7 +116,7 @@ export default function RegexTester() {
         {input && (
           <div className={s.section}>
             <div className={s.sectionLabel}>
-              Coincidencias
+              {t.regexMatches}
               {result.matches.length > 0 && <span className={s.matchCount}>{result.matches.length}</span>}
             </div>
             <div className={s.highlighted}>
@@ -130,7 +132,7 @@ export default function RegexTester() {
         {/* Groups */}
         {result.matches.length > 0 && result.matches[0].length > 1 && (
           <div className={s.section}>
-            <div className={s.sectionLabel}>Grupos (match 1)</div>
+            <div className={s.sectionLabel}>{t.regexGroups}</div>
             <div className={s.groups}>
               {result.matches[0].slice(1).map((g, i) => (
                 <div key={i} className={s.groupRow}>

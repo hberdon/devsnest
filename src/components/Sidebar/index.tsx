@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
-import { VISIBLE_CATEGORIES as CATEGORIES, type CategoryId } from '@/tools/registry'
+import { type CategoryId } from '@/tools/registry'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useCmdK } from '@/store/cmd-palette.context'
 import { useLang } from '@/store/lang.context'
+import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './Sidebar.module.css'
 
 const DEFAULT_EXPANDED = new Set<CategoryId>(['conv'])
@@ -18,6 +19,7 @@ export function Sidebar() {
   const { pinned } = useDevTools()
   const { open: openCmdK } = useCmdK()
   const { t } = useLang()
+  const { visibleCategories: CATEGORIES } = useLocalizedRegistry()
   const isDashboard  = location.pathname === '/'
   const activeToolId = location.pathname.startsWith('/tools/')
     ? location.pathname.slice('/tools/'.length)

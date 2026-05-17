@@ -3,6 +3,7 @@ import { ToolLayout } from '@/components/ToolLayout'
 import { Icon } from '@/components/Icon'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import { formatXML, humanSize } from '@/tools/utils/formatters'
 import s from './XMLFormatter.module.css'
 
@@ -34,7 +35,7 @@ function parseXML(text: string): ParseResult {
   return { ok: true, doc }
 }
 
-function buildXMLTree(node: Element, key: string, depth: number): TreeNode {
+function buildXMLTree(node: Element, key: string, depth: number, emptyLabel = '(empty)'): TreeNode {
   const children: TreeNode[] = []
 
   Array.from(node.attributes ?? []).forEach(attr => {
@@ -62,17 +63,17 @@ function buildXMLTree(node: Element, key: string, depth: number): TreeNode {
   order.forEach(name => {
     const els = grouped[name]
     if (els.length === 1) {
-      children.push(buildXMLTree(els[0], name, depth + 1))
+      children.push(buildXMLTree(els[0], name, depth + 1, emptyLabel))
     } else {
       children.push({
         kind: 'array', key: name, count: els.length, depth: depth + 1,
-        children: els.map((el, i) => buildXMLTree(el, String(i), depth + 2)),
+        children: els.map((el, i) => buildXMLTree(el, String(i), depth + 2, emptyLabel)),
       })
     }
   })
 
   if (children.length === 0) {
-    return { kind: 'leaf', key, display: '(vacío)', vtype: 'Null', depth }
+    return { kind: 'leaf', key, display: emptyLabel, vtype: 'Null', depth }
   }
   return { kind: 'object', key, children, depth }
 }
@@ -148,6 +149,7 @@ export default function XMLFormatter() {
   const textareaRef             = useRef<HTMLTextAreaElement>(null)
   const gutterRef               = useRef<HTMLDivElement>(null)
   const { addToHistory }        = useDevTools()
+  const { t } = useLang()
 
   useEffect(() => {
     if (!menuOpen) return
@@ -165,7 +167,7 @@ export default function XMLFormatter() {
   const byteSize  = new TextEncoder().encode(input).length
   const errorLine = result && !result.ok ? result.line : 0
 
-  const tree  = result?.ok ? buildXMLTree(result.doc.documentElement, result.doc.documentElement.nodeName, 0) : null
+  const tree  = result?.ok ? buildXMLTree(result.doc.documentElement, result.doc.documentElement.nodeName, 0, t.xmlEmpty) : null
   const stats = result?.ok ? computeStats(result.doc) : null
 
   const debouncedInput = useDebounce(input, 1200)
@@ -174,7 +176,7 @@ export default function XMLFormatter() {
     addToHistory({
       toolId: 'xml', toolName: 'XML', badge: 'XML',
       categoryName: 'Formateadores',
-      description: `Validado · ${humanSize(byteSize)}`,
+      description: `${t.xmlValidated} · ${humanSize(byteSize)}`,
     })
   }, [debouncedInput]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -221,14 +223,14 @@ export default function XMLFormatter() {
             <strong>XML</strong>
             {byteSize > 0 && (
               <span className={s.cardMeta}>
-                UTF-8 · {humanSize(byteSize)} · {lineCount} líneas
+                UTF-8 · {humanSize(byteSize)} · {lineCount} {t.tcLines}
               </span>
             )}
             <div ref={menuRef} className={s.menuWrap}>
               <button
                 className={`${s.moreBtn} ${menuOpen ? s.moreBtnActive : ''}`}
                 onClick={() => setMenuOpen(o => !o)}
-                title="Acciones"
+                title={t.tcActions}
               >
                 <Icon name="more" size={18} />
               </button>
@@ -236,28 +238,28 @@ export default function XMLFormatter() {
                 <div className={s.menu}>
                   <button className={s.menuItem} disabled={!result?.ok} onClick={() => { handleFormat(); setMenuOpen(false) }}>
                     <Icon name="cat-fmt" size={12} />
-                    Formatear
+                    {t.tcFormat}
                   </button>
                   <button className={s.menuItem} disabled={!result?.ok} onClick={() => { handleMinify(); setMenuOpen(false) }}>
                     <Icon name="minify" size={12} />
-                    Minificar
+                    {t.tcMinify}
                   </button>
                   <div className={s.menuSep} />
                   <button className={s.menuItem} onClick={() => { fileInputRef.current?.click(); setMenuOpen(false) }}>
                     <Icon name="upload" size={12} />
-                    Cargar fichero
+                    {t.tcLoadFile}
                   </button>
                   <button className={s.menuItem} onClick={() => { navigator.clipboard.readText().then(setInput).catch(() => {}); setMenuOpen(false) }}>
                     <Icon name="paste" size={12} />
-                    Pegar
+                    {t.tcPaste}
                   </button>
                   <button className={s.menuItem} disabled={byteSize === 0} onClick={() => { navigator.clipboard.writeText(input).catch(() => {}); setMenuOpen(false) }}>
                     <Icon name="copy" size={12} />
-                    Copiar XML
+                    {t.xmlCopyXml}
                   </button>
                   <button className={s.menuItem} disabled={byteSize === 0} onClick={() => { setInput(''); setMenuOpen(false) }}>
                     <Icon name="trash" size={12} />
-                    Limpiar editor
+                    {t.tcClearEditor}
                   </button>
                   <div className={s.menuSep} />
                   <button
@@ -274,7 +276,7 @@ export default function XMLFormatter() {
                     }}
                   >
                     <Icon name="download" size={12} />
-                    Exportar XML
+                    {t.xmlExportXml}
                   </button>
                 </div>
               )}
@@ -306,7 +308,7 @@ export default function XMLFormatter() {
           </div>
 
           {result && !result.ok && errorLine > 0 && (
-            <div className={s.annotation}>↑ error línea {errorLine}</div>
+            <div className={s.annotation}>{t.jsonErrorLine} {errorLine}</div>
           )}
         </div>
 
@@ -317,8 +319,8 @@ export default function XMLFormatter() {
           <div className={s.statusCard}>
             {!result ? (
               <div className={`${s.statusHeader} ${s.statusHeaderEmpty}`}>
-                <strong>Listo para validar</strong>
-                <span className={s.statusMeta}>pega tu XML a la izquierda</span>
+                <strong>{t.jsonReadyToValidate}</strong>
+                <span className={s.statusMeta}>{t.xmlPasteLeft}</span>
               </div>
             ) : result.ok ? (
               <>
@@ -326,18 +328,18 @@ export default function XMLFormatter() {
                   <div className={`${s.statusIcon} ${s.statusIconValid}`}>
                     <Icon name="check" size={12} color="#10b981" strokeWidth={2.5} />
                   </div>
-                  <strong>XML válido</strong>
-                  <span className={s.statusMeta}>0 errores · 0 warnings</span>
+                  <strong>{t.xmlValid}</strong>
+                  <span className={s.statusMeta}>{t.jsonNoErrors}</span>
                 </div>
                 <div className={s.statusBody}>
-                  <div className={s.statusMsg}>Sintaxis correcta, estructura verificada.</div>
+                  <div className={s.statusMsg}>{t.jsonSyntaxOk}</div>
                   {stats && (
                     <div className={s.chips}>
                       <span className={s.chip}>UTF-8</span>
                       <span className={s.chip}>{humanSize(byteSize)}</span>
-                      <span className={s.chip}>profundidad {stats.depth}</span>
-                      <span className={s.chip}>{stats.elements} elementos</span>
-                      {stats.attrs > 0 && <span className={s.chip}>{stats.attrs} atributos</span>}
+                      <span className={s.chip}>{t.tcDepth} {stats.depth}</span>
+                      <span className={s.chip}>{stats.elements} {t.xmlElements}</span>
+                      {stats.attrs > 0 && <span className={s.chip}>{stats.attrs} {t.xmlAttributes}</span>}
                     </div>
                   )}
                 </div>
@@ -348,8 +350,8 @@ export default function XMLFormatter() {
                   <div className={`${s.statusIcon} ${s.statusIconInvalid}`}>
                     <Icon name="warn" size={12} color="#b91c1c" />
                   </div>
-                  <strong>XML inválido</strong>
-                  <span className={s.statusMeta}>1 error · 0 warnings</span>
+                  <strong>{t.xmlInvalid}</strong>
+                  <span className={s.statusMeta}>{t.jsonOneError}</span>
                 </div>
                 <div className={s.statusBody}>
                   <div className={s.errorList}>
@@ -368,8 +370,8 @@ export default function XMLFormatter() {
           {/* Tree */}
           <div className={s.treeCard}>
             <div className={s.treeHeader}>
-              <strong>Árbol</strong>
-              <span className={s.treeMeta}>&nbsp;· navegable</span>
+              <strong>{t.tcTree}</strong>
+              <span className={s.treeMeta}>&nbsp;· {t.tcNavigable}</span>
             </div>
             <div className={s.treeBody}>
               {tree ? (
@@ -377,8 +379,8 @@ export default function XMLFormatter() {
               ) : (
                 <span className={s.treePlaceholder}>
                   {result && !result.ok
-                    ? 'Corrige el XML para ver el árbol'
-                    : 'El árbol aparecerá aquí'
+                    ? t.xmlFixForTree
+                    : t.xmlTreeHere
                   }
                 </span>
               )}
@@ -386,9 +388,9 @@ export default function XMLFormatter() {
             {stats && (
               <div className={s.treeFooter}>
                 {[
-                  `${stats.elements} elementos`,
-                  stats.attrs > 0 ? `${stats.attrs} atributos` : '',
-                  `profundidad ${stats.depth}`,
+                  `${stats.elements} ${t.xmlElements}`,
+                  stats.attrs > 0 ? `${stats.attrs} ${t.xmlAttributes}` : '',
+                  `${t.tcDepth} ${stats.depth}`,
                   stats.textNodes > 0 ? `${stats.textNodes} textos` : '',
                 ].filter(Boolean).join(' · ')}
               </div>

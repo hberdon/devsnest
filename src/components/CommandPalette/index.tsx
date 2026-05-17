@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
-import { ALL_TOOLS, type ToolMeta } from '@/tools/registry'
+import type { ToolMeta } from '@/tools/registry'
 import { useCmdK } from '@/store/cmd-palette.context'
 import { useLang } from '@/store/lang.context'
+import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './CommandPalette.module.css'
 
 // ── Search scoring ────────────────────────────────────────────────────────
@@ -42,6 +43,7 @@ export function CommandPalette() {
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const { t } = useLang()
+  const { allTools: ALL_TOOLS } = useLocalizedRegistry()
 
   // Reset on open
   useEffect(() => {

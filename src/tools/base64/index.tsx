@@ -4,6 +4,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './Base64.module.css'
 
 // ── Encode / decode helpers ────────────────────────────────────────────────
@@ -25,7 +26,7 @@ function decode(b64: string): { ok: true; text: string } | { ok: false; error: s
     const bytes      = Uint8Array.from(binary, c => c.charCodeAt(0))
     return { ok: true, text: new TextDecoder().decode(bytes) }
   } catch {
-    return { ok: false, error: 'Base64 inválido' }
+    return { ok: false, error: 'invalid' }
   }
 }
 
@@ -41,6 +42,7 @@ export default function Base64() {
   const [urlSafe,  setUrlSafe] = useState(false)
   const [noPad,    setNoPad]   = useState(false)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const isEncode = direction === 'encode'
 
@@ -48,7 +50,7 @@ export default function Base64() {
   const output = isEncode
     ? encode(input, urlSafe, noPad)
     : (decode(input).ok ? (decode(input) as { ok: true; text: string }).text : '')
-  const decodeError = !isEncode && input ? (decode(input).ok ? '' : (decode(input) as { ok: false; error: string }).error) : ''
+  const decodeError = !isEncode && input ? (decode(input).ok ? '' : t.b64Invalid) : ''
 
   // Register in history after user settles (1.5s debounce)
   const debouncedInput = useDebounce(input, 1500)
@@ -83,13 +85,13 @@ export default function Base64() {
     <>
       <label className={s.checkbox}>
         <span className={`${s.checkboxBox} ${urlSafe ? s.checked : ''}`} onClick={() => setUrlSafe(v => !v)} />
-        URL-safe
+        {t.b64UrlSafe}
       </label>
       <label className={s.checkbox}>
         <span className={`${s.checkboxBox} ${noPad ? s.checked : ''}`} onClick={() => setNoPad(v => !v)} />
-        Sin padding
+        {t.b64NoPadding}
       </label>
-      <span className={s.autoNote}>auto-actualiza</span>
+      <span className={s.autoNote}>{t.tcAutoUpdates}</span>
     </>
   )
 
@@ -104,7 +106,7 @@ export default function Base64() {
     <ToolLayout toolId="base64" actions={swapAction}>
       <SplitPane
         primary={{
-          label:   isEncode ? 'Entrada (texto)' : 'Entrada (Base64)',
+          label:   isEncode ? t.b64InputText : t.b64InputB64,
           meta:    inputMeta,
           onPaste: handlePasteInput,
           content: (
@@ -112,14 +114,14 @@ export default function Base64() {
               className={s.textarea}
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder={isEncode ? 'Escribe o pega texto…' : 'Pega el Base64 aquí…'}
+              placeholder={isEncode ? t.b64PlaceholderText : t.b64PlaceholderB64}
               spellCheck={false}
             />
           ),
           footer: checkboxFooter,
         }}
         secondary={{
-          label:  isEncode ? 'Salida (Base64)' : 'Salida (texto)',
+          label:  isEncode ? t.b64OutputB64 : t.b64OutputText,
           meta:   outputMeta,
           onCopy: output ? handleCopyOutput : undefined,
           content: decodeError

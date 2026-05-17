@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './color.module.css'
 
 // ── Color math ────────────────────────────────────────────────────────────
@@ -67,6 +68,7 @@ function parseColor(input: string): RGB | null {
 export default function ColorTool() {
   const [input, setInput]   = useState('#5f36fe')
   const { addToHistory }    = useDevTools()
+  const { t } = useLang()
   const debounced           = useDebounce(input, 1200)
 
   const rgb = parseColor(input)
@@ -91,7 +93,7 @@ export default function ColorTool() {
       <div className={s.layout}>
         {/* Input */}
         <div className={s.inputSection}>
-          <label className={s.inputLabel}>Valor de color</label>
+          <label className={s.inputLabel}>{t.colorPicker}</label>
           <div className={s.inputRow}>
             <input
               className={s.textInput}
@@ -106,12 +108,12 @@ export default function ColorTool() {
                 className={s.colorPicker}
                 value={hex ?? '#000000'}
                 onChange={e => setInput(e.target.value)}
-                title="Selector de color"
+                title={t.colorPicker}
               />
             )}
           </div>
           {!rgb && input && (
-            <div className={s.parseError}>Formato no reconocido. Usa #hex, rgb(...) o hsl(...)</div>
+            <div className={s.parseError}>{t.colorInvalid}</div>
           )}
         </div>
 
@@ -137,7 +139,7 @@ export default function ColorTool() {
           </div>
         ) : (
           <div className={s.emptyState}>
-            Introduce un color para ver su conversión
+            {t.colorEmpty}
           </div>
         )}
       </div>
@@ -150,7 +152,7 @@ function FormatRow({ label, value, onCopy }: { label: string; value: string; onC
     <div className={s.formatRow}>
       <span className={s.formatLabel}>{label}</span>
       <code className={s.formatValue}>{value}</code>
-      <button className={s.copyBtn} onClick={onCopy} title="Copiar">
+      <button className={s.copyBtn} onClick={onCopy}>
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
         </svg>

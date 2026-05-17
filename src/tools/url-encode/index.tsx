@@ -4,6 +4,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from '@/tools/tool.module.css'
 
 type Mode      = 'component' | 'uri'
@@ -21,7 +22,7 @@ function tryDecode(text: string): { ok: true; text: string } | { ok: false; erro
   try {
     return { ok: true, text: decodeURIComponent(text) }
   } catch {
-    return { ok: false, error: 'URL encoding inválido' }
+    return { ok: false, error: 'url_invalid' }
   }
 }
 
@@ -30,6 +31,7 @@ export default function URLEncode() {
   const [mode, setMode]       = useState<Mode>('component')
   const [direction, setDir]   = useState<Direction>('encode')
   const { addToHistory }      = useDevTools()
+  const { t } = useLang()
   const debounced             = useDebounce(input, 1500)
 
   const isEncode = direction === 'encode'
@@ -39,7 +41,7 @@ export default function URLEncode() {
     : tryDecode(input)
 
   const output   = result.ok ? result.text : ''
-  const errorMsg = !result.ok ? result.error : ''
+  const errorMsg = !result.ok ? t.urlInvalid : ''
 
   useEffect(() => {
     if (!debounced || !output) return
@@ -71,7 +73,7 @@ export default function URLEncode() {
     <ToolLayout toolId="url-encode" actions={swapAction}>
       <SplitPane
         primary={{
-          label: isEncode ? 'Texto sin codificar' : 'URL codificada',
+          label: isEncode ? t.urlInputText : t.urlInputEncoded,
           onPaste: () => navigator.clipboard.readText().then(t => setInput(t)).catch(() => {}),
           content: (
             <textarea
@@ -84,7 +86,7 @@ export default function URLEncode() {
           ),
         }}
         secondary={{
-          label: isEncode ? 'URL codificada' : 'Texto decodificado',
+          label: isEncode ? t.urlOutputEncoded : t.urlOutputDecoded,
           onCopy: output ? () => navigator.clipboard.writeText(output).catch(() => {}) : undefined,
           content: errorMsg
             ? <span className={s.error}>{errorMsg}</span>

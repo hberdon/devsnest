@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { diffLines } from 'diff'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './diff.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -9,6 +10,7 @@ export default function Diff() {
   const [left,  setLeft]  = useState('')
   const [right, setRight] = useState('')
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const changes = useMemo(() => {
     if (!left && !right) return null
@@ -36,7 +38,7 @@ export default function Diff() {
       <div className={s.layout}>
         <div className={s.inputs}>
           <div className={s.pane}>
-            <div className={s.paneHeader}>Original</div>
+            <div className={s.paneHeader}>{t.diffOriginal}</div>
             <textarea
               className={ts.textarea}
               style={{ padding: '10px 12px' }}
@@ -48,7 +50,7 @@ export default function Diff() {
             />
           </div>
           <div className={s.pane}>
-            <div className={s.paneHeader}>Modificado</div>
+            <div className={s.paneHeader}>{t.diffModified}</div>
             <textarea
               className={ts.textarea}
               style={{ padding: '10px 12px' }}
@@ -63,10 +65,10 @@ export default function Diff() {
 
         {stats && (
           <div className={s.statsBar}>
-            <span className={s.added}>+{stats.added} añadidas</span>
-            <span className={s.removed}>−{stats.removed} eliminadas</span>
+            <span className={s.added}>+{stats.added} {t.diffAdded}</span>
+            <span className={s.removed}>−{stats.removed} {t.diffRemoved}</span>
             {stats.added === 0 && stats.removed === 0 && (
-              <span className={s.same}>Sin cambios</span>
+              <span className={s.same}>{t.diffNoChanges}</span>
             )}
           </div>
         )}
@@ -86,7 +88,7 @@ export default function Diff() {
         )}
 
         {!changes && (
-          <div className={s.emptyState}>Pega texto en ambos paneles para ver el diff</div>
+          <div className={s.emptyState}>{t.diffEmpty}</div>
         )}
       </div>
     </ToolLayout>

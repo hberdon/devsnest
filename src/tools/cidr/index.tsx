@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './cidr.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -53,21 +54,23 @@ function parseCIDR(cidr: string): CIDRInfo | null {
   }
 }
 
-const ROWS: { key: keyof CIDRInfo; label: string; format?: (v: CIDRInfo[keyof CIDRInfo]) => string }[] = [
-  { key: 'network',     label: 'Red'              },
-  { key: 'subnetMask',  label: 'Máscara'          },
-  { key: 'wildcard',    label: 'Wildcard'         },
-  { key: 'firstHost',   label: 'Primera IP'       },
-  { key: 'lastHost',    label: 'Última IP'        },
-  { key: 'broadcast',   label: 'Broadcast'        },
-  { key: 'totalHosts',  label: 'Total IPs',        format: v => Number(v).toLocaleString('es') },
-  { key: 'usableHosts', label: 'IPs utilizables',  format: v => Number(v).toLocaleString('es') },
-]
-
 export default function CIDR() {
   const [input,  setInput]  = useState('192.168.1.0/24')
   const [copied, setCopied] = useState<string | null>(null)
   const { addToHistory } = useDevTools()
+  const { t, lang } = useLang()
+  const locale = lang === 'es' ? 'es' : 'en'
+
+  const ROWS: { key: keyof CIDRInfo; label: string; format?: (v: CIDRInfo[keyof CIDRInfo]) => string }[] = [
+    { key: 'network',     label: t.cidrNetwork   },
+    { key: 'subnetMask',  label: t.cidrMask      },
+    { key: 'wildcard',    label: t.cidrWildcard  },
+    { key: 'firstHost',   label: t.cidrFirstIp   },
+    { key: 'lastHost',    label: t.cidrLastIp    },
+    { key: 'broadcast',   label: t.cidrBroadcast },
+    { key: 'totalHosts',  label: t.cidrTotal,     format: v => Number(v).toLocaleString(locale) },
+    { key: 'usableHosts', label: t.cidrUsable,    format: v => Number(v).toLocaleString(locale) },
+  ]
 
   const info   = useMemo(() => parseCIDR(input), [input])
   const isErr  = input.trim() !== '' && !info
@@ -80,7 +83,7 @@ export default function CIDR() {
       addToHistory({
         toolId: 'cidr', toolName: 'CIDR', badge: '/24',
         categoryName: 'Red',
-        description: `${input} → ${info.totalHosts.toLocaleString('es')} IPs`,
+        description: `${input} → ${info.totalHosts.toLocaleString(locale)} IPs`,
       })
     }
   }
@@ -89,7 +92,7 @@ export default function CIDR() {
     <ToolLayout toolId="cidr">
       <div className={s.layout}>
         <div className={s.inputSection}>
-          <label className={s.label}>Notación CIDR</label>
+          <label className={s.label}>{t.cidrLabel}</label>
           <input
             className={`${s.input} ${isErr ? s.inputErr : ''}`}
             value={input}
@@ -97,12 +100,12 @@ export default function CIDR() {
             placeholder="192.168.1.0/24"
             spellCheck={false}
           />
-          {isErr && <span className={ts.error}>Formato inválido — usa x.x.x.x/n (ej. 10.0.0.0/8)</span>}
+          {isErr && <span className={ts.error}>{t.cidrInvalid}</span>}
         </div>
 
         {info && (
           <>
-            <div className={s.badge}>/{info.prefix} — {info.usableHosts.toLocaleString('es')} IPs utilizables</div>
+            <div className={s.badge}>/{info.prefix} — {info.usableHosts.toLocaleString(locale)} {t.cidrUsableLabel}</div>
             <div className={s.results}>
               {ROWS.map(({ key, label, format }) => {
                 const raw = info[key]

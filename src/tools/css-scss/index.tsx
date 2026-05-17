@@ -3,12 +3,14 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import { formatCSS, humanSize } from '@/tools/utils/formatters'
 import s from '@/tools/tool.module.css'
 
 export default function CSSFormatter() {
   const [input, setInput] = useState('')
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const result = formatCSS(input)
   const output     = result.ok ? result.output : ''
@@ -40,10 +42,10 @@ export default function CSSFormatter() {
               spellCheck={false}
             />
           ),
-          footer: <span className={s.autoNote}>auto-formatea</span>,
+          footer: <span className={s.autoNote}>{t.tcAutoFormats}</span>,
         }}
         secondary={{
-          label: 'Formateado',
+          label: t.cssFormatted,
           meta: outputMeta,
           onCopy: output ? () => navigator.clipboard.writeText(output).catch(() => {}) : undefined,
           content: error

@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './ip.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -22,23 +23,24 @@ async function fetchIP(ip: string): Promise<IPData> {
   return data as IPData
 }
 
-const ROWS: { key: keyof IPData; label: string }[] = [
-  { key: 'ip',           label: 'IP'        },
-  { key: 'city',         label: 'Ciudad'    },
-  { key: 'region',       label: 'Región'    },
-  { key: 'country_name', label: 'País'      },
-  { key: 'org',          label: 'Org / ISP' },
-  { key: 'timezone',     label: 'Zona horaria' },
-  { key: 'utc_offset',   label: 'UTC offset' },
-  { key: 'latitude',     label: 'Latitud'   },
-  { key: 'longitude',    label: 'Longitud'  },
-]
-
 export default function IPLookup() {
   const [input, setInput] = useState('')
   const [state, setState] = useState<State>({ status: 'idle' })
   const [copied, setCopied] = useState<keyof IPData | null>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
+
+  const ROWS: { key: keyof IPData; label: string }[] = [
+    { key: 'ip',           label: t.ipLabelIp      },
+    { key: 'city',         label: t.ipLabelCity    },
+    { key: 'region',       label: t.ipLabelRegion  },
+    { key: 'country_name', label: t.ipLabelCountry },
+    { key: 'org',          label: t.ipLabelOrg     },
+    { key: 'timezone',     label: t.ipLabelTz      },
+    { key: 'utc_offset',   label: t.ipLabelUtc     },
+    { key: 'latitude',     label: t.ipLabelLat     },
+    { key: 'longitude',    label: t.ipLabelLon     },
+  ]
 
   const lookup = useCallback(async (ip: string) => {
     setState({ status: 'loading' })
@@ -70,7 +72,7 @@ export default function IPLookup() {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && lookup(input)}
-            placeholder="1.1.1.1 — vacío para tu IP"
+            placeholder={t.ipPlaceholder}
             spellCheck={false}
           />
           <button
@@ -78,14 +80,14 @@ export default function IPLookup() {
             onClick={() => lookup(input)}
             disabled={state.status === 'loading'}
           >
-            {state.status === 'loading' ? 'Consultando…' : 'Buscar'}
+            {state.status === 'loading' ? t.ipSearching : t.ipSearch}
           </button>
           <button
             className={ts.actionBtn}
             onClick={() => { setInput(''); lookup('') }}
-            title="Detectar mi IP"
+            title={t.ipMyIp}
           >
-            Mi IP
+            {t.ipMyIp}
           </button>
         </div>
 
@@ -117,7 +119,7 @@ export default function IPLookup() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Ver en mapa ↗
+                  {t.ipViewMap}
                 </a>
               </div>
             )}
@@ -125,7 +127,7 @@ export default function IPLookup() {
         )}
 
         {state.status === 'idle' && (
-          <div className={s.empty}>Introduce una IP o haz clic en "Mi IP"</div>
+          <div className={s.empty}>{t.ipEmpty}</div>
         )}
       </div>
     </ToolLayout>

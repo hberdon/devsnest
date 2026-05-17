@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from './contador.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -26,19 +27,21 @@ function computeStats(text: string): Stats {
   return { chars, charsNoSpc, words, lines, sentences, bytes, readMinutes }
 }
 
-const STAT_ROWS: { key: keyof Stats; label: string; format?: (n: number) => string }[] = [
-  { key: 'chars',       label: 'Caracteres' },
-  { key: 'charsNoSpc',  label: 'Sin espacios' },
-  { key: 'words',       label: 'Palabras' },
-  { key: 'lines',       label: 'Líneas' },
-  { key: 'sentences',   label: 'Oraciones' },
-  { key: 'bytes',       label: 'Bytes', format: n => n < 1024 ? `${n} B` : `${(n/1024).toFixed(1)} KB` },
-  { key: 'readMinutes', label: 'Lectura',  format: n => n <= 1 ? '< 1 min' : `~${n} min` },
-]
-
 export default function Contador() {
   const [input, setInput] = useState('')
   const { addToHistory } = useDevTools()
+  const { t, lang } = useLang()
+  const locale = lang === 'es' ? 'es' : 'en'
+
+  const STAT_ROWS: { key: keyof Stats; label: string; format?: (n: number) => string }[] = [
+    { key: 'chars',       label: t.cntChars },
+    { key: 'charsNoSpc',  label: t.cntNoSpaces },
+    { key: 'words',       label: t.cntWords },
+    { key: 'lines',       label: t.cntLines },
+    { key: 'sentences',   label: t.cntSentences },
+    { key: 'bytes',       label: t.cntBytesLabel, format: n => n < 1024 ? `${n} B` : `${(n/1024).toFixed(1)} KB` },
+    { key: 'readMinutes', label: t.cntReading,    format: n => n <= 1 ? t.cntLess1Min : `~${n} min` },
+  ]
 
   const stats = useMemo(() => computeStats(input), [input])
 
@@ -61,7 +64,7 @@ export default function Contador() {
             className={`${ts.textarea} ${s.textArea}`}
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Escribe o pega texto para contar caracteres, palabras, líneas…"
+            placeholder={t.cntPlaceholder}
             spellCheck={false}
           />
         </div>
@@ -70,7 +73,7 @@ export default function Contador() {
           {STAT_ROWS.map(({ key, label, format }) => (
             <div key={key} className={s.statCard}>
               <span className={s.statValue}>
-                {format ? format(stats[key]) : stats[key].toLocaleString('es')}
+                {format ? format(stats[key]) : stats[key].toLocaleString(locale)}
               </span>
               <span className={s.statLabel}>{label}</span>
             </div>

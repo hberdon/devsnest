@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './dns.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -38,6 +39,7 @@ export default function DNS() {
   const [type,   setType]   = useState<RecordType>('A')
   const [state,  setState]  = useState<State>({ status: 'idle' })
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const lookup = useCallback(async (d: string, t: RecordType) => {
     const clean = d.trim().replace(/^https?:\/\//, '').split('/')[0]
@@ -86,7 +88,7 @@ export default function DNS() {
             onClick={() => lookup(domain, type)}
             disabled={state.status === 'loading' || !domain.trim()}
           >
-            {state.status === 'loading' ? '…' : 'Buscar'}
+            {state.status === 'loading' ? t.dnsSearching : t.dnsSearch}
           </button>
         </div>
 
@@ -95,7 +97,7 @@ export default function DNS() {
         )}
 
         {state.status === 'nxdomain' && (
-          <div className={s.empty}>No se encontraron registros {type} para <strong>{state.domain}</strong></div>
+          <div className={s.empty}>{t.dnsNoRecords} {type} <strong>{state.domain}</strong></div>
         )}
 
         {state.status === 'ok' && (
@@ -114,7 +116,7 @@ export default function DNS() {
         )}
 
         {state.status === 'idle' && (
-          <div className={s.empty}>Introduce un dominio y selecciona el tipo de registro</div>
+          <div className={s.empty}>{t.dnsEmpty}</div>
         )}
       </div>
     </ToolLayout>

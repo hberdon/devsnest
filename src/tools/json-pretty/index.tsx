@@ -3,6 +3,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import { formatJSON, minifyJSON, humanSize, type IndentSize } from '@/tools/utils/formatters'
 import s from '@/tools/tool.module.css'
 
@@ -11,6 +12,7 @@ export default function JSONPretty() {
   const [indent, setIndent] = useState<IndentSize>(2)
   const [minify, setMinify] = useState(false)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const result = minify ? minifyJSON(input) : formatJSON(input, indent)
   const output     = result.ok ? result.output : ''
@@ -23,7 +25,7 @@ export default function JSONPretty() {
     addToHistory({
       toolId: 'json-pretty', toolName: 'JSON Pretty', badge: 'JSP',
       categoryName: 'Formateadores',
-      description: minify ? `Minificado · ${outputMeta}` : `Pretty · indent ${indent}`,
+      description: minify ? `${t.jpMinifiedLabel} · ${outputMeta}` : `${t.jpPrettyLabel} · indent ${indent}`,
     })
   }, [debouncedInput]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -35,7 +37,7 @@ export default function JSONPretty() {
             key={v}
             className={`${s.segmentBtn} ${!minify && String(indent) === v ? s.segmentActive : ''}`}
             onClick={() => { setMinify(false); setIndent(v === 'tab' ? 'tab' : Number(v) as IndentSize) }}
-          >{v === 'tab' ? 'Tab' : `${v} esp`}</button>
+          >{v === 'tab' ? t.xpTab : `${v} ${t.xpSpaces}`}</button>
         ))}
       </div>
       <button
@@ -43,7 +45,7 @@ export default function JSONPretty() {
         style={minify ? { background: 'var(--color-ink)', color: '#fff' } : undefined}
         onClick={() => setMinify(v => !v)}
       >
-          Minify
+          {t.tcMinify}
       </button>
     </>
   )
@@ -63,10 +65,10 @@ export default function JSONPretty() {
               spellCheck={false}
             />
           ),
-          footer: <span className={s.autoNote}>auto-formatea</span>,
+          footer: <span className={s.autoNote}>{t.tcAutoFormats}</span>,
         }}
         secondary={{
-          label: minify ? 'Minificado' : 'Pretty',
+          label: minify ? t.jpMinifiedLabel : t.jpPrettyLabel,
           meta: outputMeta,
           onCopy: output ? () => navigator.clipboard.writeText(output).catch(() => {}) : undefined,
           content: error

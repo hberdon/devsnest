@@ -4,6 +4,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import s from '@/tools/tool.module.css'
 
 type Format  = 'hex' | 'binary'
@@ -25,7 +26,7 @@ function hexToText(hex: string): { ok: true; text: string } | { ok: false; error
     })
     return { ok: true, text: new TextDecoder().decode(new Uint8Array(bytes)) }
   } catch {
-    return { ok: false, error: 'Hex inválido — usa bytes separados por espacio (ej: 48 65 6c 6c 6f)' }
+    return { ok: false, error: 'hex_invalid' }
   }
 }
 
@@ -45,7 +46,7 @@ function binaryToText(binary: string): { ok: true; text: string } | { ok: false;
     })
     return { ok: true, text: new TextDecoder().decode(new Uint8Array(bytes)) }
   } catch {
-    return { ok: false, error: 'Binario inválido — usa bytes de 8 bits separados por espacio' }
+    return { ok: false, error: 'bin_invalid' }
   }
 }
 
@@ -54,6 +55,7 @@ export default function HexBinario() {
   const [format, setFormat]     = useState<Format>('hex')
   const [direction, setDir]     = useState<Direction>('encode')
   const { addToHistory }        = useDevTools()
+  const { t } = useLang()
   const debounced               = useDebounce(input, 1500)
 
   const isEncode = direction === 'encode'
@@ -63,7 +65,7 @@ export default function HexBinario() {
     : format === 'hex' ? hexToText(input) : binaryToText(input)
 
   const output     = result.ok ? result.text : ''
-  const errorMsg   = !result.ok ? result.error : ''
+  const errorMsg   = !result.ok ? (result.error === 'hex_invalid' ? t.hexInvalid : t.binInvalid) : ''
 
   useEffect(() => {
     if (!debounced || !output) return
@@ -91,7 +93,7 @@ export default function HexBinario() {
       {formatSelector}
       <button className={s.actionBtn} onClick={handleSwap}>
         <Icon name="swap" size={14} />
-        {isEncode ? (format === 'hex' ? 'Texto → Hex' : 'Texto → Bin') : (format === 'hex' ? 'Hex → Texto' : 'Bin → Texto')}
+        {isEncode ? (format === 'hex' ? t.hexTextToHex : t.hexTextToBin) : (format === 'hex' ? t.hexHexToText : t.hexBinToText)}
       </button>
     </>
   )
@@ -100,7 +102,7 @@ export default function HexBinario() {
     <ToolLayout toolId="hex-binario" actions={swapAction}>
       <SplitPane
         primary={{
-          label: isEncode ? 'Entrada (texto)' : `Entrada (${format.toUpperCase()})`,
+          label: isEncode ? `${t.tcInput} (texto)` : `${t.tcInput} (${format.toUpperCase()})`,
           meta: input ? `${new TextEncoder().encode(input).length} b` : '',
           onPaste: () => navigator.clipboard.readText().then(t => setInput(t)).catch(() => {}),
           content: (
@@ -114,8 +116,8 @@ export default function HexBinario() {
           ),
         }}
         secondary={{
-          label: isEncode ? `Salida (${format.toUpperCase()})` : 'Salida (texto)',
-          meta: output ? `${output.split(' ').length} bytes` : '',
+          label: isEncode ? `${t.tcOutput} (${format.toUpperCase()})` : `${t.tcOutput} (texto)`,
+          meta: output ? `${output.split(' ').length} ${t.tcBytes}` : '',
           onCopy: output ? () => navigator.clipboard.writeText(output).catch(() => {}) : undefined,
           content: errorMsg
             ? <span className={s.error}>{errorMsg}</span>

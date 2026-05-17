@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from '@/tools/tool.module.css'
 
 const WORDS = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute irure reprehenderit voluptate velit esse cillum eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt culpa qui officia deserunt mollit anim id est laborum'.split(' ')
@@ -30,6 +31,7 @@ export default function LoremIpsum() {
   const [count,  setCount]  = useState(3)
   const [output, setOutput] = useState(() => generate('paragraphs', 3))
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const regen = useCallback((m: Mode, c: number) => {
     const text = generate(m, c)
@@ -37,9 +39,9 @@ export default function LoremIpsum() {
     addToHistory({
       toolId: 'lorem-ipsum', toolName: 'Lorem Ipsum', badge: 'L',
       categoryName: 'Generadores',
-      description: `${c} ${m} generados`,
+      description: `${c} ${m} ${t.loremGeneratedSuffix}`,
     })
-  }, [addToHistory])
+  }, [addToHistory, t])
 
   function handleMode(m: Mode) { setMode(m); regen(m, count) }
   function handleCount(c: number) { setCount(c); regen(mode, c) }
@@ -48,7 +50,7 @@ export default function LoremIpsum() {
     <div className={s.segmented}>
       {(['words', 'sentences', 'paragraphs'] as const).map(m => (
         <button key={m} className={`${s.segmentBtn} ${mode === m ? s.segmentActive : ''}`} onClick={() => handleMode(m)}>
-          {m === 'words' ? 'Palabras' : m === 'sentences' ? 'Oraciones' : 'Párrafos'}
+          {m === 'words' ? t.loremWords : m === 'sentences' ? t.loremSentences : t.loremParagraphs}
         </button>
       ))}
     </div>
@@ -68,23 +70,23 @@ export default function LoremIpsum() {
     <ToolLayout toolId="lorem-ipsum" actions={<>{modeControl}{countControl}</>}>
       <SplitPane
         primary={{
-          label: 'Configuración',
+          label: t.loremConfig,
           content: (
             <div style={{ padding: '12px', color: 'var(--color-muted)', fontSize: '15px', fontFamily: 'var(--font-ui)' }}>
-              Selecciona tipo y cantidad en la barra superior, luego haz clic en Regenerar.
+              {t.loremHelp}
               <br /><br />
               <button
                 className={s.actionBtn}
                 onClick={() => regen(mode, count)}
               >
-                Regenerar
+                {t.tcRegenerate}
               </button>
             </div>
           ),
         }}
         secondary={{
           label: 'Lorem Ipsum',
-          meta: `${output.split(/\s+/).filter(Boolean).length} palabras`,
+          meta: `${output.split(/\s+/).filter(Boolean).length} ${t.loremWordsSuffix}`,
           onCopy: () => navigator.clipboard.writeText(output).catch(() => {}),
           content: <div className={s.output}>{output}</div>,
         }}

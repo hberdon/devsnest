@@ -3,6 +3,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import { formatXML, humanSize, type IndentSize } from '@/tools/utils/formatters'
 import s from '@/tools/tool.module.css'
 
@@ -10,6 +11,7 @@ export default function XMLPretty() {
   const [input,  setInput]  = useState('')
   const [indent, setIndent] = useState<IndentSize>(2)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const result = formatXML(input, indent)
   const output     = result.ok ? result.output : ''
@@ -33,7 +35,7 @@ export default function XMLPretty() {
           key={v}
           className={`${s.segmentBtn} ${String(indent) === v ? s.segmentActive : ''}`}
           onClick={() => setIndent(v === 'tab' ? 'tab' : Number(v) as IndentSize)}
-        >{v === 'tab' ? 'Tab' : `${v} esp`}</button>
+        >{v === 'tab' ? t.xpTab : `${v} ${t.xpSpaces}`}</button>
       ))}
     </div>
   )
@@ -53,10 +55,10 @@ export default function XMLPretty() {
               spellCheck={false}
             />
           ),
-          footer: <span className={s.autoNote}>auto-formatea</span>,
+          footer: <span className={s.autoNote}>{t.tcAutoFormats}</span>,
         }}
         secondary={{
-          label: 'Pretty',
+          label: t.xpPretty,
           meta: outputMeta,
           onCopy: output ? () => navigator.clipboard.writeText(output).catch(() => {}) : undefined,
           content: error

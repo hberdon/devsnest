@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { ulid } from 'ulid'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './uuid.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -20,18 +21,19 @@ export default function UUIDUlid() {
   const [ids,   setIds]   = useState<string[]>(() => generate('uuid', 5))
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
-  const regen = useCallback((t: IdType, c: number) => {
-    const next = generate(t, c)
+  const regen = useCallback((idType: IdType, c: number) => {
+    const next = generate(idType, c)
     setIds(next)
     addToHistory({
       toolId: 'uuid-ulid', toolName: 'UUID / ULID', badge: 'ID',
       categoryName: 'Generadores',
-      description: `${c} ${t.toUpperCase()}${c > 1 ? 's' : ''} generados`,
+      description: `${c} ${idType.toUpperCase()}${c > 1 ? 's' : ''} ${t.uuidGeneratedSuffix}`,
     })
-  }, [addToHistory])
+  }, [addToHistory, t])
 
-  function handleType(t: IdType) { setType(t); regen(t, count) }
+  function handleType(idType: IdType) { setType(idType); regen(idType, count) }
   function handleCount(n: number) { setCount(n); regen(type, n) }
 
   function copyOne(idx: number) {
@@ -50,7 +52,7 @@ export default function UUIDUlid() {
         <button className={`${ts.segmentBtn} ${type === 'uuid' ? ts.segmentActive : ''}`} onClick={() => handleType('uuid')}>UUID v4</button>
         <button className={`${ts.segmentBtn} ${type === 'ulid' ? ts.segmentActive : ''}`} onClick={() => handleType('ulid')}>ULID</button>
       </div>
-      <button className={ts.actionBtn} onClick={copyAll}>Copiar todos</button>
+      <button className={ts.actionBtn} onClick={copyAll}>{t.uuidCopyAll}</button>
     </>
   )
 
@@ -72,7 +74,7 @@ export default function UUIDUlid() {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
             </svg>
-            Regenerar
+            {t.tcRegenerate}
           </button>
         </div>
 

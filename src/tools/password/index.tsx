@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './pw.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -42,6 +43,7 @@ export default function Password() {
   const [pw,  setPw]  = useState(() => genPassword({ length: 16, upper: true, lower: true, digits: true, symbols: true }))
   const [copied, setCopied] = useState(false)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const regen = useCallback((c: Config) => {
     const next = genPassword(c)
@@ -73,7 +75,7 @@ export default function Password() {
       <div className={s.layout}>
         {/* Output */}
         <div className={s.outputBox}>
-          <code className={s.pwText}>{pw || <span className={s.empty}>Activa al menos una opción</span>}</code>
+          <code className={s.pwText}>{pw || <span className={s.empty}>{t.pwNoOptions}</span>}</code>
           <div className={s.outputActions}>
             {pw && <span className={s.strength} style={{ color: strColors[strScore] }}>{strLabel}</span>}
             <button className={s.iconBtn} onClick={() => regen(cfg)} title="Regenerar">
@@ -92,7 +94,7 @@ export default function Password() {
 
         {/* Length */}
         <div className={s.section}>
-          <span className={s.sectionLabel}>Longitud</span>
+          <span className={s.sectionLabel}>{t.pwLength}</span>
           <div className={s.lengthRow}>
             <input
               type="range" min={4} max={64} value={cfg.length}
@@ -105,13 +107,13 @@ export default function Password() {
 
         {/* Checkboxes */}
         <div className={s.section}>
-          <span className={s.sectionLabel}>Caracteres</span>
+          <span className={s.sectionLabel}>{t.pwChars}</span>
           <div className={s.checkGrid}>
             {([
-              { key: 'upper',   label: 'Mayúsculas',  example: 'A-Z' },
-              { key: 'lower',   label: 'Minúsculas',  example: 'a-z' },
-              { key: 'digits',  label: 'Números',     example: '0-9' },
-              { key: 'symbols', label: 'Símbolos',    example: '!@#' },
+              { key: 'upper',   label: t.pwUppercase, example: 'A-Z' },
+              { key: 'lower',   label: t.pwLowercase, example: 'a-z' },
+              { key: 'digits',  label: t.pwNumbers,   example: '0-9' },
+              { key: 'symbols', label: t.pwSymbols,   example: '!@#' },
             ] as const).map(({ key, label, example }) => (
               <label key={key} className={s.checkItem}>
                 <span

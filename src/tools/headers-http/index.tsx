@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './headers.module.css'
 import ts from '@/tools/tool.module.css'
 
@@ -24,6 +25,7 @@ export default function HeadersHTTP() {
   const [state,  setState]  = useState<State>({ status: 'idle' })
   const [copied, setCopied] = useState<number | null>(null)
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const fetch_ = useCallback(async (url: string) => {
     if (!url.trim()) return
@@ -41,7 +43,7 @@ export default function HeadersHTTP() {
       setState({
         status: 'error',
         message: msg.includes('CORS') || msg.includes('Failed to fetch')
-          ? 'CORS bloqueó la petición. El servidor no permite solicitudes cross-origin desde el navegador.'
+          ? t.httpCors
           : msg,
       })
     }
@@ -72,7 +74,7 @@ export default function HeadersHTTP() {
             onClick={() => fetch_(input)}
             disabled={state.status === 'loading' || !input.trim()}
           >
-            {state.status === 'loading' ? 'Cargando…' : 'Inspeccionar'}
+            {state.status === 'loading' ? t.httpLoading : t.httpInspect}
           </button>
         </div>
 
@@ -90,7 +92,7 @@ export default function HeadersHTTP() {
             <div className={s.statusBar}>
               <span className={`${s.statusCode} ${statusOk ? s.statusOk : s.statusErr}`}>{state.statusCode}</span>
               <span className={s.statusText}>{state.statusText}</span>
-              <span className={s.headerCount}>{state.headers.length} headers</span>
+              <span className={s.headerCount}>{state.headers.length} {t.httpHeadersSuffix}</span>
             </div>
             <div className={s.headerList}>
               {state.headers.map((h, i) => (
@@ -111,9 +113,9 @@ export default function HeadersHTTP() {
 
         {state.status === 'idle' && (
           <div className={s.note}>
-            Introduce una URL y haz clic en Inspeccionar.
+            {t.httpEmpty1}
             <br />
-            <small>Nota: muchos servidores bloquean peticiones CORS desde el navegador.</small>
+            <small>{t.httpEmpty2}</small>
           </div>
         )}
       </div>

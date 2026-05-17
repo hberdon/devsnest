@@ -2,9 +2,10 @@ import { useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import { LangPicker } from '@/components/LangPicker'
-import { ALL_TOOLS, type ToolMeta } from '@/tools/registry'
+import type { ToolMeta } from '@/tools/registry'
 import { useDevTools, type HistoryEntry } from '@/store/devtools.context'
 import { useLang } from '@/store/lang.context'
+import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './Dashboard.module.css'
 
 // ── Inline search ──────────────────────────────────────────────────────────
@@ -26,6 +27,7 @@ function HeroSearch() {
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const { t } = useLang()
+  const { allTools: ALL_TOOLS } = useLocalizedRegistry()
 
   const results = searchTools(query)
   const showDrop = focused && query.trim() !== ''

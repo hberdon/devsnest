@@ -4,6 +4,7 @@ import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/store/lang.context'
 import { humanSize } from '@/tools/utils/formatters'
 import s from './md.module.css'
 import ts from '@/tools/tool.module.css'
@@ -13,6 +14,7 @@ marked.setOptions({ breaks: true })
 export default function Markdown() {
   const [input, setInput] = useState('')
   const { addToHistory } = useDevTools()
+  const { t } = useLang()
 
   const html = input ? (marked.parse(input) as string) : ''
 
@@ -41,16 +43,16 @@ export default function Markdown() {
               spellCheck={false}
             />
           ),
-          footer: <span className={ts.autoNote}>preview en vivo</span>,
+          footer: <span className={ts.autoNote}>{t.mdPreviewLive}</span>,
         }}
         secondary={{
-          label: 'Preview',
+          label: t.mdPreviewLabel,
           meta: input ? humanSize(new TextEncoder().encode(input).length) : '',
           onCopy: html ? () => navigator.clipboard.writeText(html).catch(() => {}) : undefined,
           content: (
             <div
               className={s.preview}
-              dangerouslySetInnerHTML={{ __html: html || '<span style="color:var(--color-muted);font-size:13px">El preview aparecerá aquí</span>' }}
+              dangerouslySetInnerHTML={{ __html: html || `<span style="color:var(--color-muted);font-size:13px">${t.mdEmpty}</span>` }}
             />
           ),
         }}

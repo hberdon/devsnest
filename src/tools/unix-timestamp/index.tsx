@@ -1,22 +1,24 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ToolLayout } from '@/components/ToolLayout'
 import { useDevTools } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './ts.module.css'
 
 type Direction = 'epoch→date' | 'date→epoch'
 
-function epochToInfo(epoch: number): { local: string; utc: string; iso: string; relative: string } {
+function epochToInfo(epoch: number, locale: string): { local: string; utc: string; iso: string; relative: string } {
   const d    = new Date(epoch * 1000)
   const now  = Date.now()
   const diff = Math.round((epoch * 1000 - now) / 1000)
   const abs  = Math.abs(diff)
+  const pre  = diff > 0 ? 'in' : '-'
   let relative: string
-  if (abs < 60)           relative = diff > 0 ? `en ${abs}s` : `hace ${abs}s`
-  else if (abs < 3600)    relative = diff > 0 ? `en ${Math.round(abs/60)}m` : `hace ${Math.round(abs/60)}m`
-  else if (abs < 86400)   relative = diff > 0 ? `en ${Math.round(abs/3600)}h` : `hace ${Math.round(abs/3600)}h`
-  else                    relative = diff > 0 ? `en ${Math.round(abs/86400)}d` : `hace ${Math.round(abs/86400)}d`
+  if (abs < 60)           relative = `${pre} ${abs}s`
+  else if (abs < 3600)    relative = `${pre} ${Math.round(abs/60)}m`
+  else if (abs < 86400)   relative = `${pre} ${Math.round(abs/3600)}h`
+  else                    relative = `${pre} ${Math.round(abs/86400)}d`
   return {
-    local: d.toLocaleString('es'),
+    local: d.toLocaleString(locale),
     utc:   d.toUTCString(),
     iso:   d.toISOString(),
     relative,
@@ -28,6 +30,8 @@ export default function UnixTimestamp() {
   const [direction, setDir]     = useState<Direction>('epoch→date')
   const [now,       setNow]     = useState(() => Math.floor(Date.now() / 1000))
   const { addToHistory }        = useDevTools()
+  const { t, lang } = useLang()
+  const locale = lang === 'es' ? 'es' : 'en'
 
   // Live clock
   useEffect(() => {
@@ -42,7 +46,7 @@ export default function UnixTimestamp() {
     ? (input ? parseInt(input.trim(), 10) : null)
     : (input ? Math.floor(new Date(input.trim()).getTime() / 1000) : null)
 
-  const info   = (epoch != null && !isNaN(epoch)) ? epochToInfo(epoch) : null
+  const info   = (epoch != null && !isNaN(epoch)) ? epochToInfo(epoch, locale) : null
   const isError = input !== '' && (epoch == null || isNaN(epoch))
 
   const handleNow = useCallback(() => {
@@ -64,7 +68,7 @@ export default function UnixTimestamp() {
 
   const nowAction = (
     <button className={s.nowBtn} onClick={handleNow} title="Insertar timestamp actual">
-      Ahora → {now}
+      {t.tsNow}{now}
     </button>
   )
 
@@ -73,9 +77,9 @@ export default function UnixTimestamp() {
       <div className={s.layout}>
         {/* Live clock */}
         <div className={s.clock}>
-          <span className={s.clockLabel}>Ahora mismo</span>
+          <span className={s.clockLabel}>{t.tsNowBtn}</span>
           <span className={s.clockEpoch}>{now}</span>
-          <span className={s.clockDate}>{new Date().toLocaleString('es')}</span>
+          <span className={s.clockDate}>{new Date().toLocaleString(locale)}</span>
         </div>
 
         {/* Direction toggle */}
@@ -84,13 +88,13 @@ export default function UnixTimestamp() {
             className={`${s.dirBtn} ${isEpochToDate ? s.dirActive : ''}`}
             onClick={() => { setDir('epoch→date'); setInput('') }}
           >
-            Epoch → Fecha
+            {t.tsEpochToDate}
           </button>
           <button
             className={`${s.dirBtn} ${!isEpochToDate ? s.dirActive : ''}`}
             onClick={() => { setDir('date→epoch'); setInput('') }}
           >
-            Fecha → Epoch
+            {t.tsDateToEpoch}
           </button>
         </div>
 
@@ -105,7 +109,7 @@ export default function UnixTimestamp() {
           />
           {isError && (
             <div className={s.error}>
-              {isEpochToDate ? 'Epoch inválido — introduce un número' : 'Fecha inválida'}
+              {isEpochToDate ? t.tsInvalidEpoch : t.tsInvalidDate}
             </div>
           )}
         </div>
@@ -118,7 +122,7 @@ export default function UnixTimestamp() {
                 <InfoRow label="Local"    value={info.local}    onCopy={() => navigator.clipboard.writeText(info.local)} />
                 <InfoRow label="UTC"      value={info.utc}      onCopy={() => navigator.clipboard.writeText(info.utc)} />
                 <InfoRow label="ISO 8601" value={info.iso}      onCopy={() => navigator.clipboard.writeText(info.iso)} />
-                <InfoRow label="Relativo" value={info.relative} />
+                <InfoRow label={t.tsRelative} value={info.relative} />
               </>
             ) : (
               <>
