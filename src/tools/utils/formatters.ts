@@ -60,8 +60,8 @@ export function formatXML(input: string, indent: IndentSize = 2): FormatResult |
     .split('\x00')
     .filter(Boolean)
 
-  for (const node of nodes) {
-    const trimmed = node.trim()
+  for (let i = 0; i < nodes.length; i++) {
+    const trimmed = nodes[i].trim()
     if (!trimmed) continue
     // Closing tag
     if (trimmed.startsWith('</')) {
@@ -72,8 +72,24 @@ export function formatXML(input: string, indent: IndentSize = 2): FormatResult |
       result += `${pad.repeat(level)}${trimmed}\n`
     // Opening tag
     } else if (trimmed.startsWith('<')) {
-      result += `${pad.repeat(level)}${trimmed}\n`
-      level++
+      const gtIdx = trimmed.indexOf('>')
+      const inlineText = gtIdx !== -1 ? trimmed.slice(gtIdx + 1).trim() : ''
+      if (inlineText) {
+        // Element has inline text — peek for closing tag and combine on one line
+        const next = nodes[i + 1]?.trim()
+        const tagPart = trimmed.slice(0, gtIdx + 1)
+        const textContent = inlineText.replace(/\s+/g, ' ')
+        if (next?.startsWith('</')) {
+          result += `${pad.repeat(level)}${tagPart}${textContent}${next}\n`
+          i++
+        } else {
+          result += `${pad.repeat(level)}${trimmed}\n`
+          level++
+        }
+      } else {
+        result += `${pad.repeat(level)}${trimmed}\n`
+        level++
+      }
     // Text content
     } else {
       result += `${pad.repeat(level)}${trimmed}\n`

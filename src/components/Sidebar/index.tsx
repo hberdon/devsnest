@@ -38,13 +38,6 @@ export function Sidebar() {
           {'</>'}
         </div>
 
-        {/* Buscar — solo fuera del dashboard */}
-        {!isDashboard && (
-          <div className={`${s.railCell} ${s.railDashed}`} title="Ctrl+F · Buscar" style={{ height: 36, width: 42 }} onClick={openCmdK}>
-            <Icon name="search" size={16} />
-          </div>
-        )}
-
         {/* Anclados */}
         {pinned.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, marginTop: 4 }}>
@@ -105,7 +98,7 @@ export function Sidebar() {
   return (
     <aside className={`${s.sidebar} ${s.expanded}`}>
       <div className={s.logoRow}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'inherit', flex: 1 }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: 'inherit', flex: 1 }}>
           <div className={s.logoBadge}>{'</>'}</div>
           <span className={s.logoWordmark}>devsnest</span>
         </Link>
@@ -114,18 +107,9 @@ export function Sidebar() {
         </button>
       </div>
 
-      {!isDashboard && (
-        <button className={s.searchChip} onClick={openCmdK}>
-          <Icon name="search" size={13} color="var(--color-muted)" />
-          <span>Buscar herramienta</span>
-          <span className={s.searchChipKbd}>Ctrl+F</span>
-        </button>
-      )}
-
       {pinned.length > 0 && (
         <div>
           <div className={s.sectionHeader}>
-            <Icon name="pin-fill" size={13} color="var(--color-accent2)" />
             <span>Anclados</span>
             <span className={s.sectionCount}>{pinned.length}</span>
           </div>
@@ -148,6 +132,13 @@ export function Sidebar() {
       <div className={s.categories}>
         <div className={s.sectionHeader}>
           <span>Categorías</span>
+          <button
+            className={s.collapseAllBtn}
+            title={expanded.size > 0 ? 'Colapsar todo' : 'Expandir todo'}
+            onClick={() => setExpanded(expanded.size > 0 ? new Set() : new Set(CATEGORIES.map(c => c.id)))}
+          >
+            <Icon name={expanded.size > 0 ? 'chev-d' : 'chev-r'} size={12} />
+          </button>
         </div>
         <div className={s.categoriesScroll}>
           {CATEGORIES.map(cat => {
@@ -160,7 +151,7 @@ export function Sidebar() {
                   onClick={() => toggleCategory(cat.id)}
                   style={{ fontWeight: hasActiveTool ? 600 : undefined }}
                 >
-                  <Icon name="chev-d" size={12} className={`${s.catChev} ${isOpen ? s.open : s.closed}`} />
+                  <Icon name="chev-d" size={15} className={`${s.catChev} ${isOpen ? s.open : s.closed}`} />
                   <Icon name={cat.icon} size={15} />
                   <span style={{ flex: 1 }}>{cat.name}</span>
                   <span className={s.catToolCount}>{cat.tools.length}</span>

@@ -48,18 +48,15 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
       <div className={s.layout}>
         {/* Breadcrumb */}
         <nav className={s.breadcrumb}>
-          <span
-            style={{ cursor: 'pointer' }}
-            onClick={() => navigate('/')}
-          >
-            Inicio
-          </span>
+          <span style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>Inicio</span>
           <span>›</span>
           <span>{category?.name}</span>
           <span>›</span>
           <span className={s.breadcrumbActive}>{tool.name}</span>
-          <button className={s.breadcrumbKbd} onClick={openCmdK}>
-            Ctrl+F para buscar
+          <button className={s.searchBtn} onClick={openCmdK}>
+            <Icon name="search" size={14} color="currentColor" />
+            <span>Buscar herramienta</span>
+            <kbd className={s.searchKbd}>Ctrl+F</kbd>
           </button>
         </nav>
 

@@ -79,6 +79,8 @@ function computeStats(value: unknown) {
 
 // ── Tree component ────────────────────────────────────────────────────────
 function TreeNodeEl({ node }: { node: TreeNode }) {
+  const [open, setOpen] = useState(true)
+
   if (node.kind === 'leaf') {
     return (
       <div className={s.treeRow}>
@@ -92,12 +94,12 @@ function TreeNodeEl({ node }: { node: TreeNode }) {
   if (node.kind === 'array') {
     return (
       <>
-        <div className={s.treeRow}>
-          <span className={s.treeChev}>▾</span>
+        <div className={s.treeRow} style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setOpen(o => !o)}>
+          <span className={s.treeChev}>{open ? '▾' : '▸'}</span>
           {node.key !== '' && <span className={s.treeKey}>{node.key}</span>}
           <span className={s.treeArrayBadge}>[{node.count}]</span>
         </div>
-        {node.children.length > 0 && (
+        {open && node.children.length > 0 && (
           <div className={s.treeChildren}>
             {node.children.map((child, i) => <TreeNodeEl key={i} node={child} />)}
           </div>
@@ -109,11 +111,11 @@ function TreeNodeEl({ node }: { node: TreeNode }) {
   // object
   return (
     <>
-      <div className={s.treeRow}>
-        <span className={s.treeChev}>▾</span>
+      <div className={s.treeRow} style={{ cursor: 'pointer', userSelect: 'none' }} onClick={() => setOpen(o => !o)}>
+        <span className={s.treeChev}>{open ? '▾' : '▸'}</span>
         <span className={s.treeKey}>{node.key !== '' ? node.key : 'object'}</span>
       </div>
-      {node.children.length > 0 && (
+      {open && node.children.length > 0 && (
         <div className={s.treeChildren}>
           {node.children.map((child, i) => <TreeNodeEl key={i} node={child} />)}
         </div>
@@ -127,6 +129,7 @@ export default function JSONValidator() {
   const [input, setInput]       = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef                 = useRef<HTMLDivElement>(null)
+  const fileInputRef            = useRef<HTMLInputElement>(null)
   const textareaRef             = useRef<HTMLTextAreaElement>(null)
   const gutterRef               = useRef<HTMLDivElement>(null)
   const { addToHistory }        = useDevTools()
@@ -168,6 +171,15 @@ export default function JSONValidator() {
     }
   }, [])
 
+  function handleFileLoad(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = ev => setInput((ev.target?.result as string) ?? '')
+    reader.readAsText(file)
+    e.target.value = ''
+  }
+
   function handleFormat() {
     if (!result?.ok) return
     setInput(JSON.stringify(result.value, null, 2))
@@ -182,6 +194,13 @@ export default function JSONValidator() {
 
   return (
     <ToolLayout toolId="json" hideSplit actions={exportBtn}>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json,application/json"
+        style={{ display: 'none' }}
+        onChange={handleFileLoad}
+      />
       <div className={s.grid}>
 
         {/* ── Left: Editor ───────────────────────────────────────────── */}
@@ -204,9 +223,11 @@ export default function JSONValidator() {
               {menuOpen && (
                 <div className={s.menu}>
                   <button className={s.menuItem} disabled={!result?.ok} onClick={() => { handleFormat(); setMenuOpen(false) }}>
+                    <Icon name="cat-fmt" size={12} />
                     Formatear
                   </button>
                   <button className={s.menuItem} disabled={!result?.ok} onClick={() => { handleMinify(); setMenuOpen(false) }}>
+                    <Icon name="minify" size={12} />
                     Minificar
                   </button>
                   <div className={s.menuSep} />
@@ -217,9 +238,17 @@ export default function JSONValidator() {
                   <div className={s.menuSep} />
                   <button
                     className={s.menuItem}
+                    onClick={() => { fileInputRef.current?.click(); setMenuOpen(false) }}
+                  >
+                    <Icon name="upload" size={12} />
+                    Cargar fichero
+                  </button>
+                  <button
+                    className={s.menuItem}
                     onClick={() => { navigator.clipboard.readText().then(setInput).catch(() => {}); setMenuOpen(false) }}
                   >
-                    Pegar desde portapapeles
+                    <Icon name="paste" size={12} />
+                    Pegar
                   </button>
                   <button
                     className={s.menuItem}
@@ -234,6 +263,7 @@ export default function JSONValidator() {
                     disabled={byteSize === 0}
                     onClick={() => { setInput(''); setMenuOpen(false) }}
                   >
+                    <Icon name="trash" size={12} />
                     Limpiar editor
                   </button>
                   <div className={s.menuSep} />
@@ -242,7 +272,7 @@ export default function JSONValidator() {
                     disabled={!result?.ok}
                     onClick={() => {
                       if (!result?.ok) return
-                      const blob = new Blob([JSON.stringify(result.value, null, 2)], { type: 'application/json' })
+                      const blob = new Blob([input], { type: 'application/json' })
                       const url  = URL.createObjectURL(blob)
                       const a    = document.createElement('a')
                       a.href = url; a.download = 'data.json'; a.click()

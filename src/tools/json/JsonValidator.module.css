@@ -37,8 +37,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 12px;
-  border-bottom: 1.4px dashed var(--color-muted);
+  padding: 10px 12px 6px;
   flex-shrink: 0;
   font-size: 14px;
 }
@@ -83,7 +82,7 @@
   display: flex;
   min-height: 0;
   overflow: hidden;
-  margin: 10px 10px 0;
+  margin: 6px 10px 0;
   border: 1.4px dashed var(--color-muted);
   border-radius: 5px;
 }
@@ -138,6 +137,16 @@
 .code::placeholder {
   color: var(--color-muted);
 }
+
+.code::-webkit-scrollbar        { width: 8px; height: 8px; }
+.code::-webkit-scrollbar-track  { background: transparent; }
+.code::-webkit-scrollbar-thumb  { background: var(--color-muted); border-radius: 4px; }
+.code::-webkit-scrollbar-thumb:hover { background: var(--color-ink2); }
+
+.treeBody::-webkit-scrollbar        { width: 8px; }
+.treeBody::-webkit-scrollbar-track  { background: transparent; }
+.treeBody::-webkit-scrollbar-thumb  { background: var(--color-muted); border-radius: 4px; }
+.treeBody::-webkit-scrollbar-thumb:hover { background: var(--color-ink2); }
 
 /* ── Toolbar ─────────────────────────────────────────────────────────────── */
 .toolbar {
@@ -476,7 +485,7 @@
   border: 1.8px solid var(--color-stroke);
   border-radius: 8px 9px 7px 10px;
   box-shadow: var(--shadow-sketch);
-  background: var(--color-paper);
+  background: var(--color-surface);
   display: flex;
   flex-direction: column;
   flex: 1;

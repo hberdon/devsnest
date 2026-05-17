@@ -1,19 +1,19 @@
 ---
 project: devsnest
 mode: planned
-last_session: 2026-05-16
-active_phase: "Polish — CSS pixel-perfect"
+last_session: 2026-05-17
+active_phase: "Polish — UX + Tools refinement"
 phases_done: 9
 phases_total: 9
-tasks_this_session: 3
-tasks_total_done: 18
+tasks_this_session: 5
+tasks_total_done: 23
 velocity_last_5: []
 blockers_count: 0
-session_count: 3
+session_count: 4
 ---
 
 # 📋 CONTEXT-PROGRESS
-## devsnest • Session #3 • 2026-05-16
+## devsnest • Session #4 • 2026-05-17
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -41,17 +41,18 @@ session_count: 3
 ## Tasks this session
 
 ### ✅ Done
-- [x] Reescritura completa de tokens.css — stroke, hl, paper, shadow-sketch corregidos
-- [x] 13 iconos en Icon/index.tsx actualizados con paths exactos de wireframes.jsx
-- [x] Fix border width 1.6px→1.8px y radius 7px→8px en 6 CSS modules
-- [x] Shadows migradas a vars (--shadow-sketch, --shadow-sketch-sm, --shadow-palette)
-- [x] Commit + push develop (2a993f5)
+- [x] XML Formatter — rewrite completo: parser DOMParser, tree view interactivo (collapse/expand), tipos (LeafNode/ObjectNode/ArrayNode), error inline con línea/columna, nuevo XMLFormatter.module.css
+- [x] Sidebar UX — eliminado search chip del sidebar rail y del expanded, añadido collapse-all toggle en sección Categorías (chev-d/chev-r), icon size 12→15 en chevrons de categorías
+- [x] ToolLayout — search chip movido al breadcrumb con Icon + kbd, nuevo estilo searchBtn/searchKbd en ToolLayout.module.css
+- [x] JSON tool + formatters.ts — mejoras en parser/formateo
+- [x] Icon/index.tsx — ajustes menores de paths
 
 ### 🔒 Blocked
 — none
 
 ### 📋 To Do
 — Verificación visual en browser contra devsnest-v6.html
+— Revisar restantes tools (pendientes de refinamiento si los hay)
 
 ---
 
@@ -116,3 +117,4 @@ Blockers     ▸ 🚧 0 active
 | 1 | 2026-05-15 | 15 | All phases | Scaffold completo — 28 tools, routing, sidebar, dashboard, ⌘K, multi-tema |
 | 2 | 2026-05-15 | 0 | Polish | CSS rewrite desde wireframe-v6 (sesión sin commit) |
 | 3 | 2026-05-16 | 3 | Polish | Pixel-perfect handoff: tokens, 13 iconos, borders, shadows — commit 2a993f5 |
+| 4 | 2026-05-17 | 5 | Polish | XML Formatter rewrite completo (tree view), Sidebar UX, ToolLayout search en breadcrumb |

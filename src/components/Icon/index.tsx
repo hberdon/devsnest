@@ -13,7 +13,7 @@ export type IconName =
   | 'check'     | 'plus'
   | 'trash'     | 'arrow-r'
   | 'warn'      | 'download'
-  | 'schema'
+  | 'schema'    | 'minify'   | 'paste'  | 'upload'
   // Category icons
   | 'cat-conv'  | 'cat-fmt'
   | 'cat-gen'   | 'cat-utils'
@@ -44,6 +44,9 @@ const PATHS: Record<IconName, ReactNode> = {
   'warn':       <><path d="M12 4 2 20h20L12 4z"/><path d="M12 10v5M12 17v.5"/></>,
   'download':   <><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></>,
   'schema':     <><rect x="3" y="4" width="18" height="5" rx="1"/><rect x="3" y="11" width="12" height="5" rx="1"/><rect x="3" y="18" width="6" height="3" rx="1"/></>,
+  'minify':     <><path d="M5 12h14"/><path d="M9 8l-4 4 4 4"/><path d="M15 8l4 4-4 4"/></>,
+  'paste':      <><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-2"/><path d="M12 11v5M10 14l2 2 2-2"/></>,
+  'upload':     <><path d="M12 15V4M17 9l-5-5-5 5M5 20h14"/></>,
   // Category icons — exact paths from wireframes.jsx
   'cat-conv':   <><path d="M4 8h12l-3-3"/><path d="M20 16H8l3 3"/></>,
   'cat-fmt':    <><path d="M5 6h14M5 12h9M5 18h14"/></>,
