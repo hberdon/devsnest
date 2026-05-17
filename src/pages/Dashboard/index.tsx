@@ -1,8 +1,10 @@
 import { useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
+import { LangPicker } from '@/components/LangPicker'
 import { ALL_TOOLS, type ToolMeta } from '@/tools/registry'
 import { useDevTools, type HistoryEntry } from '@/store/devtools.context'
+import { useLang } from '@/store/lang.context'
 import s from './Dashboard.module.css'
 
 // ── Inline search ──────────────────────────────────────────────────────────
@@ -23,6 +25,7 @@ function HeroSearch() {
   const [focused,  setFocused]  = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+  const { t } = useLang()
 
   const results = searchTools(query)
   const showDrop = focused && query.trim() !== ''
@@ -64,7 +67,7 @@ function HeroSearch() {
           onKeyDown={onKey}
           onFocus={() => setFocused(true)}
           onBlur={() => setTimeout(() => setFocused(false), 150)}
-          placeholder="convertir base64, formatear json, generar uuid…"
+          placeholder={t.searchPlaceholder}
           autoComplete="off"
           spellCheck={false}
         />
@@ -72,14 +75,14 @@ function HeroSearch() {
           ? <button className={s.clearBtn} onMouseDown={e => { e.preventDefault(); setQuery(''); setActive(-1); inputRef.current?.focus() }}>
               <Icon name="close" size={13} />
             </button>
-          : <span className={s.searchKbd}>Ctrl+F para buscar</span>
+          : <span className={s.searchKbd}>{t.searchHint}</span>
         }
       </div>
 
       {showDrop && (
         <div className={s.dropdown}>
           {results.length === 0 ? (
-            <div className={s.dropEmpty}>Sin resultados para «{query}»</div>
+            <div className={s.dropEmpty}>{t.noResults} «{query}»</div>
           ) : (
             results.map((tool, i) => (
               <div
@@ -114,6 +117,7 @@ interface HistoryRowProps {
 }
 
 function HistoryRow({ entry, isPinned, onPin, onUnpin, onRemove, onReopen }: HistoryRowProps) {
+  const { t } = useLang()
   const handleCopy = () => navigator.clipboard.writeText(entry.description).catch(() => {})
   return (
     <div className={s.row}>
@@ -123,12 +127,12 @@ function HistoryRow({ entry, isPinned, onPin, onUnpin, onRemove, onReopen }: His
       <span className={s.rowDesc}>· {entry.description}</span>
       <span className={s.rowTime}>{entry.timestamp}</span>
       <div className={s.rowActions}>
-        <button className={s.actionBtn} title="Abrir" onClick={onReopen}><Icon name="chev-r" size={12} /></button>
-        <button className={s.actionBtn} title="Copiar resultado" onClick={handleCopy}><Icon name="copy" size={12} /></button>
-        <button className={`${s.actionBtn} ${isPinned ? s.pinActive : ''}`} title={isPinned ? 'Quitar de anclados' : 'Anclar'} onClick={isPinned ? onUnpin : onPin}>
+        <button className={s.actionBtn} title={t.openTool} onClick={onReopen}><Icon name="chev-r" size={12} /></button>
+        <button className={s.actionBtn} title={t.copyResult} onClick={handleCopy}><Icon name="copy" size={12} /></button>
+        <button className={`${s.actionBtn} ${isPinned ? s.pinActive : ''}`} title={isPinned ? t.unpin : t.pin} onClick={isPinned ? onUnpin : onPin}>
           <Icon name="pin" size={12} color={isPinned ? '#fff' : 'currentColor'} strokeWidth={2} />
         </button>
-        {!isPinned && <button className={s.actionBtn} title="Eliminar" onClick={onRemove}><Icon name="close" size={12} /></button>}
+        {!isPinned && <button className={s.actionBtn} title={t.removeTool} onClick={onRemove}><Icon name="close" size={12} /></button>}
       </div>
     </div>
   )
@@ -139,12 +143,17 @@ function HistoryRow({ entry, isPinned, onPin, onUnpin, onRemove, onReopen }: His
 export default function Dashboard() {
   const { history, pinned, pin, unpin, removeFromHistory, clearHistory } = useDevTools()
   const navigate = useNavigate()
+  const { t } = useLang()
 
   return (
     <div className={s.page}>
+      <div className={s.topBar}>
+        <LangPicker />
+      </div>
+
       <div className={s.hero}>
-        <h1 className={s.heroTitle}>Hola, dev 👋</h1>
-        <p className={s.heroSub}>28 herramientas · sin cuenta · todo se procesa en tu navegador</p>
+        <h1 className={s.heroTitle}>{t.heroTitle}</h1>
+        <p className={s.heroSub}>{t.heroSub}</p>
         <HeroSearch />
       </div>
 
@@ -152,8 +161,8 @@ export default function Dashboard() {
         <div className={s.section}>
           <div className={s.sectionHeader}>
             <Icon name="pin" size={15} color="var(--color-accent2)" strokeWidth={2} />
-            <span className={s.sectionTitle}>Anclados</span>
-            <span className={s.sectionNote}>· también en la barra lateral</span>
+            <span className={s.sectionTitle}>{t.pinned}</span>
+            <span className={s.sectionNote}>{t.alsoInSidebar}</span>
             <span className={s.sectionCount}>{pinned.length}</span>
           </div>
           <div className={s.list}>
@@ -169,9 +178,9 @@ export default function Dashboard() {
       <div className={s.section}>
         <div className={s.sectionHeader}>
           <Icon name="clock" size={15} color="var(--color-ink)" />
-          <span className={s.sectionTitle}>Historial</span>
-          <span className={s.sectionNote}>· últimos {Math.min(5, history.length)}</span>
-          {history.length > 0 && <button className={s.clearHistBtn} onClick={clearHistory}>Limpiar historial</button>}
+          <span className={s.sectionTitle}>{t.history}</span>
+          <span className={s.sectionNote}>{t.historyLastN} {Math.min(5, history.length)}</span>
+          {history.length > 0 && <button className={s.clearHistBtn} onClick={clearHistory}>{t.clearHistory}</button>}
         </div>
         {history.length > 0 ? (
           <div className={s.list}>
@@ -182,7 +191,7 @@ export default function Dashboard() {
             ))}
           </div>
         ) : (
-          <div className={s.empty}>Sin actividad reciente — usa una herramienta y aparecerá aquí.</div>
+          <div className={s.empty}>{t.noHistory}</div>
         )}
       </div>
 

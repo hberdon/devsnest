@@ -1,10 +1,12 @@
 import { type ReactNode, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
+import { LangPicker } from '@/components/LangPicker'
 import { SplitModeContext, type SplitMode } from '@/components/SplitPane'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useCmdK } from '@/store/cmd-palette.context'
+import { useLang } from '@/store/lang.context'
 import { getToolById, getCategoryById } from '@/tools/registry'
 import s from './ToolLayout.module.css'
 
@@ -21,6 +23,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
   const navigate = useNavigate()
   const { open: openCmdK } = useCmdK()
   const { pinned, pin, unpin } = useDevTools()
+  const { t } = useLang()
   const [splitMode, setSplitMode] = useLocalStorage<SplitMode>(`split-${toolId}`, 'v')
 
   const isPinned = pinned.some(e => e.toolId === toolId)
@@ -41,23 +44,26 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
     }
   }
 
-  if (!tool) return <div style={{ padding: 32, color: 'var(--color-muted)' }}>Herramienta no encontrada</div>
+  if (!tool) return <div style={{ padding: 32, color: 'var(--color-muted)' }}>{t.toolNotFound}</div>
 
   return (
     <SplitModeContext.Provider value={splitMode}>
       <div className={s.layout}>
         {/* Breadcrumb */}
         <nav className={s.breadcrumb}>
-          <span style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>Inicio</span>
+          <span style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>{t.home}</span>
           <span>›</span>
           <span>{category?.name}</span>
           <span>›</span>
           <span className={s.breadcrumbActive}>{tool.name}</span>
-          <button className={s.searchBtn} onClick={openCmdK}>
-            <Icon name="search" size={14} color="currentColor" />
-            <span>Buscar herramienta</span>
-            <kbd className={s.searchKbd}>Ctrl+F</kbd>
-          </button>
+          <div className={s.breadcrumbActions}>
+            <button className={s.searchBtn} onClick={openCmdK}>
+              <Icon name="search" size={14} color="currentColor" />
+              <span>{t.searchTool}</span>
+              <kbd className={s.searchKbd}>Ctrl+F</kbd>
+            </button>
+            <LangPicker />
+          </div>
         </nav>
 
         {/* Header */}
@@ -68,7 +74,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
               <span>{tool.name}</span>
               <button
                 className={`${s.pinBtn} ${isPinned ? s.pinned : ''}`}
-                title={isPinned ? 'Quitar de anclados' : 'Anclar'}
+                title={isPinned ? t.unpin : t.pin}
                 onClick={handlePinToggle}
               >
                 <Icon name="pin" size={16} strokeWidth={2} />
@@ -83,21 +89,21 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
               <div className={s.splitToggle}>
                 <button
                   className={`${s.splitBtn} ${splitMode === 'v' ? s.splitActive : ''}`}
-                  title="Vertical (lado a lado)"
+                  title={t.splitV}
                   onClick={() => setSplitMode('v')}
                 >
                   <Icon name="split-v" size={14} color={splitMode === 'v' ? '#fff' : 'var(--color-ink)'} />
                 </button>
                 <button
                   className={`${s.splitBtn} ${splitMode === 'h' ? s.splitActive : ''}`}
-                  title="Horizontal (apilado)"
+                  title={t.splitH}
                   onClick={() => setSplitMode('h')}
                 >
                   <Icon name="split-h" size={14} color={splitMode === 'h' ? '#fff' : 'var(--color-ink)'} />
                 </button>
               </div>
             )}
-            <button className={s.moreBtn} title="Más opciones">
+            <button className={s.moreBtn} title={t.moreOptions}>
               <Icon name="more" size={16} color="var(--color-ink2)" />
             </button>
           </div>

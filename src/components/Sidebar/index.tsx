@@ -5,6 +5,7 @@ import { VISIBLE_CATEGORIES as CATEGORIES, type CategoryId } from '@/tools/regis
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useCmdK } from '@/store/cmd-palette.context'
+import { useLang } from '@/store/lang.context'
 import s from './Sidebar.module.css'
 
 const DEFAULT_EXPANDED = new Set<CategoryId>(['conv'])
@@ -16,6 +17,7 @@ export function Sidebar() {
   const navigate  = useNavigate()
   const { pinned } = useDevTools()
   const { open: openCmdK } = useCmdK()
+  const { t } = useLang()
   const isDashboard  = location.pathname === '/'
   const activeToolId = location.pathname.startsWith('/tools/')
     ? location.pathname.slice('/tools/'.length)
@@ -102,7 +104,7 @@ export function Sidebar() {
           <div className={s.logoBadge}>{'</>'}</div>
           <span className={s.logoWordmark}>devsnest</span>
         </Link>
-        <button className={s.collapseBtn} title="Colapsar" onClick={() => setCollapsed(true)}>
+        <button className={s.collapseBtn} title={t.collapseAll} onClick={() => setCollapsed(true)}>
           <Icon name="sidebar-l" size={14} />
         </button>
       </div>
@@ -110,7 +112,7 @@ export function Sidebar() {
       {pinned.length > 0 && (
         <div>
           <div className={s.sectionHeader}>
-            <span>Anclados</span>
+            <span>{t.pinned}</span>
             <span className={s.sectionCount}>{pinned.length}</span>
           </div>
           <div className={s.pinnedSection}>
@@ -131,10 +133,10 @@ export function Sidebar() {
 
       <div className={s.categories}>
         <div className={s.sectionHeader}>
-          <span>Categorías</span>
+          <span>{t.categories}</span>
           <button
             className={s.collapseAllBtn}
-            title={expanded.size > 0 ? 'Colapsar todo' : 'Expandir todo'}
+            title={expanded.size > 0 ? t.collapseAll : t.expandAll}
             onClick={() => setExpanded(expanded.size > 0 ? new Set() : new Set(CATEGORIES.map(c => c.id)))}
           >
             <Icon name={expanded.size > 0 ? 'chev-d' : 'chev-r'} size={12} />

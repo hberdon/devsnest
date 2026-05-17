@@ -9,6 +9,13 @@
   background: var(--color-bg);
 }
 
+/* ── Top bar (lang picker, etc.) ─────────────────────────────────────────── */
+.topBar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
 /* ── Hero ────────────────────────────────────────────────────────────────── */
 .hero {
   max-width: 760px;

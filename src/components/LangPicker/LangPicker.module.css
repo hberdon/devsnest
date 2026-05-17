@@ -1,0 +1,83 @@
+.wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: 1.8px solid var(--color-stroke) !important;
+  border-radius: 6px 8px 6px 8px;
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink2);
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--color-accent-soft) !important;
+  border-color: var(--color-ink) !important;
+  color: var(--color-ink);
+}
+
+.chev {
+  transition: transform 0.15s;
+}
+
+.chevOpen {
+  transition: transform 0.15s;
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 130px;
+  background: var(--color-surface);
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  box-shadow: var(--shadow-sketch);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 14px;
+  border: none !important;
+  background: transparent !important;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.option:hover {
+  background: var(--color-accent-soft) !important;
+}
+
+.option.active {
+  background: var(--color-hl) !important;
+  font-weight: 600;
+}
+
+.option + .option {
+  border-top: 1.2px solid var(--color-stroke) !important;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+  min-width: 22px;
+}
