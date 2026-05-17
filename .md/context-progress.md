@@ -2,18 +2,18 @@
 project: devsnest
 mode: planned
 last_session: 2026-05-17
-active_phase: "Polish — UX + Tools refinement"
+active_phase: "Polish — i18n ES/EN"
 phases_done: 9
 phases_total: 9
-tasks_this_session: 5
-tasks_total_done: 23
+tasks_this_session: 8
+tasks_total_done: 31
 velocity_last_5: []
 blockers_count: 0
-session_count: 4
+session_count: 5
 ---
 
 # 📋 CONTEXT-PROGRESS
-## devsnest • Session #4 • 2026-05-17
+## devsnest • Session #5 • 2026-05-17
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -45,14 +45,17 @@ session_count: 4
 - [x] Sidebar UX — eliminado search chip del sidebar rail y del expanded, añadido collapse-all toggle en sección Categorías (chev-d/chev-r), icon size 12→15 en chevrons de categorías
 - [x] ToolLayout — search chip movido al breadcrumb con Icon + kbd, nuevo estilo searchBtn/searchKbd en ToolLayout.module.css
 - [x] JSON tool + formatters.ts — mejoras en parser/formateo
-- [x] Icon/index.tsx — ajustes menores de paths
+- [x] i18n ES/EN — LangProvider (localStorage), LangPicker (globe + dropdown, muestra código activo), añadido en Dashboard top-right y ToolLayout breadcrumb
+- [x] Traducción shell — Dashboard, ToolLayout, Sidebar, CommandPalette, ShortcutsModal
+- [x] registry-translations.ts — nombres y descripciones de 28 tools + 6 categorías en ES/EN
+- [x] useLocalizedRegistry hook — Sidebar, CommandPalette, Dashboard, ToolLayout usan registry localizado
+- [x] Traducción completa — todos los 28 tools actualizados con useLang(), ~200 keys en translations.ts
 
 ### 🔒 Blocked
 — none
 
 ### 📋 To Do
 — Verificación visual en browser contra devsnest-v6.html
-— Revisar restantes tools (pendientes de refinamiento si los hay)
 
 ---
 
@@ -118,3 +121,4 @@ Blockers     ▸ 🚧 0 active
 | 2 | 2026-05-15 | 0 | Polish | CSS rewrite desde wireframe-v6 (sesión sin commit) |
 | 3 | 2026-05-16 | 3 | Polish | Pixel-perfect handoff: tokens, 13 iconos, borders, shadows — commit 2a993f5 |
 | 4 | 2026-05-17 | 5 | Polish | XML Formatter rewrite completo (tree view), Sidebar UX, ToolLayout search en breadcrumb |
+| 5 | 2026-05-17 | 8 | i18n | i18n ES/EN completo: LangPicker, ~200 keys, 28 tools, registry localizado — commits 9959e21…73189ae |
