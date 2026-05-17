@@ -31,6 +31,7 @@ export function LangPicker() {
         title="Idioma / Language"
       >
         <Icon name="globe" size={14} color="currentColor" />
+        <span className={s.activeLang}>{lang.toUpperCase()}</span>
         <Icon name="chev-d" size={11} color="currentColor" className={open ? s.chevOpen : s.chev} />
       </button>
 

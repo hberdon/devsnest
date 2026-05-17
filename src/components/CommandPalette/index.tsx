@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import { ALL_TOOLS, type ToolMeta } from '@/tools/registry'
 import { useCmdK } from '@/store/cmd-palette.context'
+import { useLang } from '@/store/lang.context'
 import s from './CommandPalette.module.css'
 
 // ── Search scoring ────────────────────────────────────────────────────────
@@ -40,6 +41,7 @@ export function CommandPalette() {
   const [selected, setSelected] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
+  const { t } = useLang()
 
   // Reset on open
   useEffect(() => {
@@ -82,7 +84,7 @@ export function CommandPalette() {
 
   return (
     <div className={s.overlay} onMouseDown={(e) => { if (e.target === e.currentTarget) close() }}>
-      <div className={s.palette} role="dialog" aria-label="Buscar herramienta">
+      <div className={s.palette} role="dialog" aria-label={t.cmdPaletteLabel}>
         {/* Input */}
         <div className={s.inputRow}>
           <Icon name="search" size={18} color="var(--color-ink)" />
@@ -91,8 +93,8 @@ export function CommandPalette() {
             className={s.input}
             value={query}
             onChange={e => { setQuery(e.target.value); setSelected(0) }}
-            placeholder="Buscar herramienta…"
-            aria-label="Búsqueda"
+            placeholder={t.cmdPlaceholder}
+            aria-label={t.cmdPaletteLabel}
           />
           <span className={s.escBadge}>esc</span>
         </div>
@@ -100,12 +102,12 @@ export function CommandPalette() {
         {/* Results */}
         <div className={s.results}>
           {results.length === 0 ? (
-            <div className={s.noResults}>Sin resultados para &ldquo;{query}&rdquo;</div>
+            <div className={s.noResults}>{t.cmdNoResults} &ldquo;{query}&rdquo;</div>
           ) : (
             <>
               {top && (
                 <>
-                  <div className={s.sectionLabel}>Mejor coincidencia</div>
+                  <div className={s.sectionLabel}>{t.cmdBestMatch}</div>
                   <ResultRow
                     tool={top}
                     query={query}
@@ -117,7 +119,7 @@ export function CommandPalette() {
               )}
               {others.length > 0 && (
                 <>
-                  <div className={s.sectionLabel}>Otros</div>
+                  <div className={s.sectionLabel}>{t.cmdOthers}</div>
                   {others.map((tool, i) => (
                     <ResultRow
                       key={tool.id}
@@ -135,9 +137,9 @@ export function CommandPalette() {
 
         {/* Footer */}
         <div className={s.footer}>
-          <span><span className={s.footerKbd}>↑↓</span> navegar</span>
-          <span><span className={s.footerKbd}>↵</span> abrir</span>
-          <span><span className={s.footerKbd}>esc</span> cerrar</span>
+          <span><span className={s.footerKbd}>↑↓</span> {t.cmdNavigate}</span>
+          <span><span className={s.footerKbd}>↵</span> {t.cmdOpen}</span>
+          <span><span className={s.footerKbd}>esc</span> {t.cmdClose}</span>
           <span className={s.footerCount}>{results.length} / {ALL_TOOLS.length}</span>
         </div>
       </div>

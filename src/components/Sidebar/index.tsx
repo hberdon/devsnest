@@ -85,7 +85,7 @@ export function Sidebar() {
           <div
             className={`${s.railCell} ${s.railDashed}`}
             style={{ height: 34, width: 42, cursor: 'pointer' }}
-            title="Expandir"
+            title={t.expand}
             onClick={() => setCollapsed(false)}
           >
             <Icon name="sidebar-r" size={14} />

@@ -114,12 +114,14 @@
   margin-left: auto;
 }
 
-/* Search button — breadcrumb row */
+/* Search button — breadcrumb row, fixed width so lang switch doesn't resize it */
 .searchBtn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 6px 14px;
+  padding: 6px 12px;
+  width: 148px;
+  flex-shrink: 0;
   border: 1.8px solid var(--color-stroke) !important;
   border-radius: 6px 8px 6px 8px;
   background: var(--color-surface) !important;
@@ -128,7 +130,16 @@
   font-size: 13px;
   color: var(--color-ink2);
   cursor: pointer;
+  overflow: hidden;
+}
+
+.searchBtn span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: left;
 }
 
 .searchBtn:hover {

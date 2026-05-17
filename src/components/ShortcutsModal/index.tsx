@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useLang } from '@/store/lang.context'
 import s from './ShortcutsModal.module.css'
-
-const SHORTCUTS = [
-  { keys: ['⌘', 'F'],   desc: 'Abrir paleta de búsqueda'   },
-  { keys: ['?'],         desc: 'Mostrar atajos de teclado'  },
-  { keys: ['Esc'],       desc: 'Cerrar overlay / paleta'    },
-  { keys: ['↑', '↓'],   desc: 'Navegar resultados (paleta)' },
-  { keys: ['↵'],         desc: 'Abrir herramienta (paleta)' },
-]
 
 export function ShortcutsModal() {
   const [open, setOpen] = useState(false)
+  const { t } = useLang()
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -29,7 +23,7 @@ export function ShortcutsModal() {
     <div className={s.backdrop} onClick={() => setOpen(false)}>
       <div className={s.modal} onClick={e => e.stopPropagation()}>
         <div className={s.header}>
-          <span className={s.title}>Atajos de teclado</span>
+          <span className={s.title}>{t.shortcutsTitle}</span>
           <button className={s.closeBtn} onClick={() => setOpen(false)}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -37,7 +31,13 @@ export function ShortcutsModal() {
           </button>
         </div>
         <div className={s.list}>
-          {SHORTCUTS.map((sc, i) => (
+          {[
+            { keys: ['⌘', 'F'], desc: t.shortcutOpenPalette   },
+            { keys: ['?'],       desc: t.shortcutShowShortcuts  },
+            { keys: ['Esc'],     desc: t.shortcutCloseOverlay   },
+            { keys: ['↑', '↓'], desc: t.shortcutNavigate       },
+            { keys: ['↵'],       desc: t.shortcutOpenTool       },
+          ].map((sc, i) => (
             <div key={i} className={s.row}>
               <div className={s.keys}>
                 {sc.keys.map((k, j) => (
@@ -48,7 +48,7 @@ export function ShortcutsModal() {
             </div>
           ))}
         </div>
-        <div className={s.footer}>Pulsa <span className={s.kbd}>?</span> o <span className={s.kbd}>Esc</span> para cerrar</div>
+        <div className={s.footer}>{t.shortcutsCloseHint} <span className={s.kbd}>?</span> o <span className={s.kbd}>Esc</span></div>
       </div>
     </div>
   )
