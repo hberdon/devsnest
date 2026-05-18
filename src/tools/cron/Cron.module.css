@@ -1,0 +1,235 @@
+/* ─── Cron Tester ──────────────────────────────────────────────────────── */
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 2px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* ── Expression input ───────────────────────────────────────────────────── */
+
+.exprRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+}
+
+.dollar {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.exprInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-ink);
+  background: transparent;
+  caret-color: var(--color-accent);
+  letter-spacing: 0.08em;
+}
+
+.exprInput::placeholder {
+  color: var(--color-muted);
+  font-weight: 400;
+}
+
+.exprInvalid {
+  border-color: #dc2626;
+}
+
+.error {
+  font-size: 12px;
+  color: #dc2626;
+  padding: 0 4px;
+}
+
+/* ── Field breakdown ─────────────────────────────────────────────────────── */
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1.4px dashed var(--color-muted);
+  border-radius: 6px 8px 6px 8px;
+  background: var(--color-surface);
+}
+
+.fieldLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+}
+
+.fieldInput {
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-ink);
+  background: transparent;
+  width: 100%;
+  caret-color: var(--color-accent);
+}
+
+.fieldHint {
+  font-size: 10px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── Presets ─────────────────────────────────────────────────────────────── */
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset {
+  padding: 4px 12px;
+  border: 1.4px solid var(--color-stroke);
+  border-radius: 4px 6px 4px 6px;
+  background: var(--color-surface);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--color-ink2);
+  cursor: pointer;
+}
+
+.preset:hover {
+  background: var(--color-accent-soft);
+  border-color: var(--color-ink2);
+  color: var(--color-ink);
+}
+
+.presetActive {
+  background: var(--color-ink) !important;
+  color: var(--color-bg) !important;
+  border-color: var(--color-ink) !important;
+}
+
+/* ── Results ─────────────────────────────────────────────────────────────── */
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch-sm);
+}
+
+.cardLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.cardValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.cardMuted {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* ── Next runs ───────────────────────────────────────────────────────────── */
+
+.nextList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nextRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 5px;
+}
+
+.nextRow:hover {
+  background: var(--color-hl);
+}
+
+.nextN {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.nextDate {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  flex: 1;
+}
+
+.nextRel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+/* ── Copy action button ──────────────────────────────────────────────────── */
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1.8px solid var(--color-stroke) !important;
+  border-radius: 6px 8px 6px 8px;
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink2);
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  background: var(--color-accent-soft) !important;
+  border-color: var(--color-ink) !important;
+  color: var(--color-ink);
+}

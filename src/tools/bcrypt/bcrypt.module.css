@@ -1,0 +1,118 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.input {
+  padding: 10px 14px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: 17px;
+  color: var(--color-ink);
+  outline: none;
+  box-shadow: var(--shadow-sketch-sm);
+  width: 100%;
+}
+
+.input:focus { border-color: var(--color-accent); }
+
+.roundsRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.roundsNote {
+  font-size: 13px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 20px;
+  border: var(--border-base) !important;
+  border-radius: var(--radius-sketch);
+  background: var(--color-ink) !important;
+  color: var(--color-bg);
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sketch);
+  align-self: flex-start;
+}
+
+.actionBtn:hover:not(:disabled) { background: var(--color-accent) !important; }
+.actionBtn:disabled { opacity: 0.4; cursor: default; }
+
+.outputBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+}
+
+.hashText {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  word-break: break-all;
+}
+
+.copyBtn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  border: none !important;
+  background: none !important;
+  cursor: pointer;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.copyBtn:hover { background: var(--color-accent-soft) !important; color: var(--color-ink); }
+
+.cmpResult {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sketch);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+}
+
+.cmpOk   { background: rgba(56, 161, 105, 0.12); color: #2f855a; border: 1.5px solid rgba(56, 161, 105, 0.4); }
+.cmpFail { background: rgba(229, 62, 62, 0.08);  color: #c53030; border: 1.5px solid rgba(229, 62, 62, 0.3); }

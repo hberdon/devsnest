@@ -1,0 +1,38 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.passwordRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.pwLabel {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.pwInput {
+  flex: 1;
+  padding: 8px 14px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: 17px;
+  color: var(--color-ink);
+  outline: none;
+  box-shadow: var(--shadow-sketch-sm);
+}
+
+.pwInput:focus { border-color: var(--color-accent); }

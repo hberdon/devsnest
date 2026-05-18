@@ -1,0 +1,148 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+.patternRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch-sm);
+  overflow: hidden;
+  height: 42px;
+}
+
+.slash {
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 21px;
+  color: var(--color-accent);
+  user-select: none;
+}
+
+.patternInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--color-ink);
+  padding: 0;
+}
+
+.flags {
+  display: flex;
+  border-left: var(--border-base);
+}
+
+.flagBtn {
+  padding: 0 10px;
+  height: 42px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink2);
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer;
+  border-right: 1px solid var(--color-stroke) !important;
+}
+
+.flagBtn:last-child { border-right: none !important; }
+
+.flagBtn.flagActive {
+  background: var(--color-accent) !important;
+  color: #fff;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch-sm);
+  overflow: hidden;
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1.2px dashed var(--color-muted);
+}
+
+.matchCount {
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 12px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+}
+
+.testArea {
+  padding: 10px 12px;
+  min-height: 80px;
+  resize: vertical;
+}
+
+.highlighted {
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.mark {
+  background: var(--color-hl);
+  color: var(--color-ink);
+  border-radius: 2px;
+  padding: 0 1px;
+  outline: 1.5px solid var(--color-accent2);
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-bottom: 1px dashed var(--color-muted);
+}
+
+.groupRow:last-child { border-bottom: none; }
+
+.groupIdx {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  width: 20px;
+}
+
+.groupVal {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+}

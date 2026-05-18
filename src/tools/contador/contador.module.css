@@ -1,0 +1,62 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.textSection {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+  overflow: hidden;
+}
+
+.textArea {
+  flex: 1;
+  padding: 12px 14px;
+  min-height: 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+  flex-shrink: 0;
+  padding-bottom: 4px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 12px 8px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch-sm);
+  text-align: center;
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

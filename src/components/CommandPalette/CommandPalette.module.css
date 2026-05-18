@@ -1,0 +1,180 @@
+/* ─── Command Palette — pixel-perfect from wireframe-v6 D ───────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.32);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 90px;
+}
+
+.palette {
+  width: 620px;
+  max-width: calc(100vw - 32px);
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-palette);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 120px);
+}
+
+/* ── Input row ───────────────────────────────────────────────────────────── */
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1.5px solid var(--color-stroke);
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 17px;
+  color: var(--color-ink);
+  background: transparent;
+  caret-color: var(--color-accent);
+}
+
+.input::placeholder {
+  color: var(--color-muted);
+}
+
+.escBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  border: 1.2px solid var(--color-muted);
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Results ─────────────────────────────────────────────────────────────── */
+.results {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 6px 10px;
+}
+
+.sectionLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+  padding: 6px 10px;
+}
+
+/* ── Result row ──────────────────────────────────────────────────────────── */
+.resultRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin: 0 4px;
+  border: 1.4px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.resultRow:hover,
+.resultRow.selected {
+  background: var(--color-hl);
+  border-color: var(--color-stroke);
+}
+
+/* Non-best-match rows */
+.resultRow.other {
+  padding: 7px 10px;
+}
+
+.resultBadge {
+  width: 26px;
+  height: 26px;
+  border: 1.4px solid var(--color-stroke);
+  border-radius: 5px;
+  background: var(--color-surface);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: var(--color-ink);
+}
+
+.resultInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.resultName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.resultName mark {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+  border-radius: 2px;
+}
+
+.resultSub {
+  font-size: 11px;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.enterBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  border: 1.2px solid var(--color-muted);
+  padding: 1px 6px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ── Empty ───────────────────────────────────────────────────────────────── */
+.noResults {
+  padding: 20px;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer {
+  border-top: 1.3px dashed var(--color-muted);
+  padding: 8px 14px;
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.footerKbd {
+  font-family: var(--font-mono);
+  padding: 0 4px;
+  background: #eee;
+  border-radius: 3px;
+}
+
+.footerCount {
+  margin-left: auto;
+  font-family: var(--font-mono);
+}

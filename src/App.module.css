@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}

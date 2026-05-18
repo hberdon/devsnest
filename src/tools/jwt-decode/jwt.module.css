@@ -1,0 +1,52 @@
+.decoded {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.secLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+  margin-bottom: 2px;
+}
+
+.json {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 1.2px dashed var(--color-muted);
+  border-radius: 5px;
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+.expNote {
+  font-size: 13px;
+  color: var(--color-accent2);
+  font-family: var(--font-mono);
+}
+
+.sigRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sig {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
+  word-break: break-all;
+}

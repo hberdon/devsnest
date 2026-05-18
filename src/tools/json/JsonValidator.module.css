@@ -1,0 +1,640 @@
+/* ─── JSON Validator — layout del handoff v6-json ────────────────────────── */
+
+/* Semantic error colors (not brand) */
+:root {
+  --err-bg:       #ffe9e9;
+  --err-row:      #ffe2e2;
+  --err-badge-bg: #ffd6d6;
+  --err-border:   #d94343;
+  --err-text:     #b91c1c;
+  --ok-bg:        #e6f7ee;
+  --ok-border:    #10b981;
+}
+
+/* ── Top-level grid ──────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 14px;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ── Editor card (left, sketchBox) ───────────────────────────────────────── */
+.editorCard {
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 6px;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.cardMeta {
+  font-size: 11px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.cardActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.cardActionBtn {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: var(--font-ui);
+  color: var(--color-muted);
+  padding: 0;
+}
+
+.cardActionBtn:hover {
+  color: var(--color-ink);
+}
+
+.cardActionSep {
+  color: var(--color-muted);
+  opacity: 0.4;
+}
+
+/* ── Editor area (dashedBox) ─────────────────────────────────────────────── */
+.editorWrap {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  margin: 6px 10px 0;
+  border: 1.4px dashed var(--color-muted);
+  border-radius: 5px;
+}
+
+.gutter {
+  width: 32px;
+  min-width: 32px;
+  overflow-y: hidden;
+  padding: 10px 0;
+  border-right: 1.2px dashed var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--color-muted);
+  text-align: right;
+  scrollbar-width: none;
+  user-select: none;
+  background: transparent;
+}
+
+.gutter::-webkit-scrollbar {
+  display: none;
+}
+
+.gutterLine {
+  padding-right: 6px;
+  line-height: 1.65;
+  font-size: 12px;
+}
+
+.gutterLine.gutterError {
+  background: var(--err-row);
+  color: var(--err-text);
+}
+
+.code {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--color-ink);
+  line-height: 1.65;
+  padding: 10px 12px;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 2;
+}
+
+.code::placeholder {
+  color: var(--color-muted);
+}
+
+.code::-webkit-scrollbar        { width: 8px; height: 8px; }
+.code::-webkit-scrollbar-track  { background: transparent; }
+.code::-webkit-scrollbar-thumb  { background: var(--color-muted); border-radius: 4px; }
+.code::-webkit-scrollbar-thumb:hover { background: var(--color-ink2); }
+
+.treeBody::-webkit-scrollbar        { width: 8px; }
+.treeBody::-webkit-scrollbar-track  { background: transparent; }
+.treeBody::-webkit-scrollbar-thumb  { background: var(--color-muted); border-radius: 4px; }
+.treeBody::-webkit-scrollbar-thumb:hover { background: var(--color-ink2); }
+
+/* ── Toolbar ─────────────────────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-top: 1.4px dashed var(--color-muted);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  padding: 5px 12px;
+  background: var(--color-accent) !important;
+  color: #fff;
+  border: 1.8px solid var(--color-ink) !important;
+  border-radius: 6px 8px 6px 8px;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnSecondary {
+  padding: 5px 12px;
+  background: var(--color-surface) !important;
+  border: 1.8px solid var(--color-stroke) !important;
+  border-radius: 6px 8px 6px 8px;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  background: var(--color-accent-soft) !important;
+}
+
+.btnDashed {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: transparent !important;
+  border: 1.6px dashed var(--color-stroke) !important;
+  border-radius: 6px 8px 6px 8px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink2);
+  cursor: pointer;
+}
+
+.btnDashed:hover {
+  background: var(--color-accent-soft) !important;
+}
+
+.toolbarMeta {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── More button + dropdown menu ─────────────────────────────────────────── */
+.menuWrap {
+  position: relative;
+  margin-left: auto;
+}
+
+.moreBtn {
+  width: 34px;
+  height: 34px;
+  border: 1.8px solid var(--color-stroke) !important;
+  border-radius: 7px 9px 6px 9px;
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--color-ink);
+  transition: background 0.1s;
+}
+
+.moreBtn:hover,
+.moreBtnActive {
+  background: var(--color-accent-soft) !important;
+  border-color: var(--color-ink) !important;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 200;
+  background: var(--color-surface);
+  border: 1.8px solid var(--color-ink);
+  border-radius: 8px 9px 7px 10px;
+  box-shadow: var(--shadow-palette);
+  min-width: 160px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  background: none !important;
+  border: none !important;
+  border-radius: 5px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.menuItem:hover:not(:disabled) {
+  background: var(--color-accent-soft) !important;
+}
+
+.menuItem:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.menuSep {
+  height: 1px;
+  background: var(--color-muted);
+  opacity: 0.25;
+  margin: 3px 6px;
+}
+
+.btnPrimarySm {
+  padding: 3px 10px;
+  background: var(--color-accent) !important;
+  color: #fff;
+  border: 1.6px solid var(--color-ink) !important;
+  border-radius: 5px 7px 5px 7px;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btnSecondarySm {
+  padding: 3px 10px;
+  background: var(--color-surface) !important;
+  border: 1.6px solid var(--color-stroke) !important;
+  border-radius: 5px 7px 5px 7px;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.btnSecondarySm:hover:not(:disabled) {
+  background: var(--color-accent-soft) !important;
+}
+
+.btnSecondarySm:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.btnDashedSm {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: transparent !important;
+  border: 1.4px dashed var(--color-stroke) !important;
+  border-radius: 5px 7px 5px 7px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--color-ink2);
+  cursor: pointer;
+}
+
+.btnDashedSm:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Error annotation — bottom-right of the editor card, rotated */
+.annotation {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  transform: rotate(-1.5deg);
+  color: var(--err-text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* ── Right column ────────────────────────────────────────────────────────── */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+/* ── Status card (Card 2) ────────────────────────────────────────────────── */
+.statusCard {
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  box-shadow: var(--shadow-sketch);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--color-surface);
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1.4px solid var(--color-ink);
+  font-size: 14px;
+}
+
+.statusHeaderValid   { background: var(--ok-bg); }
+.statusHeaderInvalid { background: var(--err-bg); }
+.statusHeaderEmpty   { background: var(--color-surface); }
+
+.statusIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.8px solid;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: #fff;
+}
+
+.statusIconValid   { border-color: var(--ok-border); }
+.statusIconInvalid { border-color: var(--err-text); }
+
+.statusMeta {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.statusBody {
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+.statusMsg {
+  color: var(--color-ink2);
+  margin-bottom: 8px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.chip {
+  border: 1.1px solid var(--color-muted);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: var(--color-ink2);
+  font-family: var(--font-mono);
+}
+
+/* Error list */
+.errorList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.errorRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #fff8f8;
+  border: 1.2px dashed var(--err-border);
+  border-radius: 6px;
+}
+
+.errorBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--err-badge-bg);
+  border: 1.2px solid var(--err-border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--err-text);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.errorText {
+  flex: 1;
+  font-size: 12px;
+  color: var(--err-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.errorGoBtn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.2px solid var(--color-muted) !important;
+  background: var(--color-surface) !important;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: var(--color-ink2);
+}
+
+/* ── Tree card (Card 3) ──────────────────────────────────────────────────── */
+.treeCard {
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  box-shadow: var(--shadow-sketch);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.treeHeader {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1.4px dashed var(--color-muted);
+  flex-shrink: 0;
+  font-size: 14px;
+  gap: 2px;
+}
+
+.treeMeta {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.treeActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.treeActionPill {
+  padding: 2px 10px;
+  border: 1.2px solid var(--color-muted) !important;
+  border-radius: 999px;
+  background: var(--color-surface) !important;
+  font-size: 11px;
+  color: var(--color-ink2);
+  cursor: pointer;
+  font-family: var(--font-ui);
+}
+
+.treeActionPill:hover {
+  background: var(--color-accent-soft) !important;
+}
+
+.treeActionBtn {
+  width: 24px;
+  height: 24px;
+  border: 1.2px solid var(--color-stroke) !important;
+  border-radius: 4px;
+  background: var(--color-surface) !important;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--color-ink2);
+}
+
+.treeActionBtn:hover {
+  background: var(--color-accent-soft) !important;
+}
+
+.treeBody {
+  flex: 1;
+  overflow: auto;
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.treePlaceholder {
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.treeFooter {
+  border-top: 1.4px dashed var(--color-muted);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+/* ── Tree nodes ──────────────────────────────────────────────────────────── */
+.treeRow {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  white-space: nowrap;
+  min-height: 1.65em;
+}
+
+.treeChildren {
+  margin-left: 14px;
+  border-left: 1.2px dashed var(--color-muted);
+  padding-left: 8px;
+}
+
+.treeDot {
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.treeChev {
+  color: var(--color-muted);
+  flex-shrink: 0;
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.treeKey {
+  color: var(--color-ink);
+}
+
+.treeValue {
+  color: var(--color-accent);
+}
+
+.treeValString  { color: var(--color-accent); }
+.treeValNumber  { color: var(--color-accent2); }
+.treeValBoolean { color: #7c3aed; }
+.treeValNull    { color: var(--color-muted); font-style: italic; }
+
+.treeArrayBadge {
+  font-size: 10px;
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 0 4px;
+  color: var(--color-accent);
+  margin-left: 2px;
+}
+
+/* ── Export button (in ToolLayout actions slot) ──────────────────────────── */
+.exportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1.8px solid var(--color-stroke) !important;
+  border-radius: 6px 8px 6px 8px;
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.exportBtn:hover {
+  background: var(--color-accent-soft) !important;
+}

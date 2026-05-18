@@ -1,0 +1,131 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+.outputBox {
+  padding: 14px 16px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+}
+
+.pwText {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-accent);
+  word-break: break-all;
+  letter-spacing: 0.5px;
+}
+
+.empty { color: var(--color-muted); font-style: normal; font-weight: 400; }
+
+.outputActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.strength {
+  font-size: 13px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.iconBtn,
+.copyBtn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  border: none !important;
+  background: none !important;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.iconBtn:hover,
+.copyBtn:hover {
+  color: var(--color-ink);
+  background: var(--color-accent-soft) !important;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border: var(--border-base);
+  border-radius: var(--radius-sketch);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch-sm);
+}
+
+.sectionLabel {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.lengthRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slider {
+  flex: 1;
+  accent-color: var(--color-accent);
+}
+
+.lengthVal {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-ink);
+  width: 28px;
+  text-align: right;
+}
+
+.checkGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkLabel {
+  font-size: 15px;
+  color: var(--color-ink2);
+  font-family: var(--font-ui);
+}
+
+.checkExample {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-left: 2px;
+}

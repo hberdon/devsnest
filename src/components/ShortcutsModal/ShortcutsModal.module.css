@@ -1,0 +1,110 @@
+/* ─── ShortcutsModal ─────────────────────────────────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.32);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal {
+  background: var(--color-surface);
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  box-shadow: var(--shadow-sketch);
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1.3px dashed var(--color-muted);
+}
+
+.title {
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.closeBtn {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  border: none !important;
+  background: none !important;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.closeBtn:hover {
+  background: var(--color-accent-soft) !important;
+  color: var(--color-ink);
+}
+
+.list {
+  padding: 8px 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 9px 18px;
+}
+
+.keys {
+  display: flex;
+  gap: 4px;
+  min-width: 90px;
+}
+
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1.5px solid var(--color-stroke);
+  border-radius: 4px;
+  background: var(--color-bg);
+  box-shadow: 0 1.5px 0 var(--color-stroke);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.desc {
+  font-size: 13px;
+  color: var(--color-ink2);
+  font-family: var(--font-ui);
+}
+
+.footer {
+  padding: 10px 18px;
+  border-top: 1.3px dashed var(--color-muted);
+  font-size: 11px;
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+}
+
+.footer .kbd {
+  min-width: 20px;
+  height: 18px;
+  font-size: 11px;
+  padding: 0 4px;
+}
