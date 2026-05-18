@@ -30,6 +30,8 @@ export const TOOL_COMPONENTS: Record<string, React.LazyExoticComponent<AnyCompon
   'regex':          lazy(() => import('./regex')),
   'case-converter': lazy(() => import('./case-converter')),
   'contador':       lazy(() => import('./contador')),
+  'notepad':        lazy(() => import('./notepad')),
+  'cron':           lazy(() => import('./cron')),
   // Fase 6 — Formateadores
   'json':           lazy(() => import('./json')),
   'xml':            lazy(() => import('./xml')),

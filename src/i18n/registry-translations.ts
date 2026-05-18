@@ -28,6 +28,8 @@ export const toolI18n: Record<string, Record<Lang, ToolI18n>> = {
   'regex':          { es: { name: 'Regex Tester',    desc: 'Prueba expresiones regulares'                       }, en: { name: 'Regex Tester',    desc: 'Test regular expressions'                           } },
   'case-converter': { es: { name: 'Case Converter',  desc: 'Convierte entre camelCase, snake_case, etc.'        }, en: { name: 'Case Converter',  desc: 'Convert between camelCase, snake_case, etc.'        } },
   'contador':       { es: { name: 'Contador',        desc: 'Cuenta chars, palabras, líneas y bytes'             }, en: { name: 'Counter',         desc: 'Count chars, words, lines and bytes'                } },
+  'notepad':        { es: { name: 'Notepad',         desc: 'Bloc de notas con pestañas persistentes'           }, en: { name: 'Notepad',         desc: 'Tabbed notepad with persistent content'             } },
+  'cron':           { es: { name: 'Cron',            desc: 'Testa y construye expresiones cron'                 }, en: { name: 'Cron',            desc: 'Test and build cron expressions'                    } },
   'ip-lookup':      { es: { name: 'IP Lookup',       desc: 'Geolocalización de IPs'                             }, en: { name: 'IP Lookup',       desc: 'IP geolocation'                                     } },
   'headers-http':   { es: { name: 'Headers HTTP',    desc: 'Inspecciona headers de una URL'                     }, en: { name: 'HTTP Headers',    desc: 'Inspect headers of a URL'                           } },
   'cidr':           { es: { name: 'CIDR',            desc: 'Calculadora de subredes'                            }, en: { name: 'CIDR',            desc: 'Subnet calculator'                                  } },

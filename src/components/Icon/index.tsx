@@ -27,7 +27,7 @@ const PATHS: Record<IconName, ReactNode> = {
   'split-h':    <><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M3.5 12h17"/></>,
   'swap':       <><path d="M4 8h13l-3-3M20 16H7l3 3"/></>,
   'cmd':        <><path d="M9 6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3z"/></>,
-  'pin':        <><path d="M12 3v8m0 0-3 4h6l-3-4m0 8v-4"/></>,
+  'pin':        <><rect x="6" y="3" width="12" height="4" rx="1.5"/><path d="M12 7v13M9 20h6"/></>,
   'pin-fill':   <><path d="M14 3l7 7-4 1-2 5-3-3-5 5-1-1 5-5-3-3 5-2z"/></>,
   'star':       <><path d="M12 4l2.6 5.4 6 .8-4.4 4.1 1.1 5.9L12 17.3 6.7 20.2l1.1-5.9L3.4 10.2l6-.8z"/></>,
   'chev-d':     <><path d="m8 9 4 4 4-4"/></>,

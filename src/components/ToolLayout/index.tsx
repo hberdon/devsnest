@@ -2,10 +2,10 @@ import { type ReactNode, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import { LangPicker } from '@/components/LangPicker'
+import { CmdKButton } from '@/components/CmdKButton'
 import { SplitModeContext, type SplitMode } from '@/components/SplitPane'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
-import { useCmdK } from '@/store/cmd-palette.context'
 import { useLang } from '@/store/lang.context'
 import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './ToolLayout.module.css'
@@ -22,8 +22,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
   const tool     = getToolById(toolId)
   const category = tool ? getCategoryById(tool.categoryId) : undefined
   const navigate = useNavigate()
-  const { open: openCmdK } = useCmdK()
-  const { pinned, pin, unpin } = useDevTools()
+  const { pinned, pinTool, unpin } = useDevTools()
   const { t } = useLang()
   const [splitMode, setSplitMode] = useLocalStorage<SplitMode>(`split-${toolId}`, 'v')
 
@@ -39,9 +38,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
     if (isPinned && entry) {
       unpin(entry.id)
     } else if (tool && category) {
-      // Pin creates an entry. Real usage will be added by addToHistory in the tool.
-      // Here we just ensure it's bookmarked.
-      pin(toolId)
+      pinTool(toolId, { toolName: tool.name, badge: tool.badge, categoryName: category.name })
     }
   }
 
@@ -58,11 +55,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
           <span>›</span>
           <span className={s.breadcrumbActive}>{tool.name}</span>
           <div className={s.breadcrumbActions}>
-            <button className={s.searchBtn} onClick={openCmdK}>
-              <Icon name="search" size={14} color="currentColor" />
-              <span>{t.searchTool}</span>
-              <kbd className={s.searchKbd}>Ctrl+F</kbd>
-            </button>
+            <CmdKButton className={s.searchBtn} label={t.searchTool} iconSize={14} />
             <LangPicker />
           </div>
         </nav>
@@ -78,7 +71,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
                 title={isPinned ? t.unpin : t.pin}
                 onClick={handlePinToggle}
               >
-                <Icon name="pin" size={16} strokeWidth={2} />
+                <Icon name="pin-fill" size={18} strokeWidth={2} />
               </button>
             </div>
             <div className={s.subtitle}>{tool.description}</div>

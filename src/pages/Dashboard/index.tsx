@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import { LangPicker } from '@/components/LangPicker'
@@ -8,99 +8,162 @@ import { useLang } from '@/store/lang.context'
 import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './Dashboard.module.css'
 
-// ── Inline search ──────────────────────────────────────────────────────────
+// ── Search utils ───────────────────────────────────────────────────────────
 
-function searchTools(q: string): ToolMeta[] {
-  const t = q.trim().toLowerCase()
-  if (!t) return []
-  return ALL_TOOLS.filter(tool =>
-    tool.name.toLowerCase().includes(t) ||
-    tool.description.toLowerCase().includes(t) ||
-    tool.badge.toLowerCase().includes(t)
-  ).slice(0, 8)
+function score(tool: ToolMeta, q: string): number {
+  if (!q) return 1
+  const name  = tool.name.toLowerCase()
+  const desc  = tool.description.toLowerCase()
+  const badge = tool.badge.toLowerCase()
+  const query = q.toLowerCase()
+  if (name === query)         return 10
+  if (badge === query)        return 9
+  if (name.startsWith(query)) return 8
+  if (name.includes(query))   return 6
+  if (desc.includes(query))   return 3
+  return 0
 }
+
+function highlight(text: string, query: string): ReactNode {
+  if (!query) return text
+  const idx = text.toLowerCase().indexOf(query.toLowerCase())
+  if (idx === -1) return text
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark className={s.mark}>{text.slice(idx, idx + query.length)}</mark>
+      {text.slice(idx + query.length)}
+    </>
+  )
+}
+
+// ── ResultRow ─────────────────────────────────────────────────────────────
+
+interface ResultRowProps {
+  tool: ToolMeta
+  query: string
+  isSelected: boolean
+  showEnter?: boolean
+  onClick: () => void
+}
+
+function ResultRow({ tool, query, isSelected, showEnter, onClick }: ResultRowProps) {
+  return (
+    <div
+      className={`${s.resultRow} ${isSelected ? s.resultSelected : ''}`}
+      onMouseDown={e => { e.preventDefault(); onClick() }}
+      onMouseEnter={() => {}}
+    >
+      <span className={s.resultBadge}>{tool.badge}</span>
+      <div className={s.resultInfo}>
+        <div className={s.resultName}>{highlight(tool.name, query)}</div>
+        <div className={s.resultSub}>{tool.categoryId} · {tool.description}</div>
+      </div>
+      {showEnter && isSelected && <span className={s.enterBadge}>↵</span>}
+    </div>
+  )
+}
+
+// ── Hero search — input directo, dropdown cuelga de él ────────────────────
 
 function HeroSearch() {
   const [query,    setQuery]    = useState('')
-  const [active,   setActive]   = useState(-1)
+  const [selected, setSelected] = useState(0)
   const [focused,  setFocused]  = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const { t } = useLang()
-  const { allTools: ALL_TOOLS } = useLocalizedRegistry()
+  const { allTools } = useLocalizedRegistry()
 
-  const results = searchTools(query)
-  const showDrop = focused && query.trim() !== ''
+  const results = allTools
+    .map(tool => ({ tool, score: score(tool, query) }))
+    .filter(r => r.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(r => r.tool)
 
-  const go = useCallback((tool: ToolMeta) => {
+  const top    = results[0]
+  const others = results.slice(1, 8)
+
+  function close() {
+    setFocused(false)
     setQuery('')
-    setActive(-1)
-    navigate(`/tools/${tool.id}`)
-  }, [navigate])
-
-  function onKey(e: React.KeyboardEvent) {
-    if (!showDrop) return
-    if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      setActive(v => Math.min(v + 1, results.length - 1))
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      setActive(v => Math.max(v - 1, -1))
-    } else if (e.key === 'Enter') {
-      e.preventDefault()
-      const tool = active >= 0 ? results[active] : results[0]
-      if (tool) go(tool)
-    } else if (e.key === 'Escape') {
-      setQuery('')
-      setActive(-1)
-      inputRef.current?.blur()
-    }
+    setSelected(0)
+    inputRef.current?.blur()
   }
+
+  function goTo(toolId: string) {
+    navigate(`/tools/${toolId}`)
+    close()
+  }
+
+  useEffect(() => {
+    if (!focused) return
+    const total = results.length
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); setSelected(i => Math.min(i + 1, total - 1)) }
+      if (e.key === 'ArrowUp')   { e.preventDefault(); setSelected(i => Math.max(i - 1, 0)) }
+      if (e.key === 'Enter')     { e.preventDefault(); if (results[selected]) goTo(results[selected].id) }
+      if (e.key === 'Escape')    { e.preventDefault(); close() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [focused, results, selected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={s.searchWrap}>
-      <div className={`${s.searchBox} ${focused ? s.searchFocused : ''}`}>
+      {focused && <div className={s.searchBackdrop} onMouseDown={close} />}
+
+      <div className={`${s.heroSearch} ${focused ? s.heroSearchFocused : ''}`}>
         <Icon name="search" size={20} color="var(--color-muted)" />
         <input
           ref={inputRef}
-          className={s.searchInput}
+          className={s.heroInput}
           value={query}
-          onChange={e => { setQuery(e.target.value); setActive(-1) }}
-          onKeyDown={onKey}
+          onChange={e => { setQuery(e.target.value); setSelected(0) }}
           onFocus={() => setFocused(true)}
-          onBlur={() => setTimeout(() => setFocused(false), 150)}
+          onBlur={() => { setFocused(false); setQuery(''); setSelected(0) }}
           placeholder={t.searchPlaceholder}
           autoComplete="off"
           spellCheck={false}
         />
         {query
-          ? <button className={s.clearBtn} onMouseDown={e => { e.preventDefault(); setQuery(''); setActive(-1); inputRef.current?.focus() }}>
+          ? <button className={s.clearBtn} onMouseDown={e => { e.preventDefault(); setQuery(''); setSelected(0); inputRef.current?.focus() }}>
               <Icon name="close" size={13} />
             </button>
-          : <span className={s.searchKbd}>{t.searchHint}</span>
+          : <kbd className={s.searchKbd}>⌘K</kbd>
         }
       </div>
 
-      {showDrop && (
-        <div className={s.dropdown}>
-          {results.length === 0 ? (
-            <div className={s.dropEmpty}>{t.noResults} «{query}»</div>
-          ) : (
-            results.map((tool, i) => (
-              <div
-                key={tool.id}
-                className={`${s.dropItem} ${i === active ? s.dropActive : ''}`}
-                onMouseDown={e => { e.preventDefault(); go(tool) }}
-                onMouseEnter={() => setActive(i)}
-              >
-                <span className={s.dropBadge}>{tool.badge}</span>
-                <span className={s.dropName}>{tool.name}</span>
-                <span className={s.dropCat}>{tool.categoryId}</span>
-                <span className={s.dropDesc}>{tool.description}</span>
-                <Icon name="arrow-r" size={13} color="var(--color-muted)" />
-              </div>
-            ))
-          )}
+      {focused && (
+        <div className={s.inlinePalette}>
+          <div className={s.paletteResults}>
+            {results.length === 0 ? (
+              <div className={s.noResults}>{t.cmdNoResults} «{query}»</div>
+            ) : (
+              <>
+                {top && (
+                  <>
+                    <div className={s.sectionLabel}>{t.cmdBestMatch}</div>
+                    <ResultRow tool={top} query={query} isSelected={selected === 0} showEnter onClick={() => goTo(top.id)} />
+                  </>
+                )}
+                {others.length > 0 && (
+                  <>
+                    <div className={s.sectionLabel}>{t.cmdOthers}</div>
+                    {others.map((tool, i) => (
+                      <ResultRow key={tool.id} tool={tool} query={query} isSelected={selected === i + 1} onClick={() => goTo(tool.id)} />
+                    ))}
+                  </>
+                )}
+              </>
+            )}
+          </div>
+          <div className={s.paletteFooter}>
+            <span><span className={s.footerKbd}>↑↓</span> {t.cmdNavigate}</span>
+            <span><span className={s.footerKbd}>↵</span> {t.cmdOpen}</span>
+            <span><span className={s.footerKbd}>esc</span> {t.cmdClose}</span>
+            <span className={s.footerCount}>{results.length} / {allTools.length}</span>
+          </div>
         </div>
       )}
     </div>
@@ -132,7 +195,7 @@ function HistoryRow({ entry, isPinned, onPin, onUnpin, onRemove, onReopen }: His
         <button className={s.actionBtn} title={t.openTool} onClick={onReopen}><Icon name="chev-r" size={12} /></button>
         <button className={s.actionBtn} title={t.copyResult} onClick={handleCopy}><Icon name="copy" size={12} /></button>
         <button className={`${s.actionBtn} ${isPinned ? s.pinActive : ''}`} title={isPinned ? t.unpin : t.pin} onClick={isPinned ? onUnpin : onPin}>
-          <Icon name="pin" size={12} color={isPinned ? '#fff' : 'currentColor'} strokeWidth={2} />
+          <Icon name="pin-fill" size={14} color={isPinned ? '#fff' : '#dc2626'} strokeWidth={2} />
         </button>
         {!isPinned && <button className={s.actionBtn} title={t.removeTool} onClick={onRemove}><Icon name="close" size={12} /></button>}
       </div>
@@ -162,7 +225,7 @@ export default function Dashboard() {
       {pinned.length > 0 && (
         <div className={s.section}>
           <div className={s.sectionHeader}>
-            <Icon name="pin" size={15} color="var(--color-accent2)" strokeWidth={2} />
+            <Icon name="pin-fill" size={17} color="#dc2626" strokeWidth={2} />
             <span className={s.sectionTitle}>{t.pinned}</span>
             <span className={s.sectionNote}>{t.alsoInSidebar}</span>
             <span className={s.sectionCount}>{pinned.length}</span>
@@ -181,12 +244,12 @@ export default function Dashboard() {
         <div className={s.sectionHeader}>
           <Icon name="clock" size={15} color="var(--color-ink)" />
           <span className={s.sectionTitle}>{t.history}</span>
-          <span className={s.sectionNote}>{t.historyLastN} {Math.min(5, history.length)}</span>
+          <span className={s.sectionNote}>{t.historyLastN} {Math.min(8, history.length)}</span>
           {history.length > 0 && <button className={s.clearHistBtn} onClick={clearHistory}>{t.clearHistory}</button>}
         </div>
         {history.length > 0 ? (
           <div className={s.list}>
-            {history.slice(0, 5).map((entry, i, arr) => (
+            {history.slice(0, 8).map((entry, i, arr) => (
               <div key={entry.id} className={i < arr.length - 1 ? s.listDivider : undefined}>
                 <HistoryRow entry={entry} isPinned={false} onPin={() => pin(entry.id)} onRemove={() => removeFromHistory(entry.id)} onReopen={() => navigate(`/tools/${entry.toolId}`)} />
               </div>

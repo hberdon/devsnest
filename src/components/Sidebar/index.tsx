@@ -4,7 +4,6 @@ import { Icon } from '@/components/Icon'
 import { type CategoryId } from '@/tools/registry'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
-import { useCmdK } from '@/store/cmd-palette.context'
 import { useLang } from '@/store/lang.context'
 import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
 import s from './Sidebar.module.css'
@@ -17,10 +16,8 @@ export function Sidebar() {
   const location  = useLocation()
   const navigate  = useNavigate()
   const { pinned } = useDevTools()
-  const { open: openCmdK } = useCmdK()
   const { t } = useLang()
   const { visibleCategories: CATEGORIES } = useLocalizedRegistry()
-  const isDashboard  = location.pathname === '/'
   const activeToolId = location.pathname.startsWith('/tools/')
     ? location.pathname.slice('/tools/'.length)
     : null
@@ -45,7 +42,7 @@ export function Sidebar() {
         {/* Anclados */}
         {pinned.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, marginTop: 4 }}>
-            <Icon name="pin-fill" size={11} color="var(--color-accent2)" />
+            <Icon name="pin-fill" size={11} color="#dc2626" />
             {pinned.slice(0, 3).map(entry => (
               <div
                 key={entry.id}
@@ -126,7 +123,7 @@ export function Sidebar() {
               >
                 <span className={s.toolBadge}>{entry.badge}</span>
                 <span style={{ flex: 1 }}>{entry.toolName}</span>
-                <Icon name="pin-fill" size={11} color="var(--color-accent2)" />
+                <Icon name="pin-fill" size={11} color="#dc2626" />
               </Link>
             ))}
           </div>

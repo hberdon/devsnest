@@ -308,6 +308,15 @@ export interface Translations {
   rsaPublic: string
   rsaPrivate: string
   rsaNote: string
+  // ── Notepad ──────────────────────────────────────────────────────────────
+  npdLoad: string
+  npdSave: string
+  npdCopy: string
+  npdCopied: string
+  npdAddTab: string
+  npdUntitled: string
+  npdCloseTab: string
+  npdPlaceholder: string
 }
 
 export const translations: Record<Lang, Translations> = {
@@ -613,6 +622,15 @@ export const translations: Record<Lang, Translations> = {
     rsaPublic:             'Clave pública (JWK)',
     rsaPrivate:            'Clave secreta (JWK)',
     rsaNote:               'Generación 100% local via Web Crypto API. Formato JWK (JSON Web Key, RFC 7517). Las claves nunca salen del navegador.',
+    // Notepad
+    npdLoad:               'Cargar',
+    npdSave:               'Guardar',
+    npdCopy:               'Copiar',
+    npdCopied:             '✓ Copiado',
+    npdAddTab:             'Nueva pestaña',
+    npdUntitled:           'Sin título',
+    npdCloseTab:           'Cerrar pestaña',
+    npdPlaceholder:        'Escribe o pega texto aquí…',
   },
 
   en: {
@@ -917,5 +935,14 @@ export const translations: Record<Lang, Translations> = {
     rsaPublic:             'Public key (JWK)',
     rsaPrivate:            'Private key (JWK)',
     rsaNote:               '100% local generation via Web Crypto API. JWK format (JSON Web Key, RFC 7517). Keys never leave the browser.',
+    // Notepad
+    npdLoad:               'Load',
+    npdSave:               'Save',
+    npdCopy:               'Copy',
+    npdCopied:             '✓ Copied',
+    npdAddTab:             'New tab',
+    npdUntitled:           'Untitled',
+    npdCloseTab:           'Close tab',
+    npdPlaceholder:        'Type or paste text here…',
   },
 }

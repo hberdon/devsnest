@@ -2,18 +2,17 @@
 
 .page {
   flex: 1;
-  padding: 32px 44px;
+  padding: 18px 24px 40px;
   overflow-y: auto;
   overflow-x: hidden;
-  position: relative;
   background: var(--color-bg);
 }
 
-/* ── Top bar (lang picker, etc.) ─────────────────────────────────────────── */
+/* ── Top bar (lang picker) — matches ToolLayout breadcrumb position ──────── */
 .topBar {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 4px;
+  margin-bottom: 20px;
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────────── */
@@ -35,13 +34,22 @@
   margin-top: 2px;
 }
 
-/* ── Search box (opens ⌘K) ───────────────────────────────────────────────── */
+/* ── Hero search ─────────────────────────────────────────────────────────── */
 .searchWrap {
-  position: relative;
   margin-top: 18px;
+  position: relative;
+  z-index: 20;
+  text-align: left;
 }
 
-.searchBox {
+.searchBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.32);
+  z-index: 10;
+}
+
+.heroSearch {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -50,28 +58,41 @@
   border-radius: 8px 9px 7px 10px;
   background: var(--color-surface);
   box-shadow: var(--shadow-sketch);
-  width: 100%;
-  font-family: var(--font-ui);
+  position: relative;
+  z-index: 20;
 }
 
-.searchFocused {
-  border-color: var(--color-accent) !important;
+.heroSearchFocused {
+  border-color: var(--color-accent);
 }
 
-.searchInput {
+.heroInput {
   flex: 1;
-  background: transparent;
   border: none;
   outline: none;
-  font-family: var(--font-ui);
-  font-size: 18px;
+  font-family: var(--font-mono);
+  font-size: 17px;
   color: var(--color-ink);
+  background: transparent;
+  caret-color: var(--color-accent);
   min-width: 0;
-  cursor: pointer;
 }
 
-.searchInput::placeholder {
+.heroInput::placeholder {
   color: var(--color-muted);
+  font-family: var(--font-ui);
+  font-size: 15px;
+}
+
+.searchKbd {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--color-ink2);
+  border: 1.2px solid var(--color-ink2);
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .clearBtn {
@@ -81,7 +102,7 @@
   height: 22px;
   border: 1.2px solid var(--color-stroke) !important;
   border-radius: 4px;
-  background: var(--color-surface) !important;
+  background: transparent !important;
   color: var(--color-muted);
   cursor: pointer;
   flex-shrink: 0;
@@ -92,102 +113,133 @@
   color: var(--color-ink);
 }
 
-.searchKbd {
-  margin-left: auto;
+/* Palette dropdown — floats below the input, doesn't push content */
+.inlinePalette {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 8px 9px 7px 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-palette);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.paletteResults {
+  padding: 6px 6px 10px;
+}
+
+.sectionLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+  padding: 6px 10px;
+}
+
+.resultRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin: 0 4px;
+  border: 1.4px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.resultRow:hover,
+.resultSelected {
+  background: var(--color-hl);
+  border-color: var(--color-stroke);
+}
+
+.resultBadge {
+  width: 26px;
+  height: 26px;
+  border: 1.4px solid var(--color-stroke);
+  border-radius: 5px;
+  background: var(--color-surface);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  color: var(--color-ink);
+}
+
+.resultInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.resultName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.mark {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+  border-radius: 2px;
+}
+
+.resultSub {
+  font-size: 11px;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.enterBadge {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--color-muted);
   border: 1.2px solid var(--color-muted);
-  padding: 2px 7px;
-  border-radius: 4px;
-  white-space: nowrap;
+  padding: 1px 6px;
+  border-radius: 3px;
   flex-shrink: 0;
 }
 
-.searchNote {
+.noResults {
+  padding: 20px;
   text-align: center;
-  margin-top: 8px;
-  font-size: 12px;
   color: var(--color-muted);
-}
-
-/* ── Search dropdown ─────────────────────────────────────────────────────── */
-.dropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  right: 0;
-  background: var(--color-surface);
-  border: 1.8px solid var(--color-stroke);
-  border-radius: 8px 9px 7px 10px;
-  box-shadow: var(--shadow-sketch);
-  z-index: 50;
-  overflow: hidden;
-}
-
-.dropEmpty {
-  padding: 14px 18px;
   font-size: 13px;
-  color: var(--color-muted);
 }
 
-.dropItem {
+.paletteFooter {
+  border-top: 1.3px dashed var(--color-muted);
+  padding: 8px 14px;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  cursor: pointer;
-  border-top: 1px solid var(--color-stroke);
-}
-
-.dropItem:first-child {
-  border-top: none;
-}
-
-.dropItem:hover,
-.dropActive {
-  background: var(--color-accent-soft);
-}
-
-.dropBadge {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  background: var(--color-hl);
-  border: 1.3px solid var(--color-stroke);
-  border-radius: 4px;
-  padding: 1px 5px;
-  flex-shrink: 0;
-}
-
-.dropName {
-  font-size: 14px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.dropCat {
+  gap: 14px;
   font-size: 11px;
   color: var(--color-muted);
-  border: 1.1px solid var(--color-muted);
-  padding: 0 6px;
-  border-radius: 999px;
   flex-shrink: 0;
 }
 
-.dropDesc {
-  font-size: 13px;
-  color: var(--color-ink2);
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.footerKbd {
+  font-family: var(--font-mono);
+  padding: 0 4px;
+  background: #eee;
+  border-radius: 3px;
+}
+
+.footerCount {
+  margin-left: auto;
+  font-family: var(--font-mono);
 }
 
 /* ── Sections ────────────────────────────────────────────────────────────── */
 .section {
-  max-width: 760px;
+  max-width: 860px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 28px;

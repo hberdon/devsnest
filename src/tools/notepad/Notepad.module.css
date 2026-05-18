@@ -1,0 +1,303 @@
+/* ─── Notepad — tabbed text editor ──────────────────────────────────────── */
+
+/* ── Wrapper ─────────────────────────────────────────────────────────────── */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ── V4 browser-style tab bar ────────────────────────────────────────────── */
+.tabBar {
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 0 0;
+  border-bottom: 1.8px solid var(--color-stroke);
+  background: var(--color-surface);
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted) transparent;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  cursor: pointer;
+  border: 1.5px solid var(--color-stroke);
+  border-radius: 8px 9px 0 0;
+  margin-right: 4px;
+  margin-bottom: -1.8px;
+  background: var(--color-surface);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-ink2);
+  white-space: nowrap;
+  user-select: none;
+  transition: background 0.12s, color 0.12s;
+  min-width: 0;
+  position: relative;
+  z-index: 0;
+}
+
+/* First tab: left offset */
+.tab:first-child {
+  margin-left: 0;
+}
+
+.tab:hover:not(.tabActive) {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* Active tab merges with content below */
+.tabActive {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 700;
+  border-bottom-color: var(--color-surface);
+  z-index: 1;
+}
+
+.tabName {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabNameInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  font: inherit;
+  width: 120px;
+  min-width: 60px;
+}
+
+.closeTab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.4;
+  padding: 1px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.1s;
+}
+
+.closeTab:hover {
+  opacity: 1;
+}
+
+.addTab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted);
+  padding: 6px 12px 10px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  transition: color 0.12s;
+}
+
+.addTab:hover {
+  color: var(--color-ink);
+}
+
+/* ── Editor card — same sketchBox as JSON tool ───────────────────────────── */
+.editorCard {
+  flex: 1;
+  border: 1.8px solid var(--color-stroke);
+  border-top: none;
+  border-radius: 0 0 7px 10px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 6px;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  color: var(--color-ink);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardMeta {
+  font-size: 11px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.formatBadge {
+  background: var(--color-accent-soft);
+  border: 1.1px solid var(--color-accent);
+  border-radius: 4px 5px 4px 5px;
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+}
+
+/* ── More menu — identical to JSON tool ──────────────────────────────────── */
+.menuWrap {
+  position: relative;
+  margin-left: auto;
+}
+
+.moreBtn {
+  width: 34px;
+  height: 34px;
+  border: 1.8px solid var(--color-stroke) !important;
+  border-radius: 7px 9px 6px 9px;
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--color-ink);
+  transition: background 0.1s;
+}
+
+.moreBtn:hover,
+.moreBtnActive {
+  background: var(--color-accent-soft) !important;
+  border-color: var(--color-ink) !important;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 200;
+  background: var(--color-surface);
+  border: 1.8px solid var(--color-ink);
+  border-radius: 8px 9px 7px 10px;
+  box-shadow: var(--shadow-palette);
+  min-width: 160px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  background: none !important;
+  border: none !important;
+  border-radius: 5px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.menuItem:hover:not(:disabled) {
+  background: var(--color-accent-soft) !important;
+}
+
+.menuItem:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.menuSep {
+  height: 1px;
+  background: var(--color-muted);
+  opacity: 0.25;
+  margin: 3px 6px;
+}
+
+/* ── Editor area — identical to JSON tool ────────────────────────────────── */
+.editorWrap {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+  margin: 6px 10px 10px;
+  border: 1.4px dashed var(--color-muted);
+  border-radius: 5px;
+}
+
+.gutter {
+  width: 32px;
+  min-width: 32px;
+  overflow-y: hidden;
+  padding: 10px 0;
+  border-right: 1.2px dashed var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--color-muted);
+  text-align: right;
+  scrollbar-width: none;
+  user-select: none;
+  background: transparent;
+}
+
+.gutter::-webkit-scrollbar {
+  display: none;
+}
+
+.gutterLine {
+  padding-right: 6px;
+  line-height: 1.65;
+  font-size: 12px;
+}
+
+.code {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--color-ink);
+  line-height: 1.65;
+  padding: 10px 12px;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 2;
+}
+
+.code::placeholder {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.code::-webkit-scrollbar        { width: 8px; height: 8px; }
+.code::-webkit-scrollbar-track  { background: transparent; }
+.code::-webkit-scrollbar-thumb  { background: var(--color-muted); border-radius: 4px; }
+.code::-webkit-scrollbar-thumb:hover { background: var(--color-ink2); }

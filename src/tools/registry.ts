@@ -47,6 +47,8 @@ const TOOLS: ToolMeta[] = [
   { id: 'regex',           name: 'Regex Tester',    categoryId: 'utils', badge: '.*',  description: 'Prueba expresiones regulares' },
   { id: 'case-converter',  name: 'Case Converter',  categoryId: 'utils', badge: 'Aa',  description: 'Convierte entre camelCase, snake_case, etc.' },
   { id: 'contador',        name: 'Contador',        categoryId: 'utils', badge: '∑',   description: 'Cuenta chars, palabras, líneas y bytes' },
+  { id: 'notepad',         name: 'Notepad',         categoryId: 'utils', badge: 'NPD', description: 'Bloc de notas con pestañas persistentes' },
+  { id: 'cron',            name: 'Cron',            categoryId: 'utils', badge: '⏱',  description: 'Testa y construye expresiones cron' },
   // Red
   { id: 'ip-lookup',       name: 'IP Lookup',       categoryId: 'net',   badge: 'IP',  description: 'Geolocalización de IPs' },
   { id: 'headers-http',    name: 'Headers HTTP',    categoryId: 'net',   badge: 'H',   description: 'Inspecciona headers de una URL' },

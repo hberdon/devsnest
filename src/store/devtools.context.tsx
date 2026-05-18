@@ -16,6 +16,7 @@ interface DevToolsStore {
   pinned: HistoryEntry[]
   addToHistory: (entry: Omit<HistoryEntry, 'id' | 'timestamp'>) => void
   pin: (id: string) => void
+  pinTool: (toolId: string, meta: { toolName: string; badge: string; categoryName: string }) => void
   unpin: (id: string) => void
   removeFromHistory: (id: string) => void
   clearHistory: () => void
@@ -67,7 +68,7 @@ export function DevToolsProvider({ children }: { children: ReactNode }) {
       history: [
         newEntry,
         ...prev.history.filter(e => e.toolId !== entry.toolId),
-      ].slice(0, 5),
+      ].slice(0, 8),
     }))
   }, [setState])
 
@@ -83,6 +84,30 @@ export function DevToolsProvider({ children }: { children: ReactNode }) {
     })
   }, [setState])
 
+  const pinTool = useCallback((toolId: string, meta: { toolName: string; badge: string; categoryName: string }) => {
+    setState(prev => {
+      if (prev.pinned.some(e => e.toolId === toolId)) return prev
+      const fromHistory = prev.history.find(e => e.toolId === toolId)
+      if (fromHistory) {
+        return {
+          ...prev,
+          pinned: [fromHistory, ...prev.pinned],
+          history: prev.history.filter(e => e.toolId !== toolId),
+        }
+      }
+      const newEntry: HistoryEntry = {
+        id: `${toolId}-pinned-${Date.now()}`,
+        toolId,
+        toolName: meta.toolName,
+        badge: meta.badge,
+        categoryName: meta.categoryName,
+        description: '',
+        timestamp: formatTimestamp(new Date()),
+      }
+      return { ...prev, pinned: [newEntry, ...prev.pinned] }
+    })
+  }, [setState])
+
   const unpin = useCallback((id: string) => {
     setState(prev => {
       const entry = prev.pinned.find(e => e.id === id)
@@ -90,7 +115,7 @@ export function DevToolsProvider({ children }: { children: ReactNode }) {
       return {
         ...prev,
         pinned: prev.pinned.filter(e => e.id !== id),
-        history: [entry, ...prev.history].slice(0, 5),
+        history: [entry, ...prev.history].slice(0, 8),
       }
     })
   }, [setState])
@@ -112,6 +137,7 @@ export function DevToolsProvider({ children }: { children: ReactNode }) {
       pinned: state.pinned,
       addToHistory,
       pin,
+      pinTool,
       unpin,
       removeFromHistory,
       clearHistory,

@@ -88,9 +88,13 @@
   border: none !important;
 }
 
+.pinBtn {
+  color: var(--color-muted);
+}
+
 .pinBtn:hover,
 .pinBtn.pinned {
-  color: var(--color-accent2);
+  color: #dc2626;
 }
 
 .subtitle {
@@ -148,14 +152,15 @@
   color: var(--color-ink);
 }
 
-.searchKbd {
-  font-family: var(--font-mono);
+.searchBtn kbd {
+  font-family: var(--font-ui);
   font-size: 11px;
   background: var(--color-accent-soft);
-  border: 1.1px solid var(--color-muted);
+  border: 1.1px solid var(--color-ink2);
   border-radius: 3px;
   padding: 1px 6px;
-  color: var(--color-muted);
+  color: var(--color-ink2);
+  flex-shrink: 0;
 }
 
 /* Split toggle — sbox with no shadow */

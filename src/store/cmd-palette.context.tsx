@@ -18,7 +18,7 @@ export function CmdKProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.ctrlKey && e.key === 'f') {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
         toggle()
       }
