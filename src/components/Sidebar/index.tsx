@@ -167,11 +167,16 @@ export function Sidebar() {
                           to={`/tools/${tool.id}`}
                           className={`${s.catToolRow} ${isActive ? s.catToolActive : ''}`}
                         >
-                          {(tool.id === 'img-base64' || tool.id === 'pdf-base64')
-                            ? <Icon name="cat-conv" size={11} color="var(--color-muted)" />
-                            : <span className={s.catDot}>·</span>
-                          }
-                          <span style={{ flex: 1 }}>{tool.name}</span>
+                          <span className={s.catDot}>·</span>
+                          {(tool.id === 'img-base64' || tool.id === 'pdf-base64') ? (
+                            <span style={{ flex: 1, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                              {tool.id === 'img-base64' ? 'Img' : 'PDF'}
+                              <Icon name="cat-conv" size={14} color="currentColor" />
+                              Base64
+                            </span>
+                          ) : (
+                            <span style={{ flex: 1 }}>{tool.name}</span>
+                          )}
                         </Link>
                       )
                     })}
