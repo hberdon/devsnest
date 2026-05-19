@@ -87,7 +87,7 @@ export function Sidebar() {
             title={t.expand}
             onClick={() => setCollapsed(false)}
           >
-            <Icon name="sidebar-r" size={14} />
+            <Icon name="cat-conv" size={14} />
           </div>
           <div className={s.collapsedAvatar}>JD</div>
         </div>
@@ -104,7 +104,7 @@ export function Sidebar() {
           <span className={s.logoWordmark}>devsnest</span>
         </Link>
         <button className={s.collapseBtn} title={t.collapseAll} onClick={() => setCollapsed(true)}>
-          <Icon name="sidebar-l" size={14} />
+          <Icon name="cat-conv" size={14} />
         </button>
       </div>
 

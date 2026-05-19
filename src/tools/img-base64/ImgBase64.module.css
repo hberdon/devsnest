@@ -109,23 +109,25 @@
 .infoActions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: 6px;
 }
 
 .changeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-ui);
   font-size: 12px;
-  color: var(--color-muted);
-  border: 1.4px solid var(--color-stroke) !important;
+  color: #fff;
+  background: var(--color-ink) !important;
+  border: none !important;
   border-radius: 4px;
-  padding: 2px 8px;
-  background: transparent !important;
+  padding: 4px 10px;
   cursor: pointer;
 }
 
-.changeBtn:hover { color: var(--color-ink); }
+.changeBtn:hover { opacity: 0.8; }
 
 .dropHint {
   display: flex;
