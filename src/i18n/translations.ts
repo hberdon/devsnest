@@ -328,6 +328,10 @@ export interface Translations {
   imgB64Placeholder: string
   imgInvalid: string
   imgChange: string
+  imgInfoName: string
+  imgInfoType: string
+  imgInfoDims: string
+  imgInfoSize: string
   // ── PDF ↔ Base64 ─────────────────────────────────────────────────────────
   pdfFileToB64: string
   pdfB64ToFile: string
@@ -662,6 +666,10 @@ export const translations: Record<Lang, Translations> = {
     imgB64Placeholder:     'Pega el Base64 aquí (con o sin prefijo data:image/…)',
     imgInvalid:            'Base64 inválido o formato de imagen no soportado',
     imgChange:             'Cambiar',
+    imgInfoName:           'Nombre',
+    imgInfoType:           'Tipo',
+    imgInfoDims:           'Dimensiones',
+    imgInfoSize:           'Tamaño',
     // PDF ↔ Base64
     pdfFileToB64:          'PDF → Base64',
     pdfB64ToFile:          'Base64 → PDF',
@@ -995,6 +1003,10 @@ export const translations: Record<Lang, Translations> = {
     imgB64Placeholder:     'Paste Base64 here (with or without data:image/… prefix)',
     imgInvalid:            'Invalid Base64 or unsupported image format',
     imgChange:             'Change',
+    imgInfoName:           'Name',
+    imgInfoType:           'Type',
+    imgInfoDims:           'Dimensions',
+    imgInfoSize:           'Size',
     // PDF ↔ Base64
     pdfFileToB64:          'PDF → Base64',
     pdfB64ToFile:          'Base64 → PDF',

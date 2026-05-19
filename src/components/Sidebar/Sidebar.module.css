@@ -89,6 +89,8 @@
 
 .collapseBtn:hover {
   background: var(--color-accent-soft) !important;
+  border-color: var(--color-stroke) !important;
+  border-style: dashed !important;
 }
 
 /* ── Rail cell (collapsed mode) ──────────────────────────────────────────── */
@@ -106,6 +108,7 @@
 
 .railCell:hover {
   background: var(--color-accent-soft);
+  border: 1.4px dashed var(--color-stroke);
 }
 
 .railCell.railActive {
@@ -139,6 +142,7 @@
 
 .searchChip:hover {
   background: var(--color-accent-soft);
+  border-color: var(--color-stroke);
   color: var(--color-ink2);
 }
 
@@ -189,6 +193,7 @@
 
 .collapseAllBtn:hover {
   background: var(--color-accent-soft) !important;
+  border: 1.4px dashed var(--color-stroke) !important;
   color: var(--color-ink2);
 }
 
@@ -229,11 +234,13 @@
 
 .toolRow:hover {
   background: var(--color-accent-soft);
+  border: 1.4px dashed var(--color-stroke);
 }
 
 .toolRow.toolActive {
   background: var(--color-hl);
   border-color: var(--color-stroke);
+  border-style: dashed;
 }
 
 .toolBadge {
@@ -322,6 +329,7 @@
 
 .catToolRow:hover {
   background: var(--color-accent-soft);
+  border: 1.4px dashed var(--color-stroke);
   color: var(--color-ink);
 }
 
@@ -329,6 +337,7 @@
   color: var(--color-ink);
   background: var(--color-hl);
   border-color: var(--color-stroke);
+  border-style: dashed;
 }
 
 .catDot {
@@ -387,6 +396,7 @@
 
 .settingsBtn:hover {
   background: var(--color-accent-soft) !important;
+  border: 1.4px dashed var(--color-stroke) !important;
 }
 
 /* ── Collapsed footer ────────────────────────────────────────────────────── */
@@ -426,6 +436,7 @@
 
 .expandBtn:hover {
   background: var(--color-accent-soft) !important;
+  border: 1.4px dashed var(--color-stroke) !important;
 }
 
 /* ── Theme picker ─────────────────────────────────────────────────────────── */
@@ -514,6 +525,7 @@
 
 .collapsedDotBtn:hover {
   background: var(--color-accent-soft) !important;
+  border: 1.4px dashed var(--color-stroke) !important;
 }
 
 .collapsedDot {

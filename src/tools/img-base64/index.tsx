@@ -136,16 +136,13 @@ export default function ImgBase64() {
                 <img src={dataUrl} className={s.thumb} alt="thumbnail" onClick={() => setLightbox(true)} title="Click para ampliar" />
                 {info && (
                   <div className={s.imgInfo}>
-                    <div className={s.infoRow}><span className={s.infoKey}>Nombre</span><span className={s.infoVal}>{info.name}</span></div>
-                    <div className={s.infoRow}><span className={s.infoKey}>Tipo</span><span className={s.infoVal}>{info.mime}</span></div>
-                    <div className={s.infoRow}><span className={s.infoKey}>Dimensiones</span><span className={s.infoVal}>{info.w} × {info.h} px</span></div>
-                    <div className={s.infoRow}>
-                      <span className={s.infoKey}>Tamaño</span>
-                      <span className={s.infoVal}>{fmtBytes(info.sizeBytes)}</span>
-                      <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>
-                        <Icon name="upload" size={13} />{t.imgChange}
-                      </button>
-                    </div>
+                    <div className={s.infoRow}><span className={s.infoKey}>{t.imgInfoName}</span><span className={s.infoVal}>{info.name}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>{t.imgInfoType}</span><span className={s.infoVal}>{info.mime}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>{t.imgInfoDims}</span><span className={s.infoVal}>{info.w} × {info.h} px</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>{t.imgInfoSize}</span><span className={s.infoVal}>{fmtBytes(info.sizeBytes)}</span></div>
+                    <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>
+                      <Icon name="upload" size={13} />{t.imgChange}
+                    </button>
                   </div>
                 )}
               </div>
@@ -188,8 +185,8 @@ export default function ImgBase64() {
                 )}
                 {decodeInfo && !imgError && (
                   <div className={s.imgInfo}>
-                    <div className={s.infoRow}><span className={s.infoKey}>Tipo</span><span className={s.infoVal}>{guessMime(stripPrefix(b64Input.trim()))}</span></div>
-                    <div className={s.infoRow}><span className={s.infoKey}>Dimensiones</span><span className={s.infoVal}>{decodeInfo.w} × {decodeInfo.h} px</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>{t.imgInfoType}</span><span className={s.infoVal}>{guessMime(stripPrefix(b64Input.trim()))}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>{t.imgInfoDims}</span><span className={s.infoVal}>{decodeInfo.w} × {decodeInfo.h} px</span></div>
                     <div className={s.infoRow}><span className={s.infoKey}>Base64</span><span className={s.infoVal}>{fmtBytes(Math.ceil(stripPrefix(b64Input.trim()).length * 0.75))}</span></div>
                     <div className={s.infoActions}>
                       <button className={s.btn} onClick={handleDownload}>

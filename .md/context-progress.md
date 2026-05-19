@@ -1,26 +1,26 @@
 ---
 project: devsnest
 mode: planned
-last_session: 2026-05-18
+last_session: 2026-05-19
 active_phase: "Phase 10 — Deploy & Producción"
 phases_done: 9
 phases_total: 10
-tasks_this_session: 6
-tasks_total_done: 37
-velocity_last_5: [15, 3, 5, 8, 6]
+tasks_this_session: 4
+tasks_total_done: 41
+velocity_last_5: [3, 5, 8, 6, 4]
 blockers_count: 0
-session_count: 6
+session_count: 7
 ---
 
 # 📋 CONTEXT-PROGRESS
-## devsnest • Session #6 • 2026-05-18
+## devsnest • Session #7 • 2026-05-19
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  🚀  CURRENT PHASE: Deploy & Producción                          │
-│  ██░░░░░░░░░░░░░░░░░  20%                                        │
-│  📅 Start: 2026-05-18  •  ⏱️  Day 1                             │
-│  📌 Tasks: 37/42 completed  •  🔒 0 blocked                     │
+│  ████░░░░░░░░░░░░░░░  40%                                        │
+│  📅 Start: 2026-05-18  •  ⏱️  Day 2                             │
+│  📌 Tasks: 41/46 completed  •  🔒 0 blocked                     │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -42,18 +42,15 @@ session_count: 6
 ## Tasks this session
 
 ### ✅ Done
-- [x] Extraer `CmdKButton` como componente compartido — ToolLayout lo usa, abre modal ⌘K
-- [x] Dashboard HeroSearch inline: input real, dropdown flotante, no popup, backdrop overlay
-- [x] Restaurar hotkey ⌘K (era ctrl+F) y fix visibilidad badge (font-ui en vez de font-mono)
-- [x] Cron tool completo — parser, next runs, 8 presets, ES/EN bilingual, hideSplit
-- [x] tsconfig.app.json target ES2022 (fix para `Array.at()` en cron parser)
-- [x] Fix 3 errores TS build (unused vars Sidebar: openCmdK, isDashboard; Array.at ES2020)
+- [x] Sidebar — hover dashed border en todos los elementos interactivos (collapseBtn, railCell, toolRow, catToolRow, searchChip, settingsBtn, expandBtn, collapsedDotBtn)
+- [x] tokens.css — `--color-accent-soft` más claro: `#d1fae5` → `#e6faf3`
+- [x] ImgBase64 — 4 claves i18n nuevas (imgInfoName/Type/Dims/Size) ES+EN; botón Cambiar fuera del infoRow
+- [x] PdfBase64 — `.b64Output` con `flex: 1; min-height: 0` (crece al espacio disponible vs max-height fijo)
 
 ### 🔒 Blocked
 — none
 
 ### 📋 To Do
-- [ ] `git add src/ tsconfig.app.json` + commit + push origin develop
 - [ ] `npm i -g vercel` + `vercel login`
 - [ ] `vercel` (primer deploy, conectar proyecto a GitHub repo)
 - [ ] `vercel --prod` (deploy a producción)
@@ -94,6 +91,8 @@ Tools built  ▸ 🔧 33 tools (30 + cron + notepad + extras)
 | 4 | 2026-05-18 | ⌘K badge apenas visible en ToolLayout | font-mono no renderiza ⌘ bien a 11px | font-ui + color: var(--color-ink2) | ToolLayout.module.css |
 | 5 | 2026-05-18 | Array.at() no disponible en ES2020 | tsconfig target era ES2020 | Cambiar target/lib a ES2022 | tsconfig.app.json |
 | 6 | 2026-05-18 | TS6133 vars sin usar en Sidebar | openCmdK e isDashboard declaradas y no usadas | Eliminar imports y destructuring | Sidebar/index.tsx |
+| 7 | 2026-05-19 | ImgBase64 info hardcodeada en español | Strings literales en JSX sin pasar por i18n | 4 claves nuevas en translations.ts ES+EN | img-base64/index.tsx, translations.ts |
+| 8 | 2026-05-19 | PdfBase64 output textarea altura fija corta | max-height: 260px no crece con el contenedor | flex: 1 + min-height: 0 + overflow-y: auto | pdf-base64/PdfBase64.module.css |
 
 ### ⚖️ Decisions
 | # | Date | Decision | Rationale | Impact |
@@ -104,6 +103,7 @@ Tools built  ▸ 🔧 33 tools (30 + cron + notepad + extras)
 | 4 | 2026-05-18 | Dashboard HeroSearch independiente (sin PaletteContent) | UX distinta: input directo vs botón → modal; propios score/highlight | Dashboard/index.tsx autónomo |
 | 5 | 2026-05-18 | CmdKButton extrae lógica de apertura del modal | DRY: ToolLayout reutiliza sin duplicar useCmdK | src/components/CmdKButton/ |
 | 6 | 2026-05-18 | Cron parser desde cero (sin librería externa) | 150 líneas no justifican dependencia; loop min-by-min max 525.600 iter | tools/cron/index.tsx autónomo |
+| 7 | 2026-05-19 | Sidebar hover usa border dashed en todos los interactivos | Consistencia visual sketch — todos los elementos reflejan el mismo hover treatment | Sidebar.module.css (10 reglas hover) |
 
 ### 🚧 Blockers
 | # | Description | Owner | Since | Notes |
@@ -117,19 +117,18 @@ Tools built  ▸ 🔧 33 tools (30 + cron + notepad + extras)
 | 3 | 2026-05-18 | font-mono no renderiza ⌘ correctamente a 11px — usar font-ui para símbolos especiales |
 | 4 | 2026-05-18 | Cron loop minuto-a-minuto (max 1 año = 525.600 iter) es suficientemente rápido en JS sin optimización |
 | 5 | 2026-05-17 | create-vite cancela en directorios no vacíos — scaffoldeo manual necesario |
+| 6 | 2026-05-19 | `flex: 1; min-height: 0` en el hijo de un flexbox padre = ocupa todo el espacio disponible sin overflow; `max-height` fijo es frágil |
 
 ---
 
 ## 📅 Next Session
 
 **Remember:**
-- Build limpio confirmado ✅ 509 módulos, 0 errores TS
-- 14+ ficheros modificados + CmdKButton/ + cron/ + notepad/ sin commitear
+- Commit "fix: sidebar hover dashed borders, i18n img-base64, pdf-base64 flex output" en develop ✅
 - vercel.json ya configurado con SPA rewrites + cache headers
 - Remote: https://github.com/hberdon/devsnest.git branch develop
 
 **Start with:**
-- ▶️  `git add src/ tsconfig.app.json && git commit -m "feat: cron tool, dashboard inline search, ⌘K fix"` → `git push origin develop`
 - ▶️  `npm i -g vercel` → `vercel login` → `vercel` → `vercel --prod`
 
 ---
@@ -144,3 +143,4 @@ Tools built  ▸ 🔧 33 tools (30 + cron + notepad + extras)
 | 4 | 2026-05-17 | 5 | Polish | XML Formatter rewrite, Sidebar UX, ToolLayout search en breadcrumb |
 | 5 | 2026-05-17 | 8 | i18n | i18n ES/EN completo: LangPicker, ~200 keys, 28 tools, registry localizado |
 | 6 | 2026-05-18 | 6 | Search+Deploy | HeroSearch inline, CmdKButton, Cron tool, ES2022, 3 TS fixes, Vercel prep |
+| 7 | 2026-05-19 | 4 | Polish | Sidebar hover dashed, accent-soft más claro, i18n img-base64 (4 keys), pdf-base64 flex output |
