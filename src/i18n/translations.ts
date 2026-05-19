@@ -317,6 +317,25 @@ export interface Translations {
   npdUntitled: string
   npdCloseTab: string
   npdPlaceholder: string
+  // ── Img ↔ Base64 ─────────────────────────────────────────────────────────
+  imgFileToB64: string
+  imgB64ToFile: string
+  imgDropHint: string
+  imgDropSub: string
+  imgWithPrefix: string
+  imgDownload: string
+  imgPasteB64: string
+  imgB64Placeholder: string
+  imgInvalid: string
+  // ── PDF ↔ Base64 ─────────────────────────────────────────────────────────
+  pdfFileToB64: string
+  pdfB64ToFile: string
+  pdfDropHint: string
+  pdfDropSub: string
+  pdfDownload: string
+  pdfPasteB64: string
+  pdfB64Placeholder: string
+  pdfInvalid: string
 }
 
 export const translations: Record<Lang, Translations> = {
@@ -631,6 +650,25 @@ export const translations: Record<Lang, Translations> = {
     npdUntitled:           'Sin título',
     npdCloseTab:           'Cerrar pestaña',
     npdPlaceholder:        'Escribe o pega texto aquí…',
+    // Img ↔ Base64
+    imgFileToB64:          'Imagen → Base64',
+    imgB64ToFile:          'Base64 → Imagen',
+    imgDropHint:           'Arrastra una imagen o haz clic para seleccionar',
+    imgDropSub:            'PNG, JPG, GIF, WebP, SVG',
+    imgWithPrefix:         'Incluir prefijo data URI',
+    imgDownload:           'Descargar imagen',
+    imgPasteB64:           'Base64 de entrada',
+    imgB64Placeholder:     'Pega el Base64 aquí (con o sin prefijo data:image/…)',
+    imgInvalid:            'Base64 inválido o formato de imagen no soportado',
+    // PDF ↔ Base64
+    pdfFileToB64:          'PDF → Base64',
+    pdfB64ToFile:          'Base64 → PDF',
+    pdfDropHint:           'Arrastra un PDF o haz clic para seleccionar',
+    pdfDropSub:            'Solo archivos PDF',
+    pdfDownload:           'Descargar PDF',
+    pdfPasteB64:           'Base64 de entrada',
+    pdfB64Placeholder:     'Pega el Base64 aquí (con o sin prefijo data:application/pdf;base64,…)',
+    pdfInvalid:            'Base64 inválido',
   },
 
   en: {
@@ -944,5 +982,24 @@ export const translations: Record<Lang, Translations> = {
     npdUntitled:           'Untitled',
     npdCloseTab:           'Close tab',
     npdPlaceholder:        'Type or paste text here…',
+    // Img ↔ Base64
+    imgFileToB64:          'Image → Base64',
+    imgB64ToFile:          'Base64 → Image',
+    imgDropHint:           'Drag an image or click to select',
+    imgDropSub:            'PNG, JPG, GIF, WebP, SVG',
+    imgWithPrefix:         'Include data URI prefix',
+    imgDownload:           'Download image',
+    imgPasteB64:           'Base64 input',
+    imgB64Placeholder:     'Paste Base64 here (with or without data:image/… prefix)',
+    imgInvalid:            'Invalid Base64 or unsupported image format',
+    // PDF ↔ Base64
+    pdfFileToB64:          'PDF → Base64',
+    pdfB64ToFile:          'Base64 → PDF',
+    pdfDropHint:           'Drag a PDF or click to select',
+    pdfDropSub:            'PDF files only',
+    pdfDownload:           'Download PDF',
+    pdfPasteB64:           'Base64 input',
+    pdfB64Placeholder:     'Paste Base64 here (with or without data:application/pdf;base64,… prefix)',
+    pdfInvalid:            'Invalid Base64',
   },
 }
