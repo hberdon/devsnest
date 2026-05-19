@@ -6,6 +6,14 @@ import s from './ImgBase64.module.css'
 
 type Mode = 'encode' | 'decode'
 
+interface ImgInfo {
+  name: string
+  mime: string
+  sizeBytes: number
+  w: number
+  h: number
+}
+
 function stripPrefix(dataUrl: string): string {
   return dataUrl.replace(/^data:[^;]+;base64,/, '')
 }
@@ -25,22 +33,39 @@ function toDataUrl(raw: string): string {
   return trimmed.startsWith('data:') ? trimmed : `data:${guessMime(trimmed)};base64,${trimmed}`
 }
 
+function fmtBytes(n: number): string {
+  return n < 1024 ? `${n} B` : n < 1048576 ? `${(n / 1024).toFixed(1)} KB` : `${(n / 1048576).toFixed(2)} MB`
+}
+
+function getMimeLabel(dataUrl: string): string {
+  const m = dataUrl.match(/^data:([^;]+);/)
+  return m ? m[1] : 'image/png'
+}
+
 export default function ImgBase64() {
   const [mode, setMode]           = useState<Mode>('encode')
   const [dataUrl, setDataUrl]     = useState('')
-  const [fileName, setFileName]   = useState('')
+  const [info, setInfo]           = useState<ImgInfo | null>(null)
   const [withPrefix, setWithPrefix] = useState(false)
   const [b64Input, setB64Input]   = useState('')
   const [copied, setCopied]       = useState(false)
   const [imgError, setImgError]   = useState(false)
+  const [decodeInfo, setDecodeInfo] = useState<{ w: number; h: number } | null>(null)
   const [lightbox, setLightbox]   = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const { t } = useLang()
 
   function loadFile(file: File) {
-    setFileName(file.name)
     const reader = new FileReader()
-    reader.onload = e => setDataUrl(e.target?.result as string)
+    reader.onload = e => {
+      const url = e.target?.result as string
+      setDataUrl(url)
+      const img = new Image()
+      img.onload = () => {
+        setInfo({ name: file.name, mime: getMimeLabel(url), sizeBytes: file.size, w: img.naturalWidth, h: img.naturalHeight })
+      }
+      img.src = url
+    }
     reader.readAsDataURL(file)
   }
 
@@ -66,7 +91,13 @@ export default function ImgBase64() {
     a.click()
   }
 
+  function handleDecodeImgLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+    const img = e.currentTarget
+    setDecodeInfo({ w: img.naturalWidth, h: img.naturalHeight })
+  }
+
   const displayB64 = dataUrl ? (withPrefix ? dataUrl : stripPrefix(dataUrl)) : ''
+  const b64Bytes   = displayB64 ? Math.ceil(displayB64.length * 0.75) : 0
   const previewSrc = b64Input.trim() ? toDataUrl(b64Input.trim()) : ''
 
   return (
@@ -84,7 +115,6 @@ export default function ImgBase64() {
 
         {mode === 'encode' ? (
           <div className={s.panel}>
-            {/* Drop zone — se colapsa a strip cuando hay imagen cargada */}
             {!dataUrl ? (
               <div
                 className={s.dropzone}
@@ -92,13 +122,8 @@ export default function ImgBase64() {
                 onDragOver={e => e.preventDefault()}
                 onClick={() => fileRef.current?.click()}
               >
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
-                />
+                <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
+                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
                 <div className={s.dropHint}>
                   <Icon name="upload" size={28} color="var(--color-muted)" />
                   <span className={s.dropText}>{t.imgDropHint}</span>
@@ -107,40 +132,38 @@ export default function ImgBase64() {
               </div>
             ) : (
               <div className={s.fileStrip}>
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
-                />
-                {/* Thumbnail clicable */}
-                <img
-                  src={dataUrl}
-                  className={s.thumb}
-                  alt="thumbnail"
-                  onClick={() => setLightbox(true)}
-                  title="Click para ampliar"
-                />
-                <span className={s.stripName}>{fileName}</span>
-                <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>
-                  {t.imgChange}
-                </button>
+                <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }}
+                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])} />
+                <img src={dataUrl} className={s.thumb} alt="thumbnail" onClick={() => setLightbox(true)} title="Click para ampliar" />
+                {info && (
+                  <div className={s.imgInfo}>
+                    <div className={s.infoRow}><span className={s.infoKey}>Nombre</span><span className={s.infoVal}>{info.name}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Tipo</span><span className={s.infoVal}>{info.mime}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Dimensiones</span><span className={s.infoVal}>{info.w} × {info.h} px</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Tamaño</span><span className={s.infoVal}>{fmtBytes(info.sizeBytes)}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Base64</span><span className={s.infoVal}>{fmtBytes(b64Bytes)}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Ratio</span><span className={s.infoVal}>×{(b64Bytes / info.sizeBytes).toFixed(2)}</span></div>
+                    <div className={s.infoActions}>
+                      <label className={s.checkLabel}>
+                        <span className={`${s.checkBox} ${withPrefix ? s.checked : ''}`} onClick={() => setWithPrefix(v => !v)} />
+                        {t.imgWithPrefix}
+                      </label>
+                      <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>{t.imgChange}</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {dataUrl && (
               <>
                 <div className={s.outputBar}>
-                  <label className={s.checkLabel}>
-                    <span className={`${s.checkBox} ${withPrefix ? s.checked : ''}`} onClick={() => setWithPrefix(v => !v)} />
-                    {t.imgWithPrefix}
-                  </label>
+                  <span className={s.outputLabel}>Base64</span>
                   <button className={s.btn} onClick={handleCopy}>
                     {copied ? t.tcCopied : <><Icon name="copy" size={13} />{t.tcCopy}</>}
                   </button>
                 </div>
-                <div className={s.b64Output}>{displayB64}</div>
+                <textarea className={s.b64Output} value={displayB64} readOnly spellCheck={false} />
               </>
             )}
           </div>
@@ -150,28 +173,31 @@ export default function ImgBase64() {
             <textarea
               className={s.textarea}
               value={b64Input}
-              onChange={e => { setB64Input(e.target.value); setImgError(false) }}
+              onChange={e => { setB64Input(e.target.value); setImgError(false); setDecodeInfo(null) }}
               placeholder={t.imgB64Placeholder}
               spellCheck={false}
             />
             {previewSrc && (
-              <div className={s.decodeResult}>
+              <div className={s.fileStrip}>
                 {!imgError ? (
-                  <img
-                    src={previewSrc}
-                    className={s.thumb}
-                    alt="decoded"
-                    onClick={() => setLightbox(true)}
-                    title="Click para ampliar"
-                    onError={() => setImgError(true)}
-                  />
+                  <img src={previewSrc} className={s.thumb} alt="decoded"
+                    onClick={() => setLightbox(true)} title="Click para ampliar"
+                    onLoad={handleDecodeImgLoad}
+                    onError={() => setImgError(true)} />
                 ) : (
                   <span className={s.decodeError}>{t.imgInvalid}</span>
                 )}
-                {!imgError && (
-                  <button className={s.btn} onClick={handleDownload}>
-                    <Icon name="download" size={13} />{t.imgDownload}
-                  </button>
+                {decodeInfo && !imgError && (
+                  <div className={s.imgInfo}>
+                    <div className={s.infoRow}><span className={s.infoKey}>Tipo</span><span className={s.infoVal}>{guessMime(stripPrefix(b64Input.trim()))}</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Dimensiones</span><span className={s.infoVal}>{decodeInfo.w} × {decodeInfo.h} px</span></div>
+                    <div className={s.infoRow}><span className={s.infoKey}>Base64</span><span className={s.infoVal}>{fmtBytes(Math.ceil(stripPrefix(b64Input.trim()).length * 0.75))}</span></div>
+                    <div className={s.infoActions}>
+                      <button className={s.btn} onClick={handleDownload}>
+                        <Icon name="download" size={13} />{t.imgDownload}
+                      </button>
+                    </div>
+                  </div>
                 )}
               </div>
             )}
@@ -179,15 +205,10 @@ export default function ImgBase64() {
         )}
       </div>
 
-      {/* Lightbox */}
       {lightbox && (
         <div className={s.lightboxBackdrop} onClick={() => setLightbox(false)}>
-          <img
-            src={mode === 'encode' ? dataUrl : previewSrc}
-            className={s.lightboxImg}
-            alt="full size"
-            onClick={e => e.stopPropagation()}
-          />
+          <img src={mode === 'encode' ? dataUrl : previewSrc} className={s.lightboxImg}
+            alt="full size" onClick={e => e.stopPropagation()} />
         </div>
       )}
     </ToolLayout>
