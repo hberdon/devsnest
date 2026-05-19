@@ -83,42 +83,58 @@
   color: var(--color-muted);
 }
 
-.fileInfo {
+.fileStrip {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 20px;
-  pointer-events: none;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1.8px solid var(--color-stroke);
+  border-radius: 6px 8px 6px 8px;
+  background: var(--color-surface);
 }
 
-.pdfIcon {
+.pdfBadge {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: #e53e3e;
-  border: 2px solid #e53e3e;
-  border-radius: 4px;
-  padding: 4px 6px;
-  letter-spacing: 0.05em;
+  border: 1.8px solid #e53e3e;
+  border-radius: 3px;
+  padding: 2px 5px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
 }
 
-.fileMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.fileNameText {
+.stripName {
+  flex: 1;
   font-family: var(--font-ui);
-  font-size: 14px;
-  color: var(--color-ink);
+  font-size: 13px;
+  color: var(--color-ink2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.fileSizeText {
+.stripSize {
   font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.changeBtn {
+  font-family: var(--font-ui);
   font-size: 12px;
   color: var(--color-muted);
+  border: 1.4px solid var(--color-stroke) !important;
+  border-radius: 4px;
+  padding: 2px 8px;
+  background: transparent !important;
+  cursor: pointer;
+  white-space: nowrap;
 }
+
+.changeBtn:hover { color: var(--color-ink); }
 
 .outputBar {
   display: flex;

@@ -26,22 +26,21 @@ function toDataUrl(raw: string): string {
 }
 
 export default function ImgBase64() {
-  const [mode, setMode] = useState<Mode>('encode')
+  const [mode, setMode]           = useState<Mode>('encode')
   const [dataUrl, setDataUrl]     = useState('')
   const [fileName, setFileName]   = useState('')
   const [withPrefix, setWithPrefix] = useState(false)
   const [b64Input, setB64Input]   = useState('')
   const [copied, setCopied]       = useState(false)
   const [imgError, setImgError]   = useState(false)
+  const [lightbox, setLightbox]   = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const { t } = useLang()
 
   function loadFile(file: File) {
     setFileName(file.name)
     const reader = new FileReader()
-    reader.onload = e => {
-      setDataUrl(e.target?.result as string)
-    }
+    reader.onload = e => setDataUrl(e.target?.result as string)
     reader.readAsDataURL(file)
   }
 
@@ -68,7 +67,7 @@ export default function ImgBase64() {
   }
 
   const displayB64 = dataUrl ? (withPrefix ? dataUrl : stripPrefix(dataUrl)) : ''
-  const previewSrc  = b64Input.trim() ? toDataUrl(b64Input.trim()) : ''
+  const previewSrc = b64Input.trim() ? toDataUrl(b64Input.trim()) : ''
 
   return (
     <ToolLayout toolId="img-base64" hideSplit>
@@ -85,34 +84,54 @@ export default function ImgBase64() {
 
         {mode === 'encode' ? (
           <div className={s.panel}>
-            <div
-              className={`${s.dropzone} ${dataUrl ? s.dropzoneHasImage : ''}`}
-              onDrop={handleDrop}
-              onDragOver={e => e.preventDefault()}
-              onClick={() => fileRef.current?.click()}
-            >
-              <input
-                ref={fileRef}
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
-              />
-              {dataUrl ? (
-                <img src={dataUrl} className={s.previewImg} alt="preview" />
-              ) : (
+            {/* Drop zone — se colapsa a strip cuando hay imagen cargada */}
+            {!dataUrl ? (
+              <div
+                className={s.dropzone}
+                onDrop={handleDrop}
+                onDragOver={e => e.preventDefault()}
+                onClick={() => fileRef.current?.click()}
+              >
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
+                />
                 <div className={s.dropHint}>
                   <Icon name="upload" size={28} color="var(--color-muted)" />
                   <span className={s.dropText}>{t.imgDropHint}</span>
                   <span className={s.dropSub}>{t.imgDropSub}</span>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className={s.fileStrip}>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
+                />
+                {/* Thumbnail clicable */}
+                <img
+                  src={dataUrl}
+                  className={s.thumb}
+                  alt="thumbnail"
+                  onClick={() => setLightbox(true)}
+                  title="Click para ampliar"
+                />
+                <span className={s.stripName}>{fileName}</span>
+                <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>
+                  {t.imgChange}
+                </button>
+              </div>
+            )}
 
             {dataUrl && (
               <>
                 <div className={s.outputBar}>
-                  {fileName && <span className={s.metaChip}>{fileName}</span>}
                   <label className={s.checkLabel}>
                     <span className={`${s.checkBox} ${withPrefix ? s.checked : ''}`} onClick={() => setWithPrefix(v => !v)} />
                     {t.imgWithPrefix}
@@ -140,12 +159,14 @@ export default function ImgBase64() {
                 {!imgError ? (
                   <img
                     src={previewSrc}
-                    className={s.previewImg}
+                    className={s.thumb}
                     alt="decoded"
+                    onClick={() => setLightbox(true)}
+                    title="Click para ampliar"
                     onError={() => setImgError(true)}
                   />
                 ) : (
-                  <div className={s.decodeError}>{t.imgInvalid}</div>
+                  <span className={s.decodeError}>{t.imgInvalid}</span>
                 )}
                 {!imgError && (
                   <button className={s.btn} onClick={handleDownload}>
@@ -157,6 +178,18 @@ export default function ImgBase64() {
           </div>
         )}
       </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div className={s.lightboxBackdrop} onClick={() => setLightbox(false)}>
+          <img
+            src={mode === 'encode' ? dataUrl : previewSrc}
+            className={s.lightboxImg}
+            alt="full size"
+            onClick={e => e.stopPropagation()}
+          />
+        </div>
+      )}
     </ToolLayout>
   )
 }

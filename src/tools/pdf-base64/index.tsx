@@ -94,35 +94,43 @@ export default function PdfBase64() {
 
         {mode === 'encode' ? (
           <div className={s.panel}>
-            <div
-              className={s.dropzone}
-              onDrop={handleDrop}
-              onDragOver={e => e.preventDefault()}
-              onClick={() => fileRef.current?.click()}
-            >
-              <input
-                ref={fileRef}
-                type="file"
-                accept=".pdf,application/pdf"
-                style={{ display: 'none' }}
-                onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
-              />
-              {fileName ? (
-                <div className={s.fileInfo}>
-                  <span className={s.pdfIcon}>PDF</span>
-                  <div className={s.fileMeta}>
-                    <span className={s.fileNameText}>{fileName}</span>
-                    <span className={s.fileSizeText}>{formatBytes(fileSize)}</span>
-                  </div>
-                </div>
-              ) : (
+            {!fileName ? (
+              <div
+                className={s.dropzone}
+                onDrop={handleDrop}
+                onDragOver={e => e.preventDefault()}
+                onClick={() => fileRef.current?.click()}
+              >
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  style={{ display: 'none' }}
+                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
+                />
                 <div className={s.dropHint}>
                   <Icon name="upload" size={28} color="var(--color-muted)" />
                   <span className={s.dropText}>{t.pdfDropHint}</span>
                   <span className={s.dropSub}>{t.pdfDropSub}</span>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className={s.fileStrip}>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept=".pdf,application/pdf"
+                  style={{ display: 'none' }}
+                  onChange={e => e.target.files?.[0] && loadFile(e.target.files[0])}
+                />
+                <span className={s.pdfBadge}>PDF</span>
+                <span className={s.stripName}>{fileName}</span>
+                <span className={s.stripSize}>{formatBytes(fileSize)}</span>
+                <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>
+                  {t.imgChange}
+                </button>
+              </div>
+            )}
 
             {b64 && (
               <>
