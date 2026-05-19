@@ -167,7 +167,7 @@ export function Sidebar() {
                           to={`/tools/${tool.id}`}
                           className={`${s.catToolRow} ${isActive ? s.catToolActive : ''}`}
                         >
-                          {cat.id === 'conv'
+                          {(tool.id === 'img-base64' || tool.id === 'pdf-base64')
                             ? <Icon name="cat-conv" size={11} color="var(--color-muted)" />
                             : <span className={s.catDot}>·</span>
                           }
