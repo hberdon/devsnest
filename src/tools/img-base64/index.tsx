@@ -97,7 +97,6 @@ export default function ImgBase64() {
   }
 
   const displayB64 = dataUrl ? (withPrefix ? dataUrl : stripPrefix(dataUrl)) : ''
-  const b64Bytes   = displayB64 ? Math.ceil(displayB64.length * 0.75) : 0
   const previewSrc = b64Input.trim() ? toDataUrl(b64Input.trim()) : ''
 
   return (
@@ -141,13 +140,7 @@ export default function ImgBase64() {
                     <div className={s.infoRow}><span className={s.infoKey}>Tipo</span><span className={s.infoVal}>{info.mime}</span></div>
                     <div className={s.infoRow}><span className={s.infoKey}>Dimensiones</span><span className={s.infoVal}>{info.w} × {info.h} px</span></div>
                     <div className={s.infoRow}><span className={s.infoKey}>Tamaño</span><span className={s.infoVal}>{fmtBytes(info.sizeBytes)}</span></div>
-                    <div className={s.infoRow}><span className={s.infoKey}>Base64</span><span className={s.infoVal}>{fmtBytes(b64Bytes)}</span></div>
-                    <div className={s.infoRow}><span className={s.infoKey}>Ratio</span><span className={s.infoVal}>×{(b64Bytes / info.sizeBytes).toFixed(2)}</span></div>
                     <div className={s.infoActions}>
-                      <label className={s.checkLabel}>
-                        <span className={`${s.checkBox} ${withPrefix ? s.checked : ''}`} onClick={() => setWithPrefix(v => !v)} />
-                        {t.imgWithPrefix}
-                      </label>
                       <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>{t.imgChange}</button>
                     </div>
                   </div>
@@ -159,6 +152,10 @@ export default function ImgBase64() {
               <>
                 <div className={s.outputBar}>
                   <span className={s.outputLabel}>Base64</span>
+                  <label className={s.checkLabel}>
+                    <span className={`${s.checkBox} ${withPrefix ? s.checked : ''}`} onClick={() => setWithPrefix(v => !v)} />
+                    {t.imgWithPrefix}
+                  </label>
                   <button className={s.btn} onClick={handleCopy}>
                     {copied ? t.tcCopied : <><Icon name="copy" size={13} />{t.tcCopy}</>}
                   </button>
