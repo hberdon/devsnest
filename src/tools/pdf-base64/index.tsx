@@ -93,7 +93,7 @@ export default function PdfBase64() {
         </div>
 
         {mode === 'encode' ? (
-          <>
+          <div className={s.panel}>
             <div
               className={s.dropzone}
               onDrop={handleDrop}
@@ -138,9 +138,9 @@ export default function PdfBase64() {
                 <div className={s.b64Output}>{b64}</div>
               </>
             )}
-          </>
+          </div>
         ) : (
-          <>
+          <div className={s.panel}>
             <div className={s.inputLabel}>{t.pdfPasteB64}</div>
             <textarea
               className={s.textarea}
@@ -161,7 +161,7 @@ export default function PdfBase64() {
                 <Icon name="download" size={13} />{t.pdfDownload}
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </ToolLayout>

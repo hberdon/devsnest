@@ -84,7 +84,7 @@ export default function ImgBase64() {
         </div>
 
         {mode === 'encode' ? (
-          <>
+          <div className={s.panel}>
             <div
               className={`${s.dropzone} ${dataUrl ? s.dropzoneHasImage : ''}`}
               onDrop={handleDrop}
@@ -124,9 +124,9 @@ export default function ImgBase64() {
                 <div className={s.b64Output}>{displayB64}</div>
               </>
             )}
-          </>
+          </div>
         ) : (
-          <>
+          <div className={s.panel}>
             <div className={s.inputLabel}>{t.imgPasteB64}</div>
             <textarea
               className={s.textarea}
@@ -154,7 +154,7 @@ export default function ImgBase64() {
                 )}
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </ToolLayout>
