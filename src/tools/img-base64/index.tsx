@@ -151,14 +151,13 @@ export default function ImgBase64() {
             {dataUrl && (
               <>
                 <div className={s.outputBar}>
-                  <span className={s.outputLabel}>Base64</span>
+                  <button className={s.btn} onClick={handleCopy}>
+                    {copied ? t.tcCopied : <><Icon name="copy" size={13} />{t.tcCopy}</>}
+                  </button>
                   <label className={s.checkLabel}>
                     <span className={`${s.checkBox} ${withPrefix ? s.checked : ''}`} onClick={() => setWithPrefix(v => !v)} />
                     {t.imgWithPrefix}
                   </label>
-                  <button className={s.btn} onClick={handleCopy}>
-                    {copied ? t.tcCopied : <><Icon name="copy" size={13} />{t.tcCopy}</>}
-                  </button>
                 </div>
                 <textarea className={s.b64Output} value={displayB64} readOnly spellCheck={false} />
               </>
