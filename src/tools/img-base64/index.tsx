@@ -139,10 +139,11 @@ export default function ImgBase64() {
                     <div className={s.infoRow}><span className={s.infoKey}>Nombre</span><span className={s.infoVal}>{info.name}</span></div>
                     <div className={s.infoRow}><span className={s.infoKey}>Tipo</span><span className={s.infoVal}>{info.mime}</span></div>
                     <div className={s.infoRow}><span className={s.infoKey}>Dimensiones</span><span className={s.infoVal}>{info.w} × {info.h} px</span></div>
-                    <div className={s.infoRow}><span className={s.infoKey}>Tamaño</span><span className={s.infoVal}>{fmtBytes(info.sizeBytes)}</span></div>
-                    <div className={s.infoActions}>
+                    <div className={s.infoRow}>
+                      <span className={s.infoKey}>Tamaño</span>
+                      <span className={s.infoVal}>{fmtBytes(info.sizeBytes)}</span>
                       <button className={s.changeBtn} onClick={() => fileRef.current?.click()}>
-                        <Icon name="upload" size={12} />{t.imgChange}
+                        <Icon name="upload" size={13} />{t.imgChange}
                       </button>
                     </div>
                   </div>

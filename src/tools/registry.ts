@@ -26,8 +26,8 @@ const TOOLS: ToolMeta[] = [
   { id: 'color',           name: 'Color (HEX/RGB)', categoryId: 'conv',  badge: '#',   description: 'Convierte entre HEX, RGB y HSL' },
   { id: 'jwt-decode',      name: 'JWT Decode',      categoryId: 'conv',  badge: 'JWT', description: 'Decodifica tokens JWT (sin validación)' },
   { id: 'unix-timestamp',  name: 'Unix Timestamp',  categoryId: 'conv',  badge: 'TS',  description: 'Convierte epoch a fecha y viceversa' },
-  { id: 'img-base64',     name: 'Img ↔ Base64',    categoryId: 'conv',  badge: 'IMG', description: 'Convierte imágenes a Base64 y viceversa' },
-  { id: 'pdf-base64',     name: 'PDF ↔ Base64',    categoryId: 'conv',  badge: 'PDF', description: 'Convierte PDFs a Base64 y viceversa' },
+  { id: 'img-base64',     name: 'Img Base64',      categoryId: 'conv',  badge: 'IMG', description: 'Convierte imágenes a Base64 y viceversa' },
+  { id: 'pdf-base64',     name: 'PDF Base64',      categoryId: 'conv',  badge: 'PDF', description: 'Convierte PDFs a Base64 y viceversa' },
   // Formateadores
   { id: 'json',            name: 'JSON',            categoryId: 'fmt',   badge: '{}',  description: 'Valida y formatea JSON' },
   { id: 'xml',             name: 'XML',             categoryId: 'fmt',   badge: '<>',  description: 'Valida y formatea XML' },
