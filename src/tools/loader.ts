@@ -12,6 +12,8 @@ export const TOOL_COMPONENTS: Record<string, React.LazyExoticComponent<AnyCompon
   'color':          lazy(() => import('./color')),
   'jwt-decode':     lazy(() => import('./jwt-decode')),
   'unix-timestamp': lazy(() => import('./unix-timestamp')),
+  'img-base64':     lazy(() => import('./img-base64')),
+  'pdf-base64':     lazy(() => import('./pdf-base64')),
   // Fase 8 — Red + Cripto
   'ip-lookup':      lazy(() => import('./ip-lookup')),
   'headers-http':   lazy(() => import('./headers-http')),

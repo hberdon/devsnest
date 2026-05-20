@@ -87,7 +87,7 @@ export function Sidebar() {
             title={t.expand}
             onClick={() => setCollapsed(false)}
           >
-            <Icon name="sidebar-r" size={14} />
+            <Icon name="cat-conv" size={14} />
           </div>
           <div className={s.collapsedAvatar}>JD</div>
         </div>
@@ -104,7 +104,7 @@ export function Sidebar() {
           <span className={s.logoWordmark}>devsnest</span>
         </Link>
         <button className={s.collapseBtn} title={t.collapseAll} onClick={() => setCollapsed(true)}>
-          <Icon name="sidebar-l" size={14} />
+          <Icon name="cat-conv" size={14} />
         </button>
       </div>
 
@@ -168,7 +168,15 @@ export function Sidebar() {
                           className={`${s.catToolRow} ${isActive ? s.catToolActive : ''}`}
                         >
                           <span className={s.catDot}>·</span>
-                          <span style={{ flex: 1 }}>{tool.name}</span>
+                          {(tool.id === 'img-base64' || tool.id === 'pdf-base64') ? (
+                            <span style={{ flex: 1, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                              {tool.id === 'img-base64' ? 'Img' : 'PDF'}
+                              <Icon name="cat-conv" size={14} color="currentColor" />
+                              Base64
+                            </span>
+                          ) : (
+                            <span style={{ flex: 1 }}>{tool.name}</span>
+                          )}
                         </Link>
                       )
                     })}
