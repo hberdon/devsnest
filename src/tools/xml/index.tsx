@@ -192,6 +192,18 @@ export default function XMLFormatter() {
     if (r.ok) setInput(r.output)
   }
 
+  function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
+    const text = e.clipboardData.getData('text')
+    if (!text.trim()) return
+    e.preventDefault()
+    const parsed = parseXML(text.trim())
+    if (parsed.ok) {
+      const r = formatXML(text.trim(), 2)
+      if (r.ok) { setInput(r.output); return }
+    }
+    setInput(text)
+  }
+
   function handleMinify() {
     if (!result?.ok) return
     setInput(input.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim())
@@ -300,6 +312,7 @@ export default function XMLFormatter() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onScroll={syncScroll}
+              onPaste={handlePaste}
               placeholder={'<root>\n  <item>valor</item>\n</root>'}
               spellCheck={false}
               autoCapitalize="off"
