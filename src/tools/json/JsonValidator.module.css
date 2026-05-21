@@ -357,6 +357,7 @@
   flex-direction: column;
   gap: 10px;
   min-height: 0;
+  min-width: 0;
 }
 
 /* ── Status card (Card 2) ────────────────────────────────────────────────── */
@@ -490,6 +491,7 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  min-width: 0;
   overflow: hidden;
 }
 
