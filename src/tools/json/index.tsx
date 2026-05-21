@@ -192,6 +192,18 @@ export default function JSONValidator() {
     setInput(JSON.stringify(result.value))
   }
 
+  function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
+    const text = e.clipboardData.getData('text')
+    if (!text.trim()) return
+    e.preventDefault()
+    try {
+      const parsed = JSON.parse(text)
+      setInput(JSON.stringify(parsed, null, 2))
+    } catch {
+      setInput(text)
+    }
+  }
+
   const exportBtn = null
 
   return (
@@ -307,6 +319,7 @@ export default function JSONValidator() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onScroll={syncScroll}
+              onPaste={handlePaste}
               placeholder={'{\n  "clave": "valor"\n}'}
               spellCheck={false}
               autoCapitalize="off"
