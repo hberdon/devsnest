@@ -17,13 +17,24 @@ const FORMAT_EXT: Record<string, string> = {
   YAML: 'yaml', Markdown: 'md', CSS: 'css', 'JS/TS': 'js', Base64: 'txt',
 }
 
+const EXT_FORMAT: Record<string, string> = {
+  json: 'JSON', xml: 'XML', html: 'HTML', htm: 'HTML', sql: 'SQL',
+  yaml: 'YAML', yml: 'YAML', md: 'Markdown', markdown: 'Markdown',
+  css: 'CSS', scss: 'CSS', js: 'JS/TS', ts: 'JS/TS', jsx: 'JS/TS', tsx: 'JS/TS',
+}
+
+function detectFormatFromExt(filename: string): string | null {
+  const ext = filename.split('.').pop()?.toLowerCase() ?? ''
+  return EXT_FORMAT[ext] ?? null
+}
+
 function detectFormat(text: string): string | null {
   const t = text.trim()
   if (!t || t.length < 5) return null
   try { JSON.parse(t); return 'JSON' } catch {}
   if (/^<!DOCTYPE html/i.test(t) || /^<html[\s>]/i.test(t)) return 'HTML'
   if (/^<[a-zA-Z]/.test(t)) return 'XML'
-  if (/^\s*(SELECT|INSERT\s+INTO|UPDATE\s+\w|DELETE\s+FROM|CREATE\s+(TABLE|DATABASE|INDEX|VIEW)|DROP|ALTER|TRUNCATE|WITH\s+\w)\b/i.test(t)) return 'SQL'
+  if (/(^|\n)\s*(SELECT|INSERT\s+INTO|UPDATE\s+\w|DELETE\s+FROM|CREATE\s+(TABLE|DATABASE|INDEX|VIEW)|DROP|ALTER|TRUNCATE|WITH\s+\w)\b/i.test(t)) return 'SQL'
   if (/^[a-zA-Z_][a-zA-Z0-9_-]*:\s/m.test(t) && !/^[{[<]/.test(t)) return 'YAML'
   if (/^#{1,6}\s|\*\*[^*]+\*\*|^[-*+]\s|^>\s/m.test(t)) return 'Markdown'
   if (/[a-z.-]+\s*\{[\s\S]*?\}/i.test(t) && !/\b(function|const|let|var)\b/.test(t)) return 'CSS'
@@ -150,7 +161,7 @@ export default function Notepad() {
         id: crypto.randomUUID(),
         name: file.name,
         content: c,
-        format: detectFormat(c),
+        format: detectFormatFromExt(file.name) ?? detectFormat(c),
       }
       setTabs(prev => [...prev, tab])
       setActiveTabId(tab.id)

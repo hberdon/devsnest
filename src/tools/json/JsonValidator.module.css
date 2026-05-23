@@ -14,7 +14,7 @@
 /* ── Top-level grid ──────────────────────────────────────────────────────── */
 .grid {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: 14px;
   height: 100%;
   min-height: 0;
@@ -357,6 +357,7 @@
   flex-direction: column;
   gap: 10px;
   min-height: 0;
+  min-width: 0;
 }
 
 /* ── Status card (Card 2) ────────────────────────────────────────────────── */
@@ -490,6 +491,7 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -548,6 +550,7 @@
 
 .treeBody {
   flex: 1;
+  min-height: 0;
   overflow: auto;
   padding: 10px 12px;
   font-family: var(--font-mono);
