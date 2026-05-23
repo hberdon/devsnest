@@ -31,7 +31,7 @@ export function useLocalizedRegistry() {
     return m
   }, [allCategories])
 
-  const categoriesMap = useMemo(() => new Map(allCategories.map(c => [c.id, c])), [allCategories])
+  const categoriesMap = useMemo(() => new Map<string, Category>(allCategories.map(c => [c.id, c])), [allCategories])
 
   function getToolById(id: string): ToolMeta | undefined {
     return allToolsMap.get(id)
