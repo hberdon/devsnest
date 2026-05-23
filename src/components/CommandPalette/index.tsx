@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type ReactNode } from 'react'
+import { useState, useEffect, useRef, useDeferredValue, useMemo, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import type { ToolMeta } from '@/tools/registry'
@@ -70,6 +70,7 @@ interface PaletteContentProps {
 
 export function PaletteContent({ onClose }: PaletteContentProps) {
   const [query, setQuery]       = useState('')
+  const deferredQuery           = useDeferredValue(query)
   const [selected, setSelected] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
@@ -80,11 +81,14 @@ export function PaletteContent({ onClose }: PaletteContentProps) {
     setTimeout(() => inputRef.current?.focus(), 0)
   }, [])
 
-  const results = ALL_TOOLS
-    .map(tool => ({ tool, score: score(tool, query) }))
-    .filter(r => r.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .map(r => r.tool)
+  const results = useMemo(() =>
+    ALL_TOOLS
+      .map(tool => ({ tool, score: score(tool, deferredQuery) }))
+      .filter(r => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(r => r.tool),
+    [ALL_TOOLS, deferredQuery]
+  )
 
   const top    = results[0]
   const others = results.slice(1, 8)
@@ -123,20 +127,20 @@ export function PaletteContent({ onClose }: PaletteContentProps) {
 
       <div className={s.results}>
         {results.length === 0 ? (
-          <div className={s.noResults}>{t.cmdNoResults} «{query}»</div>
+          <div className={s.noResults}>{t.cmdNoResults} «{deferredQuery}»</div>
         ) : (
           <>
             {top && (
               <>
                 <div className={s.sectionLabel}>{t.cmdBestMatch}</div>
-                <ResultRow tool={top} query={query} isSelected={selected === 0} showEnter onClick={() => goTo(top.id)} />
+                <ResultRow tool={top} query={deferredQuery} isSelected={selected === 0} showEnter onClick={() => goTo(top.id)} />
               </>
             )}
             {others.length > 0 && (
               <>
                 <div className={s.sectionLabel}>{t.cmdOthers}</div>
                 {others.map((tool, i) => (
-                  <ResultRow key={tool.id} tool={tool} query={query} isSelected={selected === i + 1} onClick={() => goTo(tool.id)} />
+                  <ResultRow key={tool.id} tool={tool} query={deferredQuery} isSelected={selected === i + 1} onClick={() => goTo(tool.id)} />
                 ))}
               </>
             )}
