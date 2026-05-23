@@ -24,3 +24,7 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+
+# Local agent / security context (not for public repo)
+.md/
+.security/
