@@ -76,10 +76,13 @@ export const VISIBLE_CATEGORIES = CATEGORIES.filter(c => !c.hidden)
 const HIDDEN_CAT_IDS = new Set(CATEGORIES.filter(c => c.hidden).map(c => c.id))
 export const ALL_TOOLS = TOOLS.filter(t => !HIDDEN_CAT_IDS.has(t.categoryId))
 
+const TOOLS_MAP = new Map(TOOLS.map(t => [t.id, t]))
+const CATEGORIES_MAP = new Map(CATEGORIES.map(c => [c.id, c]))
+
 export function getToolById(id: string): ToolMeta | undefined {
-  return TOOLS.find(t => t.id === id)
+  return TOOLS_MAP.get(id)
 }
 
 export function getCategoryById(id: CategoryId): Category | undefined {
-  return CATEGORIES.find(c => c.id === id)
+  return CATEGORIES_MAP.get(id)
 }

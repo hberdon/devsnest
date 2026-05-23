@@ -44,18 +44,24 @@ const DEMO_PINNED: HistoryEntry[] = [
   { id: 'demo-pin-1', toolId: 'base64', toolName: 'Base64', badge: 'B64', categoryName: 'Conversores', description: 'Codificó · 1.2 KB', timestamp: '15 May, 09:42' },
 ]
 
+const STORE_VERSION = 1
+
 interface StorageState {
+  _v: number
   history: HistoryEntry[]
   pinned: HistoryEntry[]
   seeded: boolean
 }
 
+const DEFAULT_STATE: StorageState = {
+  _v: STORE_VERSION,
+  history: DEMO_HISTORY,
+  pinned: DEMO_PINNED,
+  seeded: true,
+}
+
 export function DevToolsProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useLocalStorage<StorageState>('devsnest-store', {
-    history: DEMO_HISTORY,
-    pinned: DEMO_PINNED,
-    seeded: true,
-  })
+  const [state, setState] = useLocalStorage<StorageState>('devsnest-store', DEFAULT_STATE, STORE_VERSION)
 
   const addToHistory = useCallback((entry: Omit<HistoryEntry, 'id' | 'timestamp'>) => {
     const newEntry: HistoryEntry = {

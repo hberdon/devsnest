@@ -25,19 +25,20 @@ export function useLocalizedRegistry() {
   const allCategories    = useMemo(() => CATEGORIES.map(c => localizeCategory(c, lang)),          [lang])
   const visibleCategories= useMemo(() => VISIBLE_CATEGORIES.map(c => localizeCategory(c, lang)), [lang])
 
+  const allToolsMap = useMemo(() => {
+    const m = new Map<string, ToolMeta>()
+    for (const cat of allCategories) for (const tool of cat.tools) m.set(tool.id, tool)
+    return m
+  }, [allCategories])
+
+  const categoriesMap = useMemo(() => new Map(allCategories.map(c => [c.id, c])), [allCategories])
+
   function getToolById(id: string): ToolMeta | undefined {
-    const tool = allTools.find(t => t.id === id)
-    if (tool) return tool
-    // also check hidden tools
-    for (const cat of allCategories) {
-      const found = cat.tools.find(t => t.id === id)
-      if (found) return found
-    }
-    return undefined
+    return allToolsMap.get(id)
   }
 
   function getCategoryById(id: string): Category | undefined {
-    return allCategories.find(c => c.id === id)
+    return categoriesMap.get(id)
   }
 
   return { allTools, allCategories, visibleCategories, getToolById, getCategoryById }
