@@ -228,7 +228,8 @@
 .footerKbd {
   font-family: var(--font-mono);
   padding: 0 4px;
-  background: #eee;
+  background: var(--color-surface);
+  border: 1px solid var(--color-stroke);
   border-radius: 3px;
 }
 

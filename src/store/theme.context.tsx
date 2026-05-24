@@ -1,14 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
-export type PaletteId =
-  | 'vivid'
-  | 'sky-slate'
-  | 'royal-gold'
-  | 'cobalt-lime'
-  | 'navy-coral'
-  | 'midnight-cyan'
-  | 'indigo-coral'
-  | 'teal-amber'
+export type PaletteId = 'vivid' | 'nord'
 
 export type Mode = 'light' | 'dark'
 export type Theme = `${PaletteId}-${Mode}`
@@ -21,14 +13,8 @@ export interface PaletteDef {
 }
 
 export const PALETTE_DEFS: PaletteDef[] = [
-  { id: 'vivid',         label: 'Mint',            light: '#047857', dark: '#34d399' },
-  { id: 'sky-slate',     label: 'Sky & Slate',     light: '#0ea5e9', dark: '#38bdf8' },
-  { id: 'royal-gold',    label: 'Royal & Gold',    light: '#3730a3', dark: '#818cf8' },
-  { id: 'cobalt-lime',   label: 'Cobalt & Lime',   light: '#005bea', dark: '#4d9eff' },
-  { id: 'navy-coral',    label: 'Navy & Coral',    light: '#1e3a8a', dark: '#60a5fa' },
-  { id: 'midnight-cyan', label: 'Midnight & Cyan', light: '#0050d8', dark: '#4d82ff' },
-  { id: 'indigo-coral',  label: 'Indigo & Coral',  light: '#4361ee', dark: '#4361ee' },
-  { id: 'teal-amber',    label: 'Teal & Amber',    light: '#0fa3b1', dark: '#0fa3b1' },
+  { id: 'vivid', label: 'Vivid', light: '#b06c1e', dark: '#d4973a' },
+  { id: 'nord',  label: 'Nord',  light: '#5e81ac', dark: '#88c0d0' },
 ]
 
 const VALID_PALETTES = PALETTE_DEFS.map(p => p.id)

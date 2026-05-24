@@ -46,8 +46,8 @@
   height: 38px;
   border-radius: 8px;
   border: 2px solid var(--color-ink);
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--color-logo-bg);
+  color: var(--color-logo-text);
   display: grid;
   place-items: center;
   font-family: var(--font-mono);
@@ -167,7 +167,7 @@
   text-transform: uppercase;
   letter-spacing: 0.9px;
   color: var(--color-ink2);
-  background: rgba(42, 42, 42, 0.07);
+  background: var(--color-section-header-bg);
   border-radius: 5px;
   margin-bottom: 4px;
 }
@@ -246,9 +246,10 @@
 .toolBadge {
   width: 22px;
   height: 22px;
-  border: 1.3px solid var(--color-stroke);
+  border: 1.3px solid transparent;
   border-radius: 4px;
-  background: var(--color-surface);
+  background: var(--color-logo-bg);
+  color: var(--color-logo-text);
   display: grid;
   place-items: center;
   font-family: var(--font-mono);
@@ -284,6 +285,8 @@
   font-size: 14px;
   color: var(--color-ink);
   user-select: none;
+  width: 100%;
+  text-align: left;
 }
 
 .catRow:hover {
@@ -501,8 +504,8 @@
 }
 
 .modeBtn.modeBtnActive {
-  background: var(--color-ink) !important;
-  color: var(--color-bg);
+  background: var(--color-accent) !important;
+  color: var(--color-on-accent) !important;
 }
 
 .themeCurrentLabel {
@@ -535,4 +538,159 @@
   background: var(--dot, var(--color-accent));
   border: 1.5px solid var(--color-stroke);
   display: block;
+}
+
+/* ── Inline-style replacements ───────────────────────────────────────────── */
+.collapsedPinned {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.collapsedCats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.railCellPinned {
+  height: 38px;
+  width: 42px;
+}
+
+.railCellFooter {
+  height: 34px;
+  width: 42px;
+}
+
+.railCellTheme {
+  height: 34px;
+  width: 42px;
+  border: 1.4px solid var(--color-stroke) !important;
+}
+
+.railBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+.flex1 { flex: 1; }
+
+.inlineToolName {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Theme Picker Panel ───────────────────────────────────────────────────── */
+.themePickerPanel {
+  border: 1.4px solid var(--color-stroke);
+  border-radius: 7px 9px 6px 8px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sketch);
+  padding: 10px 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+
+.themePickerTitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+.themePickerRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  border-radius: 5px;
+  border: 1.3px solid transparent;
+}
+
+.themePickerRowActive {
+  background: var(--color-accent-soft);
+  border-color: var(--color-stroke);
+  border-style: dashed;
+}
+
+.themePickerPaletteBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--color-ink);
+  font-size: 13px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  padding: 0;
+}
+
+.themePickerDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-stroke);
+  display: block;
+  flex-shrink: 0;
+}
+
+.themePickerModeToggle {
+  display: flex;
+  border: 1.3px solid var(--color-stroke);
+  border-radius: 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.themePickerModeBtn {
+  width: 22px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.themePickerModeBtn + .themePickerModeBtn {
+  border-left: 1.3px solid var(--color-stroke);
+}
+
+.themePickerModeBtnActive {
+  background: var(--color-accent) !important;
+  color: var(--color-on-accent) !important;
+}
+
+.settingsBtnActive {
+  background: var(--color-accent-soft) !important;
+  border: 1.4px dashed var(--color-stroke) !important;
+  color: var(--color-ink) !important;
 }

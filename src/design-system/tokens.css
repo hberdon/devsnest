@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
-/* ── Default: sketch palette (wireframe-v6 paper aesthetic) ─────────────── */
+/* ── Light (vivid) ───────────────────────────────────────────────────────── */
 :root,
 [data-theme="vivid-light"] {
   --font-ui:   'Nunito', system-ui, sans-serif;
@@ -12,264 +12,191 @@
   --color-bg:               #f3f1ec;  /* canvas wrapper ("papel tostado") */
   --color-sidebar-collapsed: #ece9e2; /* rail colapsado */
   --color-surface:          #ffffff;
-  --color-ink:              #1a1a1a;  /* texto + sombra dura */
-  --color-ink2:             #3a3a3a;  /* texto secundario */
+  --color-ink:              #1c1410;  /* texto + sombra dura — espresso */
+  --color-ink2:             #3d2010;  /* texto secundario */
   --color-muted:            #9a9a9a;  /* placeholder, labels, bordes muted */
-  --color-stroke:           #2a2a2a;  /* borde "tinta" (≠ ink, ligeramente más suave) */
-  --color-accent:           #10b981;  /* brand primary — mint */
-  --color-accent-soft:      #e6faf3;  /* fondo badges mint */
-  --color-accent2:          #2dd4bf;  /* teal — pines anclados */
-  --color-hl:               #a7f3d0;  /* highlight items seleccionados */
+  --color-stroke:           #3d2010;  /* borde "tinta" */
+  --color-accent:           #b06c1e;  /* brand primary — amber café */
+  --color-accent-soft:      #fdf0e0;  /* fondo badges café */
+  --color-accent2:          #d4973a;  /* caramelo — pines anclados */
+  --color-hl:               #fce8c3;  /* highlight items seleccionados */
   --color-paper:            #fafaf7;  /* sidebar expandido + sketchBox default bg */
 
-  /* Sketch border system — from sketchBox/dashedBox primitives */
-  --border-base:   1.8px solid var(--color-stroke);   /* sketchBox */
-  --border-dashed: 1.6px dashed var(--color-stroke);  /* dashedBox */
+  /* Sketch border system */
+  --border-base:   1.8px solid var(--color-stroke);
+  --border-dashed: 1.6px dashed var(--color-stroke);
   --border-muted:  1.3px solid var(--color-muted);
 
-  /* Sketch border-radius — from sketchBox: '8px 9px 7px 10px' */
-  --radius-sketch: 8px 9px 7px 10px;  /* main cards/boxes */
-  --radius-sm:     6px 8px 6px 8px;   /* botones, chips */
-  --radius-rail:   8px 9px 7px 10px;  /* rail cells */
+  /* Sketch border-radius */
+  --radius-sketch: 8px 9px 7px 10px;
+  --radius-sm:     6px 8px 6px 8px;
+  --radius-rail:   8px 9px 7px 10px;
 
-  /* Sketch shadows — boxShadow usa #1a1a1a (ink), no stroke */
-  --shadow-sketch:    2px 2.5px 0 #1a1a1a;
-  --shadow-sketch-sm: 1.5px 2px 0 #1a1a1a;
-  --shadow-palette:   4px 5px 0 #1a1a1a;
+  /* Sketch shadows */
+  --shadow-sketch:    2px 2.5px 0 #1c1410;
+  --shadow-sketch-sm: 1.5px 2px 0 #1c1410;
+  --shadow-palette:   4px 5px 0 #1c1410;
 
-  /* Layout — sidebar expanded = 252px (const w = 252 en wireframe-v6) */
+  --color-logo-bg:          #1c1410;
+  --color-logo-text:        #ffffff;
+
+  /* Transitions */
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+
+  /* On-accent — text color for elements with --color-accent background */
+  --color-on-accent: #ffffff;
+
+  /* Layout */
   --sidebar-width:           252px;
   --sidebar-collapsed-width: 64px;
+
+  /* Semantic — error / success / mark */
+  --color-section-header-bg: rgba(61, 32, 16, 0.07);
+  --color-mark-bg:           var(--color-hl);
+  --color-err:               #e53e3e;
+  --color-err-bg:            #ffe9e9;
+  --color-err-row:           #ffe2e2;
+  --color-err-badge:         #ffd6d6;
+  --color-err-border:        #d94343;
+  --color-err-text:          #b91c1c;
+  --color-ok-bg:             #eef4e6;
+  --color-ok-border:         #5a9e3a;
+  --color-success:           #4e8a28;
 }
 
+/* ── Light (nord) — Nord Snow Storm ──────────────────────────────────────── */
+[data-theme="nord-light"] {
+  --color-bg:               #eceff4;
+  --color-sidebar-collapsed: #e5e9f0;
+  --color-surface:          #ffffff;
+  --color-ink:              #2e3440;
+  --color-ink2:             #3b4252;
+  --color-muted:            #7a8499;
+  --color-stroke:           #2e3440;
+  --color-accent:           #5e81ac;
+  --color-accent-soft:      rgba(94, 129, 172, 0.10);
+  --color-accent2:          #81a1c1;
+  --color-hl:               rgba(94, 129, 172, 0.16);
+  --color-paper:            #f8faff;
+
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+  --color-on-accent:     #eceff4;
+
+  --shadow-sketch:    2px 2.5px 0 #2e3440;
+  --shadow-sketch-sm: 1.5px 2px 0 #2e3440;
+  --shadow-palette:   4px 5px 0 #2e3440;
+
+  --color-section-header-bg: rgba(46, 52, 64, 0.07);
+  --color-mark-bg:           rgba(94, 129, 172, 0.20);
+
+  --color-err:               #bf616a;
+  --color-err-bg:            rgba(191, 97, 106, 0.10);
+  --color-err-row:           rgba(191, 97, 106, 0.07);
+  --color-err-badge:         rgba(191, 97, 106, 0.12);
+  --color-err-border:        #bf616a;
+  --color-err-text:          #9c3a42;
+  --color-ok-bg:             rgba(163, 190, 140, 0.12);
+  --color-ok-border:         #a3be8c;
+  --color-success:           #6a9b5a;
+
+  --color-logo-bg:           var(--color-accent);
+  --color-logo-text:         var(--color-on-accent);
+}
+
+/* ── Dark (nord) — Nord Polar Night ──────────────────────────────────────── */
+[data-theme="nord-dark"] {
+  --color-bg:               #2e3440;
+  --color-sidebar-collapsed: #272c38;
+  --color-surface:          #3b4252;
+  --color-ink:              #eceff4;
+  --color-ink2:             #d8dee9;
+  --color-muted:            #616e86;
+  --color-stroke:           #4c566a;
+  --color-accent:           #88c0d0;
+  --color-accent-soft:      rgba(136, 192, 208, 0.12);
+  --color-accent2:          #81a1c1;
+  --color-hl:               rgba(136, 192, 208, 0.18);
+  --color-paper:            #353c4a;
+
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+  --color-on-accent:     #2e3440;
+
+  --shadow-sketch:    2px 2.5px 0 #191d24;
+  --shadow-sketch-sm: 1.5px 2px 0 #191d24;
+  --shadow-palette:   4px 5px 0 #191d24;
+
+  --color-section-header-bg: rgba(255, 255, 255, 0.06);
+  --color-mark-bg:           rgba(136, 192, 208, 0.22);
+
+  --color-err:               #bf616a;
+  --color-err-bg:            rgba(191, 97, 106, 0.12);
+  --color-err-row:           rgba(191, 97, 106, 0.08);
+  --color-err-badge:         rgba(191, 97, 106, 0.15);
+  --color-err-border:        #bf616a;
+  --color-err-text:          #d08770;
+  --color-ok-bg:             rgba(163, 190, 140, 0.12);
+  --color-ok-border:         #a3be8c;
+  --color-success:           #a3be8c;
+
+  --err-bg:       rgba(191, 97, 106, 0.08);
+  --err-row:      rgba(191, 97, 106, 0.05);
+  --err-badge-bg: rgba(191, 97, 106, 0.12);
+  --err-border:   #bf616a;
+  --err-text:     #d08770;
+  --ok-bg:        rgba(163, 190, 140, 0.08);
+  --ok-border:    #a3be8c;
+
+  --color-logo-bg:  var(--color-accent);
+  --color-logo-text: var(--color-on-accent);
+}
+
+/* ── Dark (vivid) — café / espresso ──────────────────────────────────────── */
 [data-theme="vivid-dark"] {
-  --color-bg:               #1a1a1a;
-  --color-sidebar-collapsed: #111110;
-  --color-surface:          #2a2a2a;
-  --color-ink:              #f0f0ed;
-  --color-ink2:             #c0c0bc;
-  --color-muted:            #6a6a6a;
-  --color-stroke:           #4a4a4a;
-  --color-accent:           #34d399;
-  --color-accent-soft:      #064e3b;
-  --color-accent2:          #2dd4bf;
-  --color-hl:               #065f46;
-  --color-paper:            #111110;
-}
+  --color-bg:               #1c1410;
+  --color-sidebar-collapsed: #170f0b;
+  --color-surface:          #261a12;
+  --color-ink:              #f0e0cc;
+  --color-ink2:             #c4a882;
+  --color-muted:            #8a6e52;
+  --color-stroke:           #4a3020;
+  --color-accent:           #d4973a;
+  --color-accent-soft:      rgba(212, 151, 58, 0.12);
+  --color-accent2:          #e8b86d;
+  --color-hl:               rgba(212, 151, 58, 0.20);
+  --color-paper:            #261a12;
 
-/* ── Sky & Slate ─────────────────────────────────────────────────────────── */
-[data-theme="sky-slate-light"] {
-  --color-bg:               #f0f7ff;
-  --color-sidebar-collapsed: #e4f0fc;
-  --color-surface:          #ffffff;
-  --color-ink:              #0f2744;
-  --color-ink2:             #2c5282;
-  --color-muted:            #90aac8;
-  --color-stroke:           #0f2744;
-  --color-accent:           #0ea5e9;
-  --color-accent-soft:      #e0f2fe;
-  --color-accent2:          #7c3aed;
-  --color-hl:               #ede9fe;
-  --color-paper:            #e6f2ff;
-}
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+  --color-on-accent:     #1c1410;
 
-[data-theme="sky-slate-dark"] {
-  --color-bg:               #04111e;
-  --color-sidebar-collapsed: #020c18;
-  --color-surface:          #081c30;
-  --color-ink:              #e0f2fe;
-  --color-ink2:             #90aac8;
-  --color-muted:            #2c5282;
-  --color-stroke:           #1a3a5c;
-  --color-accent:           #38bdf8;
-  --color-accent-soft:      #082030;
-  --color-accent2:          #a78bfa;
-  --color-hl:               #1e1040;
-  --color-paper:            #020c18;
-}
+  --shadow-sketch:    2px 2.5px 0 #0d0906;
+  --shadow-sketch-sm: 1.5px 2px 0 #0d0906;
+  --shadow-palette:   4px 5px 0 #0d0906;
 
-/* ── Royal & Gold ────────────────────────────────────────────────────────── */
-[data-theme="royal-gold-light"] {
-  --color-bg:               #f5f6ff;
-  --color-sidebar-collapsed: #edeeff;
-  --color-surface:          #ffffff;
-  --color-ink:              #1a1060;
-  --color-ink2:             #3d3a8a;
-  --color-muted:            #9490c0;
-  --color-stroke:           #1a1060;
-  --color-accent:           #3730a3;
-  --color-accent-soft:      #e0e7ff;
-  --color-accent2:          #d97706;
-  --color-hl:               #fef3c7;
-  --color-paper:            #edeeff;
-}
+  --color-section-header-bg: rgba(240, 224, 204, 0.06);
+  --color-mark-bg:           rgba(212, 151, 58, 0.22);
 
-[data-theme="royal-gold-dark"] {
-  --color-bg:               #080618;
-  --color-sidebar-collapsed: #050310;
-  --color-surface:          #110e2a;
-  --color-ink:              #ede9fe;
-  --color-ink2:             #a5a0d4;
-  --color-muted:            #4a4488;
-  --color-stroke:           #2e2870;
-  --color-accent:           #818cf8;
-  --color-accent-soft:      #1a1650;
-  --color-accent2:          #fbbf24;
-  --color-hl:               #3a2800;
-  --color-paper:            #050310;
-}
+  --color-err:               #d45f3c;
+  --color-err-bg:            rgba(212, 95, 60, 0.10);
+  --color-err-row:           rgba(212, 95, 60, 0.07);
+  --color-err-badge:         rgba(212, 95, 60, 0.13);
+  --color-err-border:        #d45f3c;
+  --color-err-text:          #e8876a;
+  --color-ok-bg:             rgba(106, 176, 76, 0.10);
+  --color-ok-border:         #6ab04c;
+  --color-success:           #6ab04c;
 
-/* ── Cobalt & Lime ───────────────────────────────────────────────────────── */
-[data-theme="cobalt-lime-light"] {
-  --color-bg:               #f3f8ff;
-  --color-sidebar-collapsed: #eaf3ff;
-  --color-surface:          #ffffff;
-  --color-ink:              #0c2461;
-  --color-ink2:             #1a51b8;
-  --color-muted:            #7aaddd;
-  --color-stroke:           #0c2461;
-  --color-accent:           #005bea;
-  --color-accent-soft:      #d6e8ff;
-  --color-accent2:          #65a30d;
-  --color-hl:               #ecfccb;
-  --color-paper:            #eaf3ff;
-}
+  --err-bg:       rgba(212, 95, 60, 0.08);
+  --err-row:      rgba(212, 95, 60, 0.05);
+  --err-badge-bg: rgba(212, 95, 60, 0.12);
+  --err-border:   #d45f3c;
+  --err-text:     #e8876a;
+  --ok-bg:        rgba(106, 176, 76, 0.08);
+  --ok-border:    #6ab04c;
 
-[data-theme="cobalt-lime-dark"] {
-  --color-bg:               #010c20;
-  --color-sidebar-collapsed: #010818;
-  --color-surface:          #041630;
-  --color-ink:              #d6e8ff;
-  --color-ink2:             #7aaddd;
-  --color-muted:            #1a51b8;
-  --color-stroke:           #0a2855;
-  --color-accent:           #4d9eff;
-  --color-accent-soft:      #041028;
-  --color-accent2:          #84cc16;
-  --color-hl:               #1a2e00;
-  --color-paper:            #010818;
-}
-
-/* ── Navy & Coral ────────────────────────────────────────────────────────── */
-[data-theme="navy-coral-light"] {
-  --color-bg:               #f5f7ff;
-  --color-sidebar-collapsed: #eef2ff;
-  --color-surface:          #ffffff;
-  --color-ink:              #0a1628;
-  --color-ink2:             #1e3a5f;
-  --color-muted:            #7a9bbf;
-  --color-stroke:           #0a1628;
-  --color-accent:           #1e3a8a;
-  --color-accent-soft:      #dbeafe;
-  --color-accent2:          #f43f5e;
-  --color-hl:               #ffe4e6;
-  --color-paper:            #eef2ff;
-}
-
-[data-theme="navy-coral-dark"] {
-  --color-bg:               #020810;
-  --color-sidebar-collapsed: #010610;
-  --color-surface:          #060e1e;
-  --color-ink:              #e2eeff;
-  --color-ink2:             #7a9bbf;
-  --color-muted:            #1e3a5f;
-  --color-stroke:           #102040;
-  --color-accent:           #60a5fa;
-  --color-accent-soft:      #0a1830;
-  --color-accent2:          #fb7185;
-  --color-hl:               #3a0818;
-  --color-paper:            #010610;
-}
-
-/* ── Midnight & Cyan ─────────────────────────────────────────────────────── */
-[data-theme="midnight-cyan-light"] {
-  --color-bg:               #f0f4ff;
-  --color-sidebar-collapsed: #e8eeff;
-  --color-surface:          #ffffff;
-  --color-ink:              #050e30;
-  --color-ink2:             #1c2e6e;
-  --color-muted:            #8898c8;
-  --color-stroke:           #050e30;
-  --color-accent:           #0050d8;
-  --color-accent-soft:      #dce8ff;
-  --color-accent2:          #00c2cc;
-  --color-hl:               #ccfeff;
-  --color-paper:            #e8eeff;
-}
-
-[data-theme="midnight-cyan-dark"] {
-  --color-bg:               #010510;
-  --color-sidebar-collapsed: #000310;
-  --color-surface:          #050d22;
-  --color-ink:              #d8e6ff;
-  --color-ink2:             #8898c8;
-  --color-muted:            #2a3c80;
-  --color-stroke:           #1030a0;
-  --color-accent:           #4d82ff;
-  --color-accent-soft:      #081040;
-  --color-accent2:          #22d3ee;
-  --color-hl:               #003840;
-  --color-paper:            #000310;
-}
-
-/* ── Indigo & Coral ──────────────────────────────────────────────────────── */
-[data-theme="indigo-coral-light"] {
-  --color-bg:               #fafafe;
-  --color-sidebar-collapsed: #f3f2ff;
-  --color-surface:          #ffffff;
-  --color-ink:              #1a1340;
-  --color-ink2:             #4b4880;
-  --color-muted:            #9e9bc0;
-  --color-stroke:           #1a1340;
-  --color-accent:           #4361ee;
-  --color-accent-soft:      #dce4ff;
-  --color-accent2:          #f72585;
-  --color-hl:               #ffe0f0;
-  --color-paper:            #f3f2ff;
-}
-
-[data-theme="indigo-coral-dark"] {
-  --color-bg:               #070614;
-  --color-sidebar-collapsed: #050312;
-  --color-surface:          #110f26;
-  --color-ink:              #eeeaff;
-  --color-ink2:             #a9a6c8;
-  --color-muted:            #655f88;
-  --color-stroke:           #3a3660;
-  --color-accent:           #4361ee;
-  --color-accent-soft:      #1a1f50;
-  --color-accent2:          #f72585;
-  --color-hl:               #3a1030;
-  --color-paper:            #050312;
-}
-
-/* ── Teal & Amber ────────────────────────────────────────────────────────── */
-[data-theme="teal-amber-light"] {
-  --color-bg:               #f4fafa;
-  --color-sidebar-collapsed: #ecf8f8;
-  --color-surface:          #ffffff;
-  --color-ink:              #0d2525;
-  --color-ink2:             #2d5555;
-  --color-muted:            #7aabab;
-  --color-stroke:           #0d2525;
-  --color-accent:           #0fa3b1;
-  --color-accent-soft:      #d6f5f7;
-  --color-accent2:          #f4a523;
-  --color-hl:               #fff4d6;
-  --color-paper:            #ecf8f8;
-}
-
-[data-theme="teal-amber-dark"] {
-  --color-bg:               #030d0e;
-  --color-sidebar-collapsed: #020a0a;
-  --color-surface:          #091616;
-  --color-ink:              #e0f5f5;
-  --color-ink2:             #80c8c8;
-  --color-muted:            #3a7070;
-  --color-stroke:           #1a4040;
-  --color-accent:           #0fa3b1;
-  --color-accent-soft:      #062020;
-  --color-accent2:          #f4a523;
-  --color-hl:               #3a2800;
-  --color-paper:            #020a0a;
+  --color-logo-bg:   var(--color-accent);
+  --color-logo-text: var(--color-on-accent);
 }

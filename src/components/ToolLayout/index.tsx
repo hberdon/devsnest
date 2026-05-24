@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import { LangPicker } from '@/components/LangPicker'
 import { CmdKButton } from '@/components/CmdKButton'
@@ -21,7 +21,6 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
   const { getToolById, getCategoryById } = useLocalizedRegistry()
   const tool     = getToolById(toolId)
   const category = tool ? getCategoryById(tool.categoryId) : undefined
-  const navigate = useNavigate()
   const { pinned, pinTool, unpin } = useDevTools()
   const { t } = useLang()
   const [splitMode, setSplitMode] = useLocalStorage<SplitMode>(`split-${toolId}`, 'v')
@@ -29,9 +28,20 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
   const isPinned = pinned.some(e => e.toolId === toolId)
 
   useEffect(() => {
-    if (tool) document.title = `${tool.name} — devsnest`
-    return () => { document.title = 'devsnest' }
-  }, [tool?.name]) // eslint-disable-line react-hooks/exhaustive-deps
+    if (!tool) return
+    const title = `${tool.name} — devsnest`
+    const desc  = `${tool.description} — devsnest`
+    document.title = title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', desc)
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', desc)
+    return () => {
+      document.title = 'devsnest'
+      document.querySelector('meta[name="description"]')?.setAttribute('content', '28 herramientas para desarrolladores: JSON, JWT, Base64, UUID, Regex, SQL, QR y más. Sin cuenta, sin backend, 100% en tu navegador.')
+      document.querySelector('meta[property="og:title"]')?.setAttribute('content', 'devsnest — 28 herramientas para devs')
+      document.querySelector('meta[property="og:description"]')?.setAttribute('content', 'JSON, JWT, Base64, UUID, Regex, SQL, QR y más. Sin cuenta, 100% en tu navegador.')
+    }
+  }, [tool?.name, tool?.description])
 
   function handlePinToggle() {
     const entry = pinned.find(e => e.toolId === toolId)
@@ -49,7 +59,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
       <div className={s.layout}>
         {/* Breadcrumb */}
         <nav className={s.breadcrumb}>
-          <span style={{ cursor: 'pointer' }} onClick={() => navigate('/')}>{t.home}</span>
+          <Link to="/">{t.home}</Link>
           <span>›</span>
           <span>{category?.name}</span>
           <span>›</span>
@@ -86,14 +96,14 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
                   title={t.splitV}
                   onClick={() => setSplitMode('v')}
                 >
-                  <Icon name="split-v" size={14} color={splitMode === 'v' ? '#fff' : 'var(--color-ink)'} />
+                  <Icon name="split-v" size={14} color={splitMode === 'v' ? 'var(--color-surface)' : 'var(--color-ink)'} />
                 </button>
                 <button
                   className={`${s.splitBtn} ${splitMode === 'h' ? s.splitActive : ''}`}
                   title={t.splitH}
                   onClick={() => setSplitMode('h')}
                 >
-                  <Icon name="split-h" size={14} color={splitMode === 'h' ? '#fff' : 'var(--color-ink)'} />
+                  <Icon name="split-h" size={14} color={splitMode === 'h' ? 'var(--color-surface)' : 'var(--color-ink)'} />
                 </button>
               </div>
             )}
