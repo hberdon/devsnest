@@ -12,14 +12,14 @@
   --color-bg:               #f3f1ec;  /* canvas wrapper ("papel tostado") */
   --color-sidebar-collapsed: #ece9e2; /* rail colapsado */
   --color-surface:          #ffffff;
-  --color-ink:              #1a1a1a;  /* texto + sombra dura */
-  --color-ink2:             #3a3a3a;  /* texto secundario */
+  --color-ink:              #1c1410;  /* texto + sombra dura — espresso */
+  --color-ink2:             #3d2010;  /* texto secundario */
   --color-muted:            #9a9a9a;  /* placeholder, labels, bordes muted */
-  --color-stroke:           #2a2a2a;  /* borde "tinta" */
-  --color-accent:           #10b981;  /* brand primary — mint */
-  --color-accent-soft:      #e6faf3;  /* fondo badges mint */
-  --color-accent2:          #2dd4bf;  /* teal — pines anclados */
-  --color-hl:               #a7f3d0;  /* highlight items seleccionados */
+  --color-stroke:           #3d2010;  /* borde "tinta" */
+  --color-accent:           #b06c1e;  /* brand primary — amber café */
+  --color-accent-soft:      #fdf0e0;  /* fondo badges café */
+  --color-accent2:          #d4973a;  /* caramelo — pines anclados */
+  --color-hl:               #fce8c3;  /* highlight items seleccionados */
   --color-paper:            #fafaf7;  /* sidebar expandido + sketchBox default bg */
 
   /* Sketch border system */
@@ -33,16 +33,26 @@
   --radius-rail:   8px 9px 7px 10px;
 
   /* Sketch shadows */
-  --shadow-sketch:    2px 2.5px 0 #1a1a1a;
-  --shadow-sketch-sm: 1.5px 2px 0 #1a1a1a;
-  --shadow-palette:   4px 5px 0 #1a1a1a;
+  --shadow-sketch:    2px 2.5px 0 #1c1410;
+  --shadow-sketch-sm: 1.5px 2px 0 #1c1410;
+  --shadow-palette:   4px 5px 0 #1c1410;
+
+  --color-logo-bg:          #1c1410;
+  --color-logo-text:        #ffffff;
+
+  /* Transitions */
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+
+  /* On-accent — text color for elements with --color-accent background */
+  --color-on-accent: #ffffff;
 
   /* Layout */
   --sidebar-width:           252px;
   --sidebar-collapsed-width: 64px;
 
   /* Semantic — error / success / mark */
-  --color-section-header-bg: rgba(42, 42, 42, 0.07);
+  --color-section-header-bg: rgba(61, 32, 16, 0.07);
   --color-mark-bg:           var(--color-hl);
   --color-err:               #e53e3e;
   --color-err-bg:            #ffe9e9;
@@ -50,49 +60,143 @@
   --color-err-badge:         #ffd6d6;
   --color-err-border:        #d94343;
   --color-err-text:          #b91c1c;
-  --color-ok-bg:             #e6f7ee;
-  --color-ok-border:         #10b981;
-  --color-success:           #38a169;
+  --color-ok-bg:             #eef4e6;
+  --color-ok-border:         #5a9e3a;
+  --color-success:           #4e8a28;
 }
 
-/* ── Dark (vivid) — palette from notesjs ─────────────────────────────────── */
+/* ── Light (nord) — Nord Snow Storm ──────────────────────────────────────── */
+[data-theme="nord-light"] {
+  --color-bg:               #eceff4;
+  --color-sidebar-collapsed: #e5e9f0;
+  --color-surface:          #ffffff;
+  --color-ink:              #2e3440;
+  --color-ink2:             #3b4252;
+  --color-muted:            #7a8499;
+  --color-stroke:           #2e3440;
+  --color-accent:           #5e81ac;
+  --color-accent-soft:      rgba(94, 129, 172, 0.10);
+  --color-accent2:          #81a1c1;
+  --color-hl:               rgba(94, 129, 172, 0.16);
+  --color-paper:            #f8faff;
+
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+  --color-on-accent:     #eceff4;
+
+  --shadow-sketch:    2px 2.5px 0 #2e3440;
+  --shadow-sketch-sm: 1.5px 2px 0 #2e3440;
+  --shadow-palette:   4px 5px 0 #2e3440;
+
+  --color-section-header-bg: rgba(46, 52, 64, 0.07);
+  --color-mark-bg:           rgba(94, 129, 172, 0.20);
+
+  --color-err:               #bf616a;
+  --color-err-bg:            rgba(191, 97, 106, 0.10);
+  --color-err-row:           rgba(191, 97, 106, 0.07);
+  --color-err-badge:         rgba(191, 97, 106, 0.12);
+  --color-err-border:        #bf616a;
+  --color-err-text:          #9c3a42;
+  --color-ok-bg:             rgba(163, 190, 140, 0.12);
+  --color-ok-border:         #a3be8c;
+  --color-success:           #6a9b5a;
+
+  --color-logo-bg:           var(--color-accent);
+  --color-logo-text:         var(--color-on-accent);
+}
+
+/* ── Dark (nord) — Nord Polar Night ──────────────────────────────────────── */
+[data-theme="nord-dark"] {
+  --color-bg:               #2e3440;
+  --color-sidebar-collapsed: #272c38;
+  --color-surface:          #3b4252;
+  --color-ink:              #eceff4;
+  --color-ink2:             #d8dee9;
+  --color-muted:            #616e86;
+  --color-stroke:           #4c566a;
+  --color-accent:           #88c0d0;
+  --color-accent-soft:      rgba(136, 192, 208, 0.12);
+  --color-accent2:          #81a1c1;
+  --color-hl:               rgba(136, 192, 208, 0.18);
+  --color-paper:            #353c4a;
+
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+  --color-on-accent:     #2e3440;
+
+  --shadow-sketch:    2px 2.5px 0 #191d24;
+  --shadow-sketch-sm: 1.5px 2px 0 #191d24;
+  --shadow-palette:   4px 5px 0 #191d24;
+
+  --color-section-header-bg: rgba(255, 255, 255, 0.06);
+  --color-mark-bg:           rgba(136, 192, 208, 0.22);
+
+  --color-err:               #bf616a;
+  --color-err-bg:            rgba(191, 97, 106, 0.12);
+  --color-err-row:           rgba(191, 97, 106, 0.08);
+  --color-err-badge:         rgba(191, 97, 106, 0.15);
+  --color-err-border:        #bf616a;
+  --color-err-text:          #d08770;
+  --color-ok-bg:             rgba(163, 190, 140, 0.12);
+  --color-ok-border:         #a3be8c;
+  --color-success:           #a3be8c;
+
+  --err-bg:       rgba(191, 97, 106, 0.08);
+  --err-row:      rgba(191, 97, 106, 0.05);
+  --err-badge-bg: rgba(191, 97, 106, 0.12);
+  --err-border:   #bf616a;
+  --err-text:     #d08770;
+  --ok-bg:        rgba(163, 190, 140, 0.08);
+  --ok-border:    #a3be8c;
+
+  --color-logo-bg:  var(--color-accent);
+  --color-logo-text: var(--color-on-accent);
+}
+
+/* ── Dark (vivid) — café / espresso ──────────────────────────────────────── */
 [data-theme="vivid-dark"] {
-  --color-bg:               #1e1e1e;
-  --color-sidebar-collapsed: #2d2d2d;
-  --color-surface:          #252526;
-  --color-ink:              #e2e8f0;
-  --color-ink2:             #cbd5e1;
-  --color-muted:            #64748b;
-  --color-stroke:           #3e3e42;
-  --color-accent:           #10b981;
-  --color-accent-soft:      #064e3b;
-  --color-accent2:          #34d399;
-  --color-hl:               #065f46;
-  --color-paper:            #252526;
+  --color-bg:               #1c1410;
+  --color-sidebar-collapsed: #170f0b;
+  --color-surface:          #261a12;
+  --color-ink:              #f0e0cc;
+  --color-ink2:             #c4a882;
+  --color-muted:            #8a6e52;
+  --color-stroke:           #4a3020;
+  --color-accent:           #d4973a;
+  --color-accent-soft:      rgba(212, 151, 58, 0.12);
+  --color-accent2:          #e8b86d;
+  --color-hl:               rgba(212, 151, 58, 0.20);
+  --color-paper:            #261a12;
 
-  --shadow-sketch:    2px 2.5px 0 #000000;
-  --shadow-sketch-sm: 1.5px 2px 0 #000000;
-  --shadow-palette:   4px 5px 0 #000000;
+  --transition-duration: 0.15s;
+  --transition-easing:   ease;
+  --color-on-accent:     #1c1410;
 
-  /* Semantic dark overrides */
-  --color-section-header-bg: rgba(255, 255, 255, 0.07);
+  --shadow-sketch:    2px 2.5px 0 #0d0906;
+  --shadow-sketch-sm: 1.5px 2px 0 #0d0906;
+  --shadow-palette:   4px 5px 0 #0d0906;
 
-  /* JSON/XML local variables override */
-  --err-bg:       rgba(252, 129, 129, 0.08);
-  --err-row:      rgba(252, 129, 129, 0.05);
-  --err-badge-bg: rgba(252, 129, 129, 0.12);
-  --err-border:   #fc8181;
-  --err-text:     #fca5a5;
-  --ok-bg:        rgba(16, 185, 129, 0.08);
-  --ok-border:    #34d399;
-  --color-mark-bg:           #1e4a35;
-  --color-err:               #fc8181;
-  --color-err-bg:            rgba(252, 129, 129, 0.08);
-  --color-err-row:           rgba(252, 129, 129, 0.05);
-  --color-err-badge:         rgba(252, 129, 129, 0.12);
-  --color-err-border:        #fc8181;
-  --color-err-text:          #fca5a5;
-  --color-ok-bg:             rgba(16, 185, 129, 0.08);
-  --color-ok-border:         #34d399;
-  --color-success:           #68d391;
+  --color-section-header-bg: rgba(240, 224, 204, 0.06);
+  --color-mark-bg:           rgba(212, 151, 58, 0.22);
+
+  --color-err:               #d45f3c;
+  --color-err-bg:            rgba(212, 95, 60, 0.10);
+  --color-err-row:           rgba(212, 95, 60, 0.07);
+  --color-err-badge:         rgba(212, 95, 60, 0.13);
+  --color-err-border:        #d45f3c;
+  --color-err-text:          #e8876a;
+  --color-ok-bg:             rgba(106, 176, 76, 0.10);
+  --color-ok-border:         #6ab04c;
+  --color-success:           #6ab04c;
+
+  --err-bg:       rgba(212, 95, 60, 0.08);
+  --err-row:      rgba(212, 95, 60, 0.05);
+  --err-badge-bg: rgba(212, 95, 60, 0.12);
+  --err-border:   #d45f3c;
+  --err-text:     #e8876a;
+  --ok-bg:        rgba(106, 176, 76, 0.08);
+  --ok-border:    #6ab04c;
+
+  --color-logo-bg:   var(--color-accent);
+  --color-logo-text: var(--color-on-accent);
 }
