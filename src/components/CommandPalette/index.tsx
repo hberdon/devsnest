@@ -167,7 +167,13 @@ export function CommandPalette() {
 
   return (
     <div className={s.overlay} onMouseDown={e => { if (e.target === e.currentTarget) close() }}>
-      <div className={s.palette} role="dialog" aria-label="Command palette">
+      <div
+        className={s.palette}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
+        onKeyDown={e => { if (e.key === 'Tab') e.preventDefault() }}
+      >
         <PaletteContent onClose={close} />
       </div>
     </div>

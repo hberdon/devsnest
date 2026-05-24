@@ -50,6 +50,9 @@ interface ResultRowProps {
 function ResultRow({ tool, query, isSelected, showEnter, onClick }: ResultRowProps) {
   return (
     <div
+      id={`result-${tool.id}`}
+      role="option"
+      aria-selected={isSelected}
       className={`${s.resultRow} ${isSelected ? s.resultSelected : ''}`}
       onMouseDown={e => { e.preventDefault(); onClick() }}
     >
@@ -127,6 +130,10 @@ function HeroSearch() {
           placeholder={t.searchPlaceholder}
           autoComplete="off"
           spellCheck={false}
+          role="combobox"
+          aria-expanded={focused}
+          aria-controls="hero-search-results"
+          aria-activedescendant={focused && results[selected] ? `result-${results[selected].id}` : undefined}
         />
         {query
           ? <button className={s.clearBtn} onMouseDown={e => { e.preventDefault(); setQuery(''); setSelected(0); inputRef.current?.focus() }}>
@@ -138,7 +145,7 @@ function HeroSearch() {
 
       {focused && (
         <div className={s.inlinePalette}>
-          <div className={s.paletteResults}>
+          <div className={s.paletteResults} role="listbox" id="hero-search-results">
             {results.length === 0 ? (
               <div className={s.noResults}>{t.cmdNoResults} «{query}»</div>
             ) : (

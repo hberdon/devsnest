@@ -1,7 +1,6 @@
 import { lazy, type ComponentType } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyComponent = ComponentType<any>
+type AnyComponent = ComponentType<Record<string, never>>
 
 export const TOOL_COMPONENTS: Record<string, React.LazyExoticComponent<AnyComponent>> = {
   // Fase 4
