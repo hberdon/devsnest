@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type ReactNode } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '@/components/Icon'
 import { LangPicker } from '@/components/LangPicker'
@@ -52,7 +52,6 @@ function ResultRow({ tool, query, isSelected, showEnter, onClick }: ResultRowPro
     <div
       className={`${s.resultRow} ${isSelected ? s.resultSelected : ''}`}
       onMouseDown={e => { e.preventDefault(); onClick() }}
-      onMouseEnter={() => {}}
     >
       <span className={s.resultBadge}>{tool.badge}</span>
       <div className={s.resultInfo}>
@@ -75,26 +74,29 @@ function HeroSearch() {
   const { t } = useLang()
   const { allTools } = useLocalizedRegistry()
 
-  const results = allTools
-    .map(tool => ({ tool, score: score(tool, query) }))
-    .filter(r => r.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .map(r => r.tool)
+  const results = useMemo(() =>
+    allTools
+      .map(tool => ({ tool, score: score(tool, query) }))
+      .filter(r => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(r => r.tool),
+    [allTools, query]
+  )
 
   const top    = results[0]
   const others = results.slice(1, 8)
 
-  function close() {
+  const close = useCallback(() => {
     setFocused(false)
     setQuery('')
     setSelected(0)
     inputRef.current?.blur()
-  }
+  }, [])
 
-  function goTo(toolId: string) {
+  const goTo = useCallback((toolId: string) => {
     navigate(`/tools/${toolId}`)
     close()
-  }
+  }, [navigate, close])
 
   useEffect(() => {
     if (!focused) return
@@ -107,7 +109,7 @@ function HeroSearch() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [focused, results, selected]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [focused, results, selected, goTo, close])
 
   return (
     <div className={s.searchWrap}>
@@ -195,7 +197,7 @@ function HistoryRow({ entry, isPinned, onPin, onUnpin, onRemove, onReopen }: His
         <button className={s.actionBtn} title={t.openTool} onClick={onReopen}><Icon name="chev-r" size={12} /></button>
         <button className={s.actionBtn} title={t.copyResult} onClick={handleCopy}><Icon name="copy" size={12} /></button>
         <button className={`${s.actionBtn} ${isPinned ? s.pinActive : ''}`} title={isPinned ? t.unpin : t.pin} onClick={isPinned ? onUnpin : onPin}>
-          <Icon name="pin-fill" size={14} color={isPinned ? '#fff' : '#dc2626'} strokeWidth={2} />
+          <Icon name="pin-fill" size={14} color={isPinned ? 'var(--color-surface)' : 'var(--color-err)'} strokeWidth={2} />
         </button>
         {!isPinned && <button className={s.actionBtn} title={t.removeTool} onClick={onRemove}><Icon name="close" size={12} /></button>}
       </div>
@@ -225,7 +227,7 @@ export default function Dashboard() {
       {pinned.length > 0 && (
         <div className={s.section}>
           <div className={s.sectionHeader}>
-            <Icon name="pin-fill" size={17} color="#dc2626" strokeWidth={2} />
+            <Icon name="pin-fill" size={17} color="var(--color-err)" strokeWidth={2} />
             <span className={s.sectionTitle}>{t.pinned}</span>
             <span className={s.sectionNote}>{t.alsoInSidebar}</span>
             <span className={s.sectionCount}>{pinned.length}</span>

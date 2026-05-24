@@ -170,7 +170,7 @@
 .footerKbd {
   font-family: var(--font-mono);
   padding: 0 4px;
-  background: #eee;
+  background: var(--color-mark-bg);
   border-radius: 3px;
 }
 

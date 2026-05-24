@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from '@/App'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
 const ToolPage  = lazy(() => import('@/pages/ToolPage'))
@@ -20,11 +21,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Suspense fallback={<PageLoader />}><Dashboard /></Suspense>,
+        element: <ErrorBoundary><Suspense fallback={<PageLoader />}><Dashboard /></Suspense></ErrorBoundary>,
       },
       {
         path: 'tools/:id',
-        element: <Suspense fallback={<PageLoader />}><ToolPage /></Suspense>,
+        element: <ErrorBoundary><Suspense fallback={<PageLoader />}><ToolPage /></Suspense></ErrorBoundary>,
       },
     ],
   },
