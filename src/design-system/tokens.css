@@ -5,12 +5,14 @@
 @font-face {
   font-family: 'Tanod';
   src: url('/fonts/Tanod.otf') format('opentype');
+  font-weight: 100 900;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Truth Dare';
-  src: url('/fonts/Truth Dare.otf') format('opentype');
+  src: url('/fonts/Truth%20Dare.otf') format('opentype');
+  font-weight: 100 900;
   font-display: swap;
 }
 
