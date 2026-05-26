@@ -2,11 +2,24 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
+@font-face {
+  font-family: 'Tanod';
+  src: url('/fonts/Tanod.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Truth Dare';
+  src: url('/fonts/Truth Dare.otf') format('opentype');
+  font-display: swap;
+}
+
 /* ── Light (vivid) ───────────────────────────────────────────────────────── */
 :root,
 [data-theme="vivid-light"] {
   --font-ui:   'Nunito', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-logo: 'Truth Dare', system-ui, sans-serif;  /* alt: 'Tanod' */
 
   /* Core colors — exact values from wireframes.jsx source of truth */
   --color-bg:               #f3f1ec;  /* canvas wrapper ("papel tostado") */

@@ -24,8 +24,9 @@
 
 .heroTitle {
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 100;
   letter-spacing: -0.3px;
+  font-family: var(--font-logo);
 }
 
 .heroSub {
