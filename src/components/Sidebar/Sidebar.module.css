@@ -68,11 +68,11 @@
 }
 
 .logoWordmark {
-  margin-left: 10px;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
+  margin-left: 5px;
+  font-size: 30px;
+  font-weight: 100;
   flex: 1;
+  font-family: var(--font-logo);
 }
 
 .collapseBtn {

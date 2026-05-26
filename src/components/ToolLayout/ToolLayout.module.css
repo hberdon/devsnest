@@ -75,8 +75,9 @@
   align-items: center;
   gap: 8px;
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 100;
   line-height: 1.1;
+  font-family: var(--font-logo);
 }
 
 .pinBtn {
