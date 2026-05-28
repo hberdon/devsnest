@@ -22,9 +22,15 @@
 }
 
 .error {
-  color: #e53e3e;
+  color: var(--color-err);
   font-family: var(--font-mono);
   font-size: 13px;
+}
+
+.procesando {
+  font-size: 11px;
+  color: var(--color-muted);
+  margin-right: 8px;
 }
 
 .autoNote {

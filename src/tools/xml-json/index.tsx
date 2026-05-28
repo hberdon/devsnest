@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Icon } from '@/components/Icon'
 import { SplitPane } from '@/components/SplitPane'
 import { ToolLayout } from '@/components/ToolLayout'
@@ -134,7 +134,16 @@ export default function XmlJson() {
   const { t } = useLang()
 
   const isXml2Json = direction === 'xml2json'
-  const result = isXml2Json ? convertXmlToJson(input) : convertJsonToXml(input)
+
+  const result = useMemo(
+    () => isXml2Json ? convertXmlToJson(input) : convertJsonToXml(input),
+    [input, isXml2Json]
+  )
+  const inputSize = useMemo(
+    () => new TextEncoder().encode(input).length,
+    [input]
+  )
+
   const output = result.ok ? result.output : ''
   const error  = !result.ok ? result.error : ''
 
@@ -145,9 +154,9 @@ export default function XmlJson() {
     addToHistory({
       toolId: 'xml-json', toolName: 'XML ↔ JSON', badge: 'XJ',
       categoryName: 'Conversores',
-      description: `${isXml2Json ? 'XML → JSON' : 'JSON → XML'} · ${humanSize(new TextEncoder().encode(debouncedInput).length)}`,
+      description: `${isXml2Json ? 'XML → JSON' : 'JSON → XML'} · ${humanSize(inputSize)}`,
     })
-  }, [debouncedInput, isXml2Json, output, addToHistory])
+  }, [debouncedInput, isXml2Json, output, inputSize, addToHistory])
 
   function handleSwap() {
     setInput(output)
@@ -168,7 +177,7 @@ export default function XmlJson() {
   }
 
   const swapAction = (
-    <button className={s.swapBtn} onClick={handleSwap} disabled={!output}>
+    <button className={s.swapBtn} onClick={handleSwap} disabled={!output} aria-label="Intercambiar XML y JSON">
       <Icon name="swap" size={14} />
       {isXml2Json ? 'XML → JSON' : 'JSON → XML'}
     </button>
@@ -187,7 +196,7 @@ export default function XmlJson() {
         <SplitPane
           primary={{
             label: inputLabel,
-            meta: input ? `UTF-8 · ${humanSize(new TextEncoder().encode(input).length)}` : '',
+            meta: input ? `UTF-8 · ${humanSize(inputSize)}` : '',
             onPaste: handlePaste,
             content: (
               <textarea
@@ -200,7 +209,12 @@ export default function XmlJson() {
                 autoCorrect="off"
               />
             ),
-            footer: <span className={s.autoNote}>{t.tcAutoUpdates}</span>,
+            footer: (
+              <>
+                {input !== debouncedInput && <span className={s.procesando}>procesando…</span>}
+                <span className={s.autoNote}>{t.tcAutoUpdates}</span>
+              </>
+            ),
           }}
           secondary={{
             label: outputLabel,
