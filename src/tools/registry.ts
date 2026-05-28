@@ -28,6 +28,7 @@ const TOOLS: ToolMeta[] = [
   { id: 'unix-timestamp',  name: 'Unix Timestamp',  categoryId: 'conv',  badge: 'TS',  description: 'Convierte epoch a fecha y viceversa' },
   { id: 'img-base64',     name: 'Img Base64',      categoryId: 'conv',  badge: 'IMG', description: 'Convierte imágenes a Base64 y viceversa' },
   { id: 'pdf-base64',     name: 'PDF Base64',      categoryId: 'conv',  badge: 'PDF', description: 'Convierte PDFs a Base64 y viceversa' },
+  { id: 'xml-json',       name: 'XML ↔ JSON',      categoryId: 'conv',  badge: 'XJ',  description: 'Convierte entre XML y JSON' },
   // Formateadores
   { id: 'json',            name: 'JSON',            categoryId: 'fmt',   badge: '{}',  description: 'Valida y formatea JSON' },
   { id: 'xml',             name: 'XML',             categoryId: 'fmt',   badge: '<>',  description: 'Valida y formatea XML' },

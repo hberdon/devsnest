@@ -1,0 +1,53 @@
+.textarea {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  line-height: 1.65;
+  word-break: break-all;
+}
+
+.output {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  line-height: 1.65;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.error {
+  color: #e53e3e;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.autoNote {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+.swapBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: var(--border-base) !important;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface) !important;
+  box-shadow: var(--shadow-sketch-sm);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.swapBtn:hover {
+  background: var(--color-accent-soft) !important;
+}
