@@ -13,6 +13,7 @@ export const TOOL_COMPONENTS: Record<string, React.LazyExoticComponent<AnyCompon
   'unix-timestamp': lazy(() => import('./unix-timestamp')),
   'img-base64':     lazy(() => import('./img-base64')),
   'pdf-base64':     lazy(() => import('./pdf-base64')),
+  'xml-json':       lazy(() => import('./xml-json')),
   // Fase 8 — Red + Cripto
   'ip-lookup':      lazy(() => import('./ip-lookup')),
   'headers-http':   lazy(() => import('./headers-http')),
