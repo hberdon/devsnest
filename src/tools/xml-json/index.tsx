@@ -10,7 +10,7 @@ import { humanSize } from '@/tools/utils/formatters'
 import s from './XmlJson.module.css'
 
 // ── XML → JSON ────────────────────────────────────────────────────────────────
-function elementToValue(el: Element): unknown {
+function elementToValue(el: Element): string | null | Record<string, unknown> {
   const attrs = Array.from(el.attributes)
   const childEls = Array.from(el.children)
   const textContent = Array.from(el.childNodes)
@@ -54,7 +54,7 @@ function convertXmlToJson(input: string): { ok: true; output: string; size: numb
     const output = JSON.stringify(obj, null, 2)
     return { ok: true, output, size: new TextEncoder().encode(output).length }
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : 'Error desconocido' }
+    return { ok: false, error: e instanceof Error ? e.message : 'Error al parsear el XML' }
   }
 }
 
