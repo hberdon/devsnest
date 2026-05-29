@@ -8,6 +8,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { useDevTools } from '@/store/devtools.context'
 import { useLang } from '@/store/lang.context'
 import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
+import { ToolName } from '@/components/ToolName'
 import s from './ToolLayout.module.css'
 
 interface ToolLayoutProps {
@@ -63,7 +64,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
           <span>›</span>
           <span>{category?.name}</span>
           <span>›</span>
-          <span className={s.breadcrumbActive}>{tool.name}</span>
+          <ToolName name={tool.name} className={s.breadcrumbActive} />
           <div className={s.breadcrumbActions}>
             <CmdKButton className={s.searchBtn} label={t.searchTool} iconSize={14} />
             <LangPicker />
@@ -75,7 +76,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
           <div className={s.badge}>{tool.badge}</div>
           <div className={s.titleBlock}>
             <div className={s.titleRow}>
-              <span>{tool.name}</span>
+              <ToolName name={tool.name} large />
               <button
                 className={`${s.pinBtn} ${isPinned ? s.pinned : ''}`}
                 title={isPinned ? t.unpin : t.pin}
