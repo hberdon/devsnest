@@ -108,9 +108,7 @@ export function ToolLayout({ toolId, children, actions, hideSplit }: ToolLayoutP
                 </button>
               </div>
             )}
-            <button className={s.moreBtn} title={t.moreOptions}>
-              <Icon name="more" size={16} color="var(--color-ink2)" />
-            </button>
+
           </div>
         </div>
 
