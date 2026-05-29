@@ -57,7 +57,7 @@ export default function Contador() {
   }, [debouncedInput])
 
   return (
-    <ToolLayout toolId="contador">
+    <ToolLayout toolId="contador" hideSplit>
       <div className={s.layout}>
         <div className={s.textSection}>
           <textarea

@@ -46,7 +46,7 @@ export default function CaseConverter() {
   }
 
   return (
-    <ToolLayout toolId="case-converter">
+    <ToolLayout toolId="case-converter" hideSplit>
       <div className={s.layout}>
         <div className={s.inputSection}>
           <label className={s.label}>{t.caseInput}</label>

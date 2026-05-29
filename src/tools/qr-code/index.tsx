@@ -47,7 +47,7 @@ export default function QRCodeTool() {
   }
 
   return (
-    <ToolLayout toolId="qr-code">
+    <ToolLayout toolId="qr-code" hideSplit>
       <div className={s.layout}>
         <div className={s.inputSection}>
           <label className={s.inputLabel}>{t.qrTextOrUrl}</label>

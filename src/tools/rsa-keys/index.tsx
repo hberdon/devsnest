@@ -76,7 +76,7 @@ export default function RSAKeys() {
   )
 
   return (
-    <ToolLayout toolId="rsa-keys" actions={sizeControl}>
+    <ToolLayout toolId="rsa-keys" hideSplit actions={sizeControl}>
       <div className={s.layout}>
         <button className={s.genBtn} onClick={generate} disabled={state.status === 'loading'}>
           {state.status === 'loading'

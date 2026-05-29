@@ -57,7 +57,7 @@ export default function UUIDUlid() {
   )
 
   return (
-    <ToolLayout toolId="uuid-ulid" actions={actions}>
+    <ToolLayout toolId="uuid-ulid" hideSplit actions={actions}>
       <div className={s.layout}>
         <div className={s.controls}>
           <label className={s.countLabel}>Cantidad</label>

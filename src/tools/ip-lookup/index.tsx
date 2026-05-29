@@ -64,7 +64,7 @@ export default function IPLookup() {
   }
 
   return (
-    <ToolLayout toolId="ip-lookup">
+    <ToolLayout toolId="ip-lookup" hideSplit>
       <div className={s.layout}>
         <div className={s.searchRow}>
           <input

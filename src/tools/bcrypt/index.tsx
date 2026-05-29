@@ -74,7 +74,7 @@ export default function Bcrypt() {
   )
 
   return (
-    <ToolLayout toolId="bcrypt" actions={tabBar}>
+    <ToolLayout toolId="bcrypt" hideSplit actions={tabBar}>
       <div className={s.layout}>
         {tab === 'hash' ? (
           <>

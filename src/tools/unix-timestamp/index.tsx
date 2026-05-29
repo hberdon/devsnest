@@ -73,7 +73,7 @@ export default function UnixTimestamp() {
   )
 
   return (
-    <ToolLayout toolId="unix-timestamp" actions={nowAction}>
+    <ToolLayout toolId="unix-timestamp" hideSplit actions={nowAction}>
       <div className={s.layout}>
         {/* Live clock */}
         <div className={s.clock}>

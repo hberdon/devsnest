@@ -56,7 +56,7 @@ export default function Hash() {
   }
 
   return (
-    <ToolLayout toolId="hash">
+    <ToolLayout toolId="hash" hideSplit>
       <div className={s.layout}>
         <div className={s.inputSection}>
           <label className={s.inputLabel}>{t.hashInputLabel}</label>

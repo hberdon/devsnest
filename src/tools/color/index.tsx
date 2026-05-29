@@ -89,7 +89,7 @@ export default function ColorTool() {
   }
 
   return (
-    <ToolLayout toolId="color">
+    <ToolLayout toolId="color" hideSplit>
       <div className={s.layout}>
         {/* Input */}
         <div className={s.inputSection}>
