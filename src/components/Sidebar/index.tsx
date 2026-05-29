@@ -7,6 +7,7 @@ import { useDevTools } from '@/store/devtools.context'
 import { useLang } from '@/store/lang.context'
 import { useTheme } from '@/store/theme.context'
 import { useLocalizedRegistry } from '@/hooks/useLocalizedRegistry'
+import { ToolName } from '@/components/ToolName'
 import s from './Sidebar.module.css'
 
 const DEFAULT_EXPANDED = new Set<CategoryId>(['conv'])
@@ -191,15 +192,7 @@ export function Sidebar() {
                           className={`${s.catToolRow} ${isActive ? s.catToolActive : ''}`}
                         >
                           <span className={s.catDot}>·</span>
-                          {(tool.id === 'img-base64' || tool.id === 'pdf-base64') ? (
-                            <span className={s.inlineToolName}>
-                              {tool.id === 'img-base64' ? 'Img' : 'PDF'}
-                              <Icon name="cat-conv" size={14} color="currentColor" />
-                              Base64
-                            </span>
-                          ) : (
-                            <span className={s.flex1}>{tool.name}</span>
-                          )}
+                          <ToolName name={tool.name} className={tool.name.includes('↔') ? s.inlineToolName : s.flex1} />
                         </Link>
                       )
                     })}

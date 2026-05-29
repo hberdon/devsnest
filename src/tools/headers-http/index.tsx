@@ -58,7 +58,7 @@ export default function HeadersHTTP() {
   const statusOk = state.status === 'ok' && state.statusCode < 400
 
   return (
-    <ToolLayout toolId="headers-http">
+    <ToolLayout toolId="headers-http" hideSplit>
       <div className={s.layout}>
         <div className={s.searchRow}>
           <input

@@ -28,7 +28,7 @@ export default function CSSFormatter() {
   }, [debouncedInput]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <ToolLayout toolId="css-scss">
+    <ToolLayout toolId="css-scss" hideSplit>
       <SplitPane
         primary={{
           label: 'CSS / SCSS',

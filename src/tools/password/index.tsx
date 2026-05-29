@@ -71,7 +71,7 @@ export default function Password() {
   const strColors = ['', '#e53e3e', '#dd6b20', '#d69e2e', '#38a169', '#2b6cb0']
 
   return (
-    <ToolLayout toolId="password">
+    <ToolLayout toolId="password" hideSplit>
       <div className={s.layout}>
         {/* Output */}
         <div className={s.outputBox}>

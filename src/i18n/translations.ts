@@ -32,7 +32,7 @@ export interface Translations {
   toolNotFound: string
   splitV: string
   splitH: string
-  moreOptions: string
+
   // ── CommandPalette ────────────────────────────────────────────────────────
   cmdPaletteLabel: string
   cmdPlaceholder: string
@@ -372,7 +372,7 @@ export const translations: Record<Lang, Translations> = {
     toolNotFound:          'Herramienta no encontrada',
     splitV:                'Vertical (lado a lado)',
     splitH:                'Horizontal (apilado)',
-    moreOptions:           'Más opciones',
+
     cmdPaletteLabel:       'Buscar herramienta',
     cmdPlaceholder:        'Buscar herramienta…',
     cmdNoResults:          'Sin resultados para',
@@ -709,7 +709,7 @@ export const translations: Record<Lang, Translations> = {
     toolNotFound:          'Tool not found',
     splitV:                'Vertical (side by side)',
     splitH:                'Horizontal (stacked)',
-    moreOptions:           'More options',
+
     cmdPaletteLabel:       'Search tool',
     cmdPlaceholder:        'Search tool…',
     cmdNoResults:          'No results for',

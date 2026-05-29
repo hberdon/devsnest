@@ -89,7 +89,7 @@ export default function CIDR() {
   }
 
   return (
-    <ToolLayout toolId="cidr">
+    <ToolLayout toolId="cidr" hideSplit>
       <div className={s.layout}>
         <div className={s.inputSection}>
           <label className={s.label}>{t.cidrLabel}</label>

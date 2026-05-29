@@ -74,7 +74,7 @@ export default function RegexTester() {
   }
 
   return (
-    <ToolLayout toolId="regex">
+    <ToolLayout toolId="regex" hideSplit>
       <div className={s.layout}>
         {/* Pattern input */}
         <div className={s.patternRow}>

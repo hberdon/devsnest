@@ -34,7 +34,7 @@ export default function Diff() {
   }
 
   return (
-    <ToolLayout toolId="diff">
+    <ToolLayout toolId="diff" hideSplit>
       <div className={s.layout}>
         <div className={s.inputs}>
           <div className={s.pane}>

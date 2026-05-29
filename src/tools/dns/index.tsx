@@ -63,7 +63,7 @@ export default function DNS() {
   }, [addToHistory])
 
   return (
-    <ToolLayout toolId="dns">
+    <ToolLayout toolId="dns" hideSplit>
       <div className={s.layout}>
         <div className={s.searchRow}>
           <input
